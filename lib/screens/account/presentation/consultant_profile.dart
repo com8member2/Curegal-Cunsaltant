@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:consultation_curegal/consatant/ColorConstant.dart';
-import 'package:consultation_curegal/screens/home_screen/presentation/widget/custom_textfield.dart';
 import 'package:consultation_curegal/shared/custom_button.dart';
 import 'package:consultation_curegal/shared/custom_dropdown.dart';
 import 'package:consultation_curegal/shared/shared_small_widgets.dart';
@@ -17,12 +16,12 @@ import '../controller/profile_controller.dart';
 
 class ConsultationProfile extends HookConsumerWidget {
   @override
-  Widget build(BuildContext context,ref) {
+  Widget build(BuildContext context, ref) {
     var selectedGender = useState("male");
     final formKey = useMemoized(() => GlobalKey<FormState>(), []);
-    final List<String> city = ["Rajkot","Ahemdabad","Surat"];
-    final List<String> state = ["Gujrat","Rajshthan","MP"];
-    final List<String> gender = ["Male","Female","Other"];
+    final List<String> city = ["Rajkot", "Ahemdabad", "Surat"];
+    final List<String> state = ["Gujrat", "Rajshthan", "MP"];
+    final List<String> gender = ["Male", "Female", "Other"];
 
     var nameController = useTextEditingController();
     var emailController = useTextEditingController();
@@ -35,10 +34,9 @@ class ConsultationProfile extends HookConsumerWidget {
     var cityController = useTextEditingController();
     var consultantPriceController = useTextEditingController();
 
-
     return Scaffold(
       backgroundColor: CustomColor.white,
-      appBar: customAppBarH("Profile", context,  CustomColor.primaryPurple, Colors.white),
+      appBar: customAppBarH("Profile", context, CustomColor.primaryPurple, Colors.white),
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -85,27 +83,31 @@ class ConsultationProfile extends HookConsumerWidget {
                             ],
                           ),
                         ),
-                        TextFieldWithLable(tr(context).name, tr(context).name, MediaQuery.of(context).size.width / 1.7,nameController)
+                        TextFieldWithLable(tr(context).name, tr(context).name, MediaQuery.of(context).size.width / 1.7, nameController)
                       ],
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0, bottom: 20),
-                      child: TextFieldWithLable(tr(context).email, tr(context).email_hint, MediaQuery.of(context).size.width,emailController),
+                      child: TextFieldWithLable(tr(context).email, tr(context).email_hint, MediaQuery.of(context).size.width, emailController),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0, bottom: 20),
-                      child: TextFieldWithLable(tr(context).consulting_price, tr(context).consulting_price_hint, MediaQuery.of(context).size.width,consultantPriceController),
+                      child: TextFieldWithLable(
+                          tr(context).consulting_price, tr(context).consulting_price_hint, MediaQuery.of(context).size.width, consultantPriceController),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        TextFieldWithLable("Phone Number", "Enter your number", MediaQuery.of(context).size.width / 2.3,phoneNumberController),
+                        TextFieldWithLable("Phone Number", "Enter your number", MediaQuery.of(context).size.width / 2.3, phoneNumberController),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(bottom: 8.0),
-                              child: Text(tr(context).dob,style: commonTextStyle(context, 14,FontWeight.normal,CustomColor.txtGray),),
+                              child: Text(
+                                tr(context).dob,
+                                style: commonTextStyle(context, 14, FontWeight.normal, CustomColor.txtGray),
+                              ),
                             ),
                             SizedBox(
                               width: MediaQuery.of(context).size.width / 2.3,
@@ -123,8 +125,11 @@ class ConsultationProfile extends HookConsumerWidget {
                                   }
                                 },
                                 onTap: () async {
-                                  final DateTime? selectedDate =
-                                  await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(1900), lastDate: DateTime(2100));
+                                  final DateTime? selectedDate = await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime(1900),
+                                      lastDate: DateTime.now().copyWith(year: DateTime.now().year - 18));
 
                                   if (selectedDate != null) {
                                     final DateFormat formatter = DateFormat('dd/MM/yyyy');
@@ -144,13 +149,17 @@ class ConsultationProfile extends HookConsumerWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          SizedBox(width: MediaQuery.of(context).size.width / 2.3,
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width / 2.3,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 8.0),
-                                  child: Text(tr(context).gender,style: commonTextStyle(context, 14,FontWeight.normal,CustomColor.txtGray),),
+                                  child: Text(
+                                    tr(context).gender,
+                                    style: commonTextStyle(context, 14, FontWeight.normal, CustomColor.txtGray),
+                                  ),
                                 ),
                                 DropdownButtonFormField<String>(
                                     items: gender.map((String stateName) {
@@ -168,7 +177,7 @@ class ConsultationProfile extends HookConsumerWidget {
                               ],
                             ),
                           ),
-                          TextFieldWithLable("Languages", "Select Languages", MediaQuery.of(context).size.width / 2.3,languageController),
+                          TextFieldWithLable("Languages", "Select Languages", MediaQuery.of(context).size.width / 2.3, languageController),
                         ],
                       ),
                     ),
@@ -194,41 +203,46 @@ class ConsultationProfile extends HookConsumerWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 20),
-                      child: TextFieldWithLable("Country", "Enter your country", MediaQuery.of(context).size.width,countryController),
+                      child: TextFieldWithLable("Country", "Enter your country", MediaQuery.of(context).size.width, countryController),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: Text(
+                                tr(context).state,
+                                style: commonTextStyle(context, 14, FontWeight.normal, CustomColor.txtGray),
+                              ),
+                            ),
+                            DropdownButtonFormField<String>(
+                                items: state.map((String stateName) {
+                                  return DropdownMenuItem<String>(
+                                    value: stateName,
+                                    child: Text(stateName),
+                                  );
+                                }).toList(),
+                                onChanged: (String? selectedState) {
+                                  if (selectedState != null) {
+                                    stateController.text = selectedState;
+                                  }
+                                },
+                                decoration: textFieldDecoration(tr(context).selecCity, context)),
+                          ],
+                        )),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 150),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(bottom: 8.0),
-                            child: Text(tr(context).state,style: commonTextStyle(context, 14,FontWeight.normal,CustomColor.txtGray),),
-                          ),
-                          DropdownButtonFormField<String>(
-                              items: state.map((String stateName) {
-                                return DropdownMenuItem<String>(
-                                  value: stateName,
-                                  child: Text(stateName),
-                                );
-                              }).toList(),
-                              onChanged: (String? selectedState) {
-                                if (selectedState != null) {
-                                  stateController.text = selectedState;
-                                }
-                              },
-                              decoration: textFieldDecoration(tr(context).selecCity, context)),
-                        ],
-                      )
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 150),
-                      child:    Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: Text(tr(context).city,style: commonTextStyle(context, 14,FontWeight.normal,CustomColor.txtGray),),
+                            child: Text(
+                              tr(context).city,
+                              style: commonTextStyle(context, 14, FontWeight.normal, CustomColor.txtGray),
+                            ),
                           ),
                           DropdownButtonFormField<String>(
                               items: city.map((String stateName) {
@@ -257,7 +271,8 @@ class ConsultationProfile extends HookConsumerWidget {
                   child: CommonBottomAlignWidget(
                     setBottomWidget: CustomButton(CustomColor.white, CustomColor.primaryPurple, tr(context).continu, () async {
                       if (formKey.currentState?.validate() ?? false) {
-                        ref.read(profileControllerProvider).addConsultant(nameController.text, emailController.text, dobController.text, genderController.text, stateController.text, cityController.text, phoneNumberController.text,consultantPriceController.text, context);
+                        ref.read(profileControllerProvider).addConsultant(nameController.text, emailController.text, dobController.text, genderController.text,
+                            stateController.text, cityController.text, phoneNumberController.text, consultantPriceController.text, context);
                       }
                     }, 10, 1, MediaQuery.of(context).size.width),
                   ))),

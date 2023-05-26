@@ -6,7 +6,6 @@ import 'package:consultation_curegal/utility/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-import '../../consultation/widget/dialog_medicine.dart';
 
 
 class EducationnExperience extends HookWidget {

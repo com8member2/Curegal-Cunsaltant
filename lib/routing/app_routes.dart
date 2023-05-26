@@ -8,13 +8,7 @@ import '../screens/account/presentation/consultant_profile.dart';
 import '../screens/authentication/Presentation/login_screen.dart';
 
 import '../screens/authentication/Presentation/send_otp.dart';
-import '../screens/consultation/widget/chat_summary.dart';
-import '../screens/consultation/widget/chat_with_consultant.dart';
 import '../screens/buy_medicine.dart';
-import '../screens/consultation/presentation/Categories.dart';
-import '../screens/consultation/presentation/consultation_doctors_list.dart';
-import '../screens/consultation/presentation/book_appointment.dart';
-import '../screens/consultation/presentation/chat_screen.dart';
 import '../screens/account/presentation/consultation_type.dart';
 import '../screens/account/presentation/document_upload.dart';
 import '../screens/account/presentation/document_verification.dart';
@@ -48,14 +42,8 @@ class AppRoutes {
 
   static Map<String, Widget Function(BuildContext)> routes = {
     homeScreen: (p0) => const HomeScreen(),
-    consultationCategory: (p0) => Categories(),
-    consultationDoctorsList: (p0) => ConsultationDoctorsList(),
-    consultationAppointmentScreen: (p0) => BookApointment(),
-    consultationChatScreen: (p0) => ChatScreen(),
     buyMedicineScreen: (p0) => BuyMedicine(),
     medicinDetailseScreen: (p0) => MedicineDetail(),
-    chatsummaryScreen: (p0) => ChatSummary(),
-    chatWithConsultantScreen: (p0) => ChatWithConsultant(),
     splashScreen: (p0) => SplashScreen(),
     loginScreen: (p0) => LoginScreen(),
     sendOtpScreen: (p0) => SendOTP(),

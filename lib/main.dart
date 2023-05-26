@@ -1,6 +1,7 @@
 import 'package:consultation_curegal/routing/app_routes.dart';
 import 'package:consultation_curegal/utility/utility.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -21,9 +22,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      builder: (context, child) {
+      builder: EasyLoading.init(builder: (context, child) {
         return ScrollConfiguration(behavior: MyBehavior(), child: child ?? SizedBox());
-      },
+      }),
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       localizationsDelegates: AppLocalizations.localizationsDelegates,

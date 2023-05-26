@@ -7,7 +7,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import '../../../shared/account_setting_card_child_widget.dart';
 import '../../../utility/utility.dart';
 
-class AccountSettingsScreen extends HookWidget {
+class   AccountSettingsScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(

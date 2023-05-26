@@ -1,5 +1,4 @@
 
-import 'package:consultation_curegal/screens/home_screen/presentation/tabs/home_tab_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -56,9 +55,9 @@ class HomeScreen extends HookWidget {
   Widget _getBody(int index) {
     switch (index) {
       case 0:
-        return HomeTabScreen();
+        return Container();
       case 1:
-        return HomeTabScreen();
+        return Container();
       case 2:
         return AccountSettingsScreen();
     }
