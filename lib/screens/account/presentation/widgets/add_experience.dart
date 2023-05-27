@@ -1,3 +1,4 @@
+import 'package:consultation_curegal/consatant/Constants.dart';
 import 'package:consultation_curegal/shared/textfield_decoration.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,6 @@ import '../../../../consatant/ColorConstant.dart';
 import '../../../../shared/custom_button.dart';
 import '../../../../shared/custom_dropdown.dart';
 import '../../../../utility/utility.dart';
-
 
 class AddExperinceDialogBox extends HookWidget {
   const AddExperinceDialogBox({super.key});
@@ -26,8 +26,6 @@ class AddExperinceDialogBox extends HookWidget {
     final fromDateController = useTextEditingController();
     final toDateController = useTextEditingController();
 
-
-
     return Dialog(
       insetPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -38,8 +36,13 @@ class AddExperinceDialogBox extends HookWidget {
             Padding(
               padding: const EdgeInsets.all(15),
               child: Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Center(child: Padding(padding: EdgeInsets.only(bottom: 20,top: 10),child: Text("Add experience",style: commonTextStyle(context, 16,FontWeight.bold),))),
-
+                Center(
+                    child: Padding(
+                        padding: EdgeInsets.only(bottom: 20, top: 10),
+                        child: Text(
+                          "Add experience",
+                          style: commonTextStyle(context, 16, FontWeight.bold),
+                        ))),
                 TextFormField(
                   controller: clinicNameController,
                   decoration: textFieldDecoration(tr(context).clinic_hint, context),
@@ -66,10 +69,9 @@ class AddExperinceDialogBox extends HookWidget {
                     },
                   ),
                 ),
-                Text(tr(context).from,overflow: TextOverflow.ellipsis,style: commonTextStyle(context, 16,FontWeight.normal)),
-
+                Text(tr(context).from, overflow: TextOverflow.ellipsis, style: commonTextStyle(context, 16, FontWeight.normal)),
                 Padding(
-                  padding: const EdgeInsets.only(top: 8.0,bottom: 10),
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 10),
                   child: TextFormField(
                     enableInteractiveSelection: false,
                     controller: fromDateController,
@@ -85,7 +87,7 @@ class AddExperinceDialogBox extends HookWidget {
                     },
                     onTap: () async {
                       final DateTime? selectedDate =
-                      await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(1900), lastDate: DateTime(2100));
+                          await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(1900), lastDate: DateTime(2100));
 
                       if (selectedDate != null) {
                         final DateFormat formatter = DateFormat('dd/MM/yyyy');
@@ -96,10 +98,9 @@ class AddExperinceDialogBox extends HookWidget {
                     },
                   ),
                 ),
-                Text(tr(context).to,overflow: TextOverflow.ellipsis,style: commonTextStyle(context, 16,FontWeight.normal)),
-
+                Text(tr(context).to, overflow: TextOverflow.ellipsis, style: commonTextStyle(context, 16, FontWeight.normal)),
                 Padding(
-                  padding: const EdgeInsets.only(top: 8.0,bottom: 20),
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 20),
                   child: TextFormField(
                     enableInteractiveSelection: false,
                     controller: toDateController,
@@ -115,7 +116,7 @@ class AddExperinceDialogBox extends HookWidget {
                     },
                     onTap: () async {
                       final DateTime? selectedDate =
-                      await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(1900), lastDate: DateTime(2100));
+                          await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(1900), lastDate: DateTime(2100));
 
                       if (selectedDate != null) {
                         final DateFormat formatter = DateFormat('dd/MM/yyyy');
@@ -126,10 +127,22 @@ class AddExperinceDialogBox extends HookWidget {
                     },
                   ),
                 ),
+                CustomButton(CustomColor.white, CustomColor.primaryPurple, tr(context).submit, () async {
+                  await Constants.supabaseClient.from('consultant_education_experience').insert({
+                    'cosultant_id' : Constants.supabaseClient.auth.currentUser?.id,
+                    'experience_clinic_name': clinicNameController.text,
+                    'experience_location' : '${cityValue.value}, ${countryValue.value}',
+                    'experience_start' : fromDateController.text,
+                    'experience_end' :toDateController.text
+                  });
 
-                CustomButton(CustomColor.white, CustomColor.primaryPurple, tr(context).submit, () {
-                  Navigator.pop(context,
-                      {"clinicName": clinicNameController.text, "city": cityValue.value, "country": countryValue.value,"fromDate" : fromDateController.text,"toDate" : toDateController.text});
+                  Navigator.pop(context, {
+                    "clinicName": clinicNameController.text,
+                    "city": cityValue.value,
+                    "country": countryValue.value,
+                    "fromDate": fromDateController.text,
+                    "toDate": toDateController.text
+                  });
 
                   //print("data ${educationDegreeValue.value} & ${educationYearValue.value} ${clinicNameController.text}");
                 }, 10, 1, MediaQuery.of(context).size.width)

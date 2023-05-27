@@ -5,7 +5,8 @@ import 'package:consultation_curegal/shared/custom_chip_widget.dart';
 import 'package:consultation_curegal/utility/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-
+import 'package:supabase_flutter/supabase_flutter.dart';
+import '../../../consatant/Constants.dart';
 
 
 class EducationnExperience extends HookWidget {
@@ -15,11 +16,17 @@ class EducationnExperience extends HookWidget {
     var degree = useState("");
     var year = useState("");
 
-    var clinicName = useState("");
-    var cityName = useState("");
-    var country = useState("");
-    var fromDate = useState("");
-    var toDate = useState("");
+
+
+    Future<List<dynamic>> education() async {
+      PostgrestResponse<dynamic> res = await getEducation();
+      return res.data as List<dynamic>;
+    }
+
+    Future<List<dynamic>> experience() async {
+      PostgrestResponse<dynamic> res = await getExperience();
+      return res.data as List<dynamic>;
+    }
 
     return Scaffold(
       body: Padding(
@@ -27,127 +34,220 @@ class EducationnExperience extends HookWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10.0),
-                    child: CardListViewDesign(
-                      onClick: () {},
-                      customWidget: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Row(
-                          children: [
-                            Text(
-                              tr(context).education,
-                              style: commonTextStyle(context, 16),
-                            ),
-                            Spacer(),
-                            GestureDetector(
-                              onTap: () async {
-                                var temp = await showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return const AddEducationDialogBox();
-                                  },
-                                );
-                                schoolOrCollageName.value = temp['schoolOrCollege'];
-                                degree.value = temp['degree'];
-                                year.value = temp['year'];
-                              },
-                              child: Icon(
-                                Icons.add_circle_outline,
-                                color: CustomColor.black,
+              FutureBuilder(
+                future: education(),
+                builder: (context, educationSnapshot) {
+                  if (educationSnapshot.connectionState == ConnectionState.waiting) {
+                    return Container();
+                  } else if (educationSnapshot.hasError) {
+                    return Text('Error: ${educationSnapshot.error}');
+                  } else if (!educationSnapshot.hasData || educationSnapshot.data!.isEmpty) {
+                    return Center(child: Text('No Data found.'));
+                  } else {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10.0),
+                          child: CardListViewDesign(
+                            onClick: () {},
+                            customWidget: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    tr(context).education,
+                                    style: commonTextStyle(context, 16),
+                                  ),
+                                  Spacer(),
+                                  GestureDetector(
+                                    onTap: () async {
+                                      var temp = await showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return const AddEducationDialogBox();
+                                        },
+                                      );
+                                      schoolOrCollageName.value = temp['schoolOrCollege'];
+                                      degree.value = temp['degree'];
+                                      year.value = temp['year'];
+                                    },
+                                    child: Icon(
+                                      Icons.add_circle_outline,
+                                      color: CustomColor.black,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                  if (schoolOrCollageName.value.isNotEmpty) Text(schoolOrCollageName.value,overflow: TextOverflow.ellipsis,style: commonTextStyle(context, 14,FontWeight.normal),),
-                  if (degree.value.isNotEmpty) Padding(
-                    padding: const EdgeInsets.only(top: 10.0,bottom: 10),
-                    child: Text(degree.value,overflow: TextOverflow.ellipsis,style: commonTextStyle(context, 14,FontWeight.normal)),
-                  ),
-                  if (year.value.isNotEmpty) Row(
-                    children: [
-                      Text(tr(context).completed_year,overflow: TextOverflow.ellipsis,style: commonTextStyle(context, 14,FontWeight.normal)),
-                      Text(year.value,overflow: TextOverflow.ellipsis,style: commonTextStyle(context, 14,FontWeight.normal)),
-                    ],
-                  )
-                ],
+                        if (educationSnapshot.data!.isNotEmpty)
+                          ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: educationSnapshot.data?.length,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  if (educationSnapshot.data?[index]['education_university'] != null)
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10.0, bottom: 10),
+                                      child: Text(
+                                        educationSnapshot.data?[index]['education_university'],
+                                        overflow: TextOverflow.ellipsis,
+                                        style: commonTextStyle(context, 14, FontWeight.normal),
+                                      ),
+                                    ),
+                                  if (educationSnapshot.data?[index]['education_degree'] != null)
+                                    Text(educationSnapshot.data?[index]['education_degree'],
+                                        overflow: TextOverflow.ellipsis, style: commonTextStyle(context, 14, FontWeight.normal)),
+                                  if (educationSnapshot.data?[index]['education_completed_year'] != null)
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: 10.0, top: 10),
+                                      child: Row(
+                                        children: [
+                                          Text(tr(context).completed_year,
+                                              overflow: TextOverflow.ellipsis, style: commonTextStyle(context, 14, FontWeight.normal)),
+                                          Text(educationSnapshot.data![index]['education_completed_year'].toString(),
+                                              overflow: TextOverflow.ellipsis, style: commonTextStyle(context, 14, FontWeight.normal)),
+                                        ],
+                                      ),
+                                    ),
+                                  if (educationSnapshot.data?[index]['education_completed_year'] != null &&
+                                      educationSnapshot.data?[index]['education_degree'] != null &&
+                                      educationSnapshot.data?[index]['education_university'] != null)
+                                    Divider(
+                                      height: 10,
+                                      color: CustomColor.black,
+                                      thickness: 0.1,
+                                    )
+                                ],
+                              );
+                            },
+                          ),
+                      ],
+                    );
+                  }
+                },
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CardListViewDesign(
-                      onClick: () {},
-                      customWidget: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Row(
-                          children: [
-                            Text(
-                              tr(context).experience,
-                              style: commonTextStyle(context, 16),
-                            ),
-                            Spacer(),
-                            GestureDetector(
-                              onTap: () async {
-                                var experience = await showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return const AddExperinceDialogBox();
-                                  },
-                                );
-
-                                clinicName.value = experience['clinicName'];
-                                cityName.value = experience['city'];
-                                country.value = experience['country'];
-                                fromDate.value = experience['fromDate'];
-                                toDate.value = experience['toDate'];
-
-                              },
-                              child: Icon(
-                                Icons.add_circle_outline,
-                                color: CustomColor.black,
+              FutureBuilder(
+                future: experience(),
+                builder: (context, experienceSnapshot) {
+                  if (experienceSnapshot.connectionState == ConnectionState.waiting) {
+                    return Container();
+                  } else if (experienceSnapshot.hasError) {
+                    return Text('Error: ${experienceSnapshot.error}');
+                  } else if (!experienceSnapshot.hasData || experienceSnapshot.data!.isEmpty) {
+                    return Center(child: Text('No Data found.'));
+                  } else {
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 20.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CardListViewDesign(
+                            onClick: () {},
+                            customWidget: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    tr(context).experience,
+                                    style: commonTextStyle(context, 16),
+                                  ),
+                                  Spacer(),
+                                  GestureDetector(
+                                    onTap: () async {
+                                      var experience = await showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return const AddExperinceDialogBox();
+                                        },
+                                      );
+                                    },
+                                    child: Icon(
+                                      Icons.add_circle_outline,
+                                      color: CustomColor.black,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                          if (experienceSnapshot.data!.isNotEmpty)
+                            ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: experienceSnapshot.data?.length,
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    if (experienceSnapshot.data?[index]['experience_clinic_name'] != null)
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 10.0, bottom: 10),
+                                        child: Text(
+                                          experienceSnapshot.data?[index]['experience_clinic_name'],
+                                          style: commonTextStyle(context, 18, FontWeight.bold),
+                                        ),
+                                      ),
+                                    if (experienceSnapshot.data?[index]['experience_location'] != null)
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 10.0, bottom: 10),
+                                        child: Text(
+                                          experienceSnapshot.data?[index]['experience_location'],
+                                          style: commonTextStyle(context, 14, FontWeight.normal),
+                                        ),
+                                      ),
+                                    if (experienceSnapshot.data?[index]['experience_start'] != null &&
+                                        experienceSnapshot.data?[index]['experience_end'] != null)
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 10.0, bottom: 10),
+                                        child: Text(
+                                          "${experienceSnapshot.data?[index]['experience_start']} - ${experienceSnapshot.data?[index]['experience_end']}",
+                                          style: commonTextStyle(context, 14, FontWeight.normal),
+                                        ),
+                                      ),
+                                    if (experienceSnapshot.data?[index]['experience_clinic_name'] != null &&
+                                        experienceSnapshot.data?[index]['experience_location'] != null &&
+                                        experienceSnapshot.data?[index]['experience_start'] != null &&
+                                        experienceSnapshot.data?[index]['experience_end'] != null)
+                                      Padding(
+                                        padding: const EdgeInsets.only(bottom: 10.0),
+                                        child: Divider(
+                                          height: 10,
+                                          color: CustomColor.black,
+                                          thickness: 0.1,
+                                        ),
+                                      )
+                                  ],
+                                );
+                              },
+                            )
+                        ],
                       ),
-                    ),
-
-                    if(clinicName.value.isNotEmpty)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10.0,bottom: 10),
-                        child: Text(clinicName.value,style: commonTextStyle(context, 18,FontWeight.bold),),
-                      ),
-                    if(cityName.value.isNotEmpty)
-                      Text(cityName.value,style: commonTextStyle(context, 14,FontWeight.normal),),
-                    if(country.value.isNotEmpty)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10.0,bottom: 10),
-                        child: Text(country.value,style: commonTextStyle(context, 14,FontWeight.normal),),
-                      ),
-                    if(fromDate.value.isNotEmpty)
-                      Text(fromDate.value,style: commonTextStyle(context, 14,FontWeight.normal),),
-                    if(toDate.value.isNotEmpty)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10.0,bottom: 10),
-                        child: Text(toDate.value,style: commonTextStyle(context, 14,FontWeight.normal),),
-                      ),
-                  ],
-                ),
+                    );
+                  }
+                },
               ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Future<PostgrestResponse<dynamic>> getEducation() async {
+    PostgrestResponse<dynamic> res = await Constants.supabaseClient.from('consultant_education').select().execute();
+    return res;
+  }
+
+  Future<PostgrestResponse<dynamic>> getExperience() async {
+    PostgrestResponse<dynamic> res = await Constants.supabaseClient.from('consultant_education_experience').select().execute();
+    return res;
   }
 }
