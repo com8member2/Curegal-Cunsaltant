@@ -8,14 +8,11 @@ import '../screens/account/presentation/consultant_profile.dart';
 import '../screens/authentication/Presentation/login_screen.dart';
 
 import '../screens/authentication/Presentation/send_otp.dart';
-import '../screens/buy_medicine.dart';
 import '../screens/account/presentation/consultation_type.dart';
 import '../screens/account/presentation/document_upload.dart';
 import '../screens/account/presentation/document_verification.dart';
 import '../screens/home_screen/presentation/home_screen.dart';
-import '../screens/medicine_detail.dart';
 import '../screens/splash_screen.dart';
-import '../screens/women_products_screen/women_products_screen.dart';
 
 class AppRoutes {
   static const homeScreen = "homeScreen";
@@ -23,14 +20,11 @@ class AppRoutes {
   static const consultationDoctorsList = "consultationDoctorsLIst";
   static const consultationAppointmentScreen = "consultationAppointmentScreen";
   static const consultationChatScreen = "consultationChatScreen";
-  static const buyMedicineScreen = "buy_medicine";
-  static const medicinDetailseScreen = "medicine_detail";
   static const chatsummaryScreen = "chat_summary";
   static const chatWithConsultantScreen = "chat_with_consultant";
   static const splashScreen = "splash_screen";
   static const loginScreen = "login_screen";
   static const sendOtpScreen = "send_otp";
-  static const womenProductScreen = "womenProductScreen";
   static const consultationTypeScreen = "consultation_type";
   static const documentsVerifyScreen = "document_verification";
   static const consultationProfileScreen = "consultant_profile";
@@ -42,12 +36,9 @@ class AppRoutes {
 
   static Map<String, Widget Function(BuildContext)> routes = {
     homeScreen: (p0) => const HomeScreen(),
-    buyMedicineScreen: (p0) => BuyMedicine(),
-    medicinDetailseScreen: (p0) => MedicineDetail(),
     splashScreen: (p0) => SplashScreen(),
     loginScreen: (p0) => LoginScreen(),
     sendOtpScreen: (p0) => SendOTP(),
-    womenProductScreen: (p0) => WomenProductScreen(),
     consultationTypeScreen: (p0) => ConsultationType(),
     documentsVerifyScreen: (p0) => DocumentsVerificationScreen(),
     consultationProfileScreen: (p0) => ConsultationProfile(),
