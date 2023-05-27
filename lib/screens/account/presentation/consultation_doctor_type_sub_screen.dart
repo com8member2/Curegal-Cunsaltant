@@ -14,7 +14,6 @@ import '../../../shared/custom_button.dart';
 class DoctorConsultantSubType extends HookWidget {
   @override
   Widget build(BuildContext context) {
-
     var consultant_id = useState(0);
 
     Future<List<dynamic>> categoriesData() async {
@@ -22,28 +21,21 @@ class DoctorConsultantSubType extends HookWidget {
       return resd.data as List<dynamic>;
     }
 
-    // Future<List<dynamic>> consultationSubCategory() async {
-    //   PostgrestResponse<dynamic> res2 = await categoryData(consultant_id.value);
-    //   print("res 2 ${res2.data as List<dynamic>}");
-    //   return res2.data as List<dynamic>;
-    // }
-
     Future<List<dynamic>> moreConsultationData() async {
       PostgrestResponse<dynamic> res = await consultantdData();
       return res.data as List<dynamic>;
     }
 
     final selectedCheckboxIndex = useState(-1);
-    final subItemSelectedValue = useState<List<String>>([]);
-    final dataList = useState<List<Map<String, dynamic>>>([]);
-
+    final subItemSelectedValue = useState<List<dynamic>>([]);
+    final consultation_id = useState(0);
 
 
     //final subItems = [];
 
     return Scaffold(
       appBar: customAppBarH("heading", context),
-      body:Stack(
+      body: Stack(
         children: [
           FutureBuilder<List<dynamic>>(
               future: moreConsultationData(),
@@ -76,6 +68,7 @@ class DoctorConsultantSubType extends HookWidget {
                                       consultant_id.value = firstSnapshot.data?[index]['id'];
                                       print("id ${consultant_id.value}");
                                       selectedCheckboxIndex.value = value! ? index : -1;
+                                      consultation_id.value = firstSnapshot.data?[index]['id'];
                                     },
                                   ),
                                   SizedBox(width: 10),
@@ -99,23 +92,25 @@ class DoctorConsultantSubType extends HookWidget {
                                         height: MediaQuery.of(context).size.height / 7,
                                         child: Center(
                                             child: Text(
-                                              tr(context).no_data_found,
-                                              style: commonTextStyle(context, 16),
-                                            )));
+                                          tr(context).no_data_found,
+                                          style: commonTextStyle(context, 16),
+                                        )));
                                   } else {
-
                                     return Wrap(
                                       spacing: 10,
                                       children: List<Widget>.generate(
                                         secondSnapshot.data!.length,
-                                            (index) {
+                                        (index) {
                                           return Padding(
                                             padding: EdgeInsets.all(2),
                                             child: CustomChipWidget(
                                                 secondSnapshot.data?[index]['name'], secondSnapshot.data?[index] == subItemSelectedValue, (value) {
-                                              if (value){
-                                                subItemSelectedValue.value.add(secondSnapshot.data?[index]['name']);
-                                                print("selected chip ${subItemSelectedValue.value} ----- ${secondSnapshot.data?[index] == subItemSelectedValue}");
+                                              if (value) {
+                                                subItemSelectedValue.value
+                                                    .add({'id': secondSnapshot.data?[index]['id'],
+                                                          'item': secondSnapshot.data?[index]['name']
+                                                    });
+                                                print("selected chip ${subItemSelectedValue.value} ----- ${subItemSelectedValue.value.length}");
                                               }
                                             }),
                                           );
@@ -125,7 +120,6 @@ class DoctorConsultantSubType extends HookWidget {
                                   }
                                 },
                               )
-
                           ],
                         ),
                       );
@@ -138,19 +132,17 @@ class DoctorConsultantSubType extends HookWidget {
                   padding: const EdgeInsets.only(top: 40),
                   child: CommonBottomAlignWidget(
                     setBottomWidget: CustomButton(CustomColor.white, CustomColor.primaryPurple, tr(context).submit, () async {
-
-                      final List<Map<String, dynamic>> newDataList = [];
-                        dataList.value.clear();
-                        newDataList.clear();
-                        for (int i = 1; i <= subItemSelectedValue.value.length; i++) {
-                          newDataList.add({
-                            'id': i,
-                            'name': 'Item $i',
-                          });
-                        }
-                        dataList.value = newDataList;
-                        print("data list ${dataList.value}----${newDataList}");
-
+                      for (int i = 0; i < subItemSelectedValue.value.length; i++) {
+                        await Constants.supabaseClient.from('consultant_sub_categories').insert({
+                          'consultant_person_id': Constants.supabaseClient.auth.currentUser?.id,  //subItemSelectedValue.value[i]['item']
+                          'consultation_category_id': consultation_id.value,
+                          'consultation_sub_category_ids': subItemSelectedValue.value[i]['id']
+                        }).then(
+                          (value) {},
+                        );
+                      }
+                      subItemSelectedValue.value.clear();
+                      consultation_id.value=0;
                     }, 10, 1, MediaQuery.of(context).size.width),
                   ))),
         ],
@@ -164,79 +156,8 @@ class DoctorConsultantSubType extends HookWidget {
   }
 
   Future<PostgrestResponse<dynamic>> categoryData(int id) async {
-    PostgrestResponse<dynamic> res = await Constants.supabaseClient.from('consultation_sub_categories').select().eq('consultation_category_id', id).execute();
+    PostgrestResponse<dynamic> res =
+        await Constants.supabaseClient.from('consultation_sub_categories').select().eq('consultation_category_id', id).execute();
     return res;
   }
-
-
-
-
 }
-
-
-
-
-
-//
-// class DataScreen extends HookWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     final client = useSupabase();
-//
-//     Future<List<dynamic>> fetchDataFromFirstTable() async {
-//       final response = await client.from('table1').select().execute();
-//       if (response.error != null) {
-//         // Handle error for first table
-//         print('Error fetching data from table1: ${response.error?.message}');
-//         return [];
-//       }
-//       return response.data ?? [];
-//     }
-//
-//     Future<List<dynamic>> fetchDataFromSecondTable() async {
-//       final response = await client.from('table2').select().execute();
-//       if (response.error != null) {
-//         // Handle error for second table
-//         print('Error fetching data from table2: ${response.error?.message}');
-//         return [];
-//       }
-//       return response.data ?? [];
-//     }
-//
-//     return FutureBuilder<List<dynamic>>(
-//       future: fetchDataFromFirstTable(),
-//       builder: (context, AsyncSnapshot<List<dynamic>> firstSnapshot) {
-//         if (firstSnapshot.connectionState == ConnectionState.waiting) {
-//           return Center(child: CircularProgressIndicator());
-//         } else if (firstSnapshot.hasError) {
-//           return Center(child: Text('Error: ${firstSnapshot.error}'));
-//         } else if (firstSnapshot.hasData) {
-//           final firstTableData = firstSnapshot.data!;
-//           return FutureBuilder<List<dynamic>>(
-//             future: fetchDataFromSecondTable(),
-//             builder: (context, AsyncSnapshot<List<dynamic>> secondSnapshot) {
-//               if (secondSnapshot.connectionState == ConnectionState.waiting) {
-//                 return Center(child: CircularProgressIndicator());
-//               } else if (secondSnapshot.hasError) {
-//                 return Center(child: Text('Error: ${secondSnapshot.error}'));
-//               } else if (secondSnapshot.hasData) {
-//                 final secondTableData = secondSnapshot.data!;
-//                 // Process both table data and return your UI accordingly
-//                 return Column(
-//                   children: [
-//                     Text('First Table Data: $firstTableData'),
-//                     Text('Second Table Data: $secondTableData'),
-//                   ],
-//                 );
-//               } else {
-//                 return Center(child: Text('No data found.'));
-//               }
-//             },
-//           );
-//         } else {
-//           return Center(child: Text('No data found.'));
-//         }
-//       },
-//     );
-//   }
-// }

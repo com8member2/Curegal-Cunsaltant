@@ -1,3 +1,4 @@
+import 'package:consultation_curegal/consatant/Constants.dart';
 import 'package:consultation_curegal/shared/textfield_decoration.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +10,6 @@ import '../../../../consatant/ColorConstant.dart';
 import '../../../../shared/custom_button.dart';
 import '../../../../shared/custom_dropdown.dart';
 import '../../../../utility/utility.dart';
-
-
 
 class AddEducationDialogBox extends HookWidget {
   const AddEducationDialogBox({super.key});
@@ -61,10 +60,16 @@ class AddEducationDialogBox extends HookWidget {
                     },
                   ),
                 ),
-                CustomButton(CustomColor.white, CustomColor.primaryPurple, tr(context).submit, () {
+                CustomButton(CustomColor.white, CustomColor.primaryPurple, tr(context).submit, () async {
+                  await Constants.supabaseClient.from('consultant_education').insert({
+                    'cosultant_id' : Constants.supabaseClient.auth.currentUser?.id,
+                    'education_university': schoolOrCollageController.text,
+                    'education_degree' : educationDegreeValue.value,
+                    'education_completed_year' : educationYearValue.value
+                  });
 
-
-                  Navigator.pop(context,{"schoolOrCollege": schoolOrCollageController.text,"degree": educationDegreeValue.value,"year" : educationYearValue.value});
+                  Navigator.pop(context,
+                      {"schoolOrCollege": schoolOrCollageController.text, "degree": educationDegreeValue.value, "year": educationYearValue.value});
 
                   print("data ${educationDegreeValue.value} & ${educationYearValue.value} ${schoolOrCollageController.text}");
                 }, 10, 1, MediaQuery.of(context).size.width)
