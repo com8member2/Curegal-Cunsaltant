@@ -36,7 +36,61 @@ class ConsultationProfile extends HookConsumerWidget {
 
     return Scaffold(
       backgroundColor: CustomColor.white,
-      appBar: customAppBarH("Profile", context, CustomColor.primaryPurple, Colors.white),
+      appBar: AppBar(
+        title: Text("Profile"),
+        actions:  [
+          Row(children: [
+            SizedBox(height: 50,
+              width: MediaQuery.of(context).size.width/3,
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  side: BorderSide(width: 2, color: Colors.transparent),
+                  backgroundColor: CustomColor.blue,
+                  foregroundColor: CustomColor.primaryPurple,
+                  padding: const EdgeInsets.all(10.0),
+                ),
+                onPressed: () {
+
+                },
+                child: Text(
+                  tr(context).family_member,
+                  style: const TextStyle(fontFamily: "productsun", fontWeight: FontWeight.bold,fontSize: 14),
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(left: 10.0,right: 10),
+              child: SizedBox(height: 50,
+                width: MediaQuery.of(context).size.width/5,
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                    side: BorderSide(width: 2, color: Colors.transparent),
+                    backgroundColor: CustomColor.primaryPurple,
+                    foregroundColor: CustomColor.white,
+                    padding: const EdgeInsets.all(10.0),
+                  ),
+                  onPressed: () {
+
+                  },
+                  child: Text(
+                    tr(context).save,
+                    style: const TextStyle(fontFamily: "productsun", fontWeight: FontWeight.bold,fontSize: 14),
+                  ),
+                ),
+              ),
+            )
+          ],)
+        ],
+        elevation: 0,
+        toolbarHeight: MediaQuery.of(context).size.height/10,
+        backgroundColor: CustomColor.white,
+        titleTextStyle: TextStyle(color: CustomColor.black, fontSize: 20, fontWeight: FontWeight.bold),
+        leading:  GestureDetector(onTap: () => Navigator.pop(context), child: Icon(Icons.arrow_back_ios, color: CustomColor.black)) ,
+      ),
+
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -116,7 +170,7 @@ class ConsultationProfile extends HookConsumerWidget {
                                 controller: dobController,
                                 showCursor: false,
                                 scrollPadding: EdgeInsets.only(bottom: 130),
-                                decoration: textFieldDecoration(tr(context).dob_hint, context),
+                                decoration: textFieldDecorationForProfile(tr(context).dob_hint, context),
                                 validator: (value) {
                                   if (dobController.text.isEmpty) {
                                     return tr(context).date_select_error;
@@ -173,7 +227,7 @@ class ConsultationProfile extends HookConsumerWidget {
                                         genderController.text = gender;
                                       }
                                     },
-                                    decoration: textFieldDecoration(tr(context).gender, context)),
+                                    decoration: textFieldDecorationForProfile(tr(context).gender, context)),
                               ],
                             ),
                           ),
@@ -195,7 +249,7 @@ class ConsultationProfile extends HookConsumerWidget {
                           SizedBox(
                               width: MediaQuery.of(context).size.width / 1.35,
                               child: Divider(
-                                color: CustomColor.black,
+                                color: CustomColor.borderPurple,
                                 thickness: 0.5,
                               ))
                         ],
@@ -229,7 +283,7 @@ class ConsultationProfile extends HookConsumerWidget {
                                     stateController.text = selectedState;
                                   }
                                 },
-                                decoration: textFieldDecoration(tr(context).selecCity, context)),
+                                decoration: textFieldDecorationForProfile(tr(context).selecCity, context)),
                           ],
                         )),
                     Padding(
@@ -256,7 +310,7 @@ class ConsultationProfile extends HookConsumerWidget {
                                   cityController.text = selectedState;
                                 }
                               },
-                              decoration: textFieldDecoration(tr(context).selecCity, context)),
+                              decoration: textFieldDecorationForProfile(tr(context).selecCity, context)),
                         ],
                       ),
                     ),

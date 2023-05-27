@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      initialRoute: AppRoutes.homeScreen,
+      initialRoute: AppRoutes.loginScreen,
       routes: AppRoutes.routes,
     );
   }

@@ -17,7 +17,7 @@ class LoginScreen extends HookConsumerWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
-  Widget build(BuildContext context, ref) {
+  Widget build(BuildContext context,ref) {
     var mobileMaxLength = useState(10);
     var countryCode = useState("91");
     TextEditingController phoneController = useTextEditingController();
@@ -58,7 +58,7 @@ class LoginScreen extends HookConsumerWidget {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter Phone Number';
-                        } else if (value.length != mobileMaxLength.value) {
+                        }else if (value.length != mobileMaxLength.value){
                           return "Please enter valid Phone Number";
                         }
                       },
@@ -85,6 +85,8 @@ class LoginScreen extends HookConsumerWidget {
                                 context: context,
                                 showPhoneCode: true,
                                 onSelect: (Country country) {
+                                  ref.read(authControllerProvider).country = country.name;
+                                  print(country.name);
                                   countryCode.value = country.phoneCode;
                                   mobileMaxLength.value = country.example.length;
                                 },
@@ -139,7 +141,7 @@ class LoginScreen extends HookConsumerWidget {
                   padding: const EdgeInsets.only(top: 40),
                   child: CommonBottomAlignWidget(
                     setBottomWidget: CustomButton(CustomColor.white, CustomColor.primaryPurple, tr(context).continu, () async {
-                      if (_formKey.currentState?.validate() ?? false) {
+                      if (_formKey.currentState?.validate()??false) {
                         ref.read(authControllerProvider).checkUser(countryCode.value, phoneController.text, context);
                       }
                     }, 10, 1, MediaQuery.of(context).size.width),
@@ -148,4 +150,5 @@ class LoginScreen extends HookConsumerWidget {
       ),
     );
   }
+
 }

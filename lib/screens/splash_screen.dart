@@ -1,4 +1,5 @@
 
+import 'package:consultation_curegal/routing/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -21,12 +22,12 @@ class SplashScreen extends HookWidget {
     useEffect(() {
       Future.delayed(Duration(seconds:3), ()  {
 
-        final User? user = Constants.supabaseClient.auth.currentUser;
-        if(user?.id != null){
-          Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => HomeScreen()),);
+        if(Constants.supabaseClient.auth.currentUser?.id != null){
+          Navigator.pushNamed(context, AppRoutes.homeScreen);
         }
         else{
-          Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => LoginScreen()),);
+          //Navigator.pushNamed(context, AppRoutes.splashScreen);
+        Navigator.pushNamedAndRemoveUntil(context, AppRoutes.splashScreen, (route) => true);
         }
       });
     },);

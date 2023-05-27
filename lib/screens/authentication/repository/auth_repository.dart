@@ -8,7 +8,7 @@ final authRepositoryProvider = Provider((_) => AuthRepository());
 
 class AuthRepository {
 
-  checkUser(String phoneNumber) async => await Constants.supabaseClient.rpc('checkuserstatus', params: {'phone': phoneNumber});
+  checkUser(String phoneNumber) async => await Constants.supabaseClient.rpc('checkconsultant', params: {'phone': phoneNumber});
 
   signInWithOtp(String phoneNumber) => Constants.supabaseClient.auth.signInWithOtp(phone: phoneNumber);
 

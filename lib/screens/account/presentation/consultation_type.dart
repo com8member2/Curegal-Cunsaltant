@@ -83,6 +83,7 @@ class ConsultationType extends HookWidget {
                                 onChanged: (value) async {
                                   radioValue.value = value!;
                                   if(type['title'] == tr(context).doctor){
+
                                     var res = await Constants.supabaseClient.
                                         from('consultation_category')
                                         .select("name")

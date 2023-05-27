@@ -103,7 +103,7 @@ class TextFieldWithLable extends StatelessWidget {
       Text(text,style: commonTextStyle(context, 14,FontWeight.normal,CustomColor.txtGray),),
       Padding(
         padding: const EdgeInsets.only(top: 8.0),
-        child: SizedBox(width:textfieldWidth,child: TextFormField(controller:controller,decoration: textFieldDecoration(textfieldHinttext, context),)),
+        child: SizedBox(width:textfieldWidth,child: TextFormField(controller:controller,decoration: textFieldDecorationForProfile(textfieldHinttext, context),)),
       )
     ],);
   }
