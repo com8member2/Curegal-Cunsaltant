@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../consatant/ColorConstant.dart';
+import '../../consatant/ColorConstant.dart';
+
 
 InputDecoration textFieldDecoration(String hint,BuildContext context) {
   return InputDecoration(

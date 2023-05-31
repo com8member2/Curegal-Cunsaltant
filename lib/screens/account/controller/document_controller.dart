@@ -10,11 +10,10 @@ part 'document_controller.g.dart';
 
 @riverpod
 class DocumentController extends _$DocumentController {
-  var _imageFile = File("");
 
   @override
   File build() {
-    return _imageFile;
+    return File("");
   }
 
   getImageFromGallery() async {
@@ -23,9 +22,8 @@ class DocumentController extends _$DocumentController {
     FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: docType);
 
     if (result != null) {
-      _imageFile = File(result.files.single.path!);
-      state = _imageFile;
-      print("file size lenghtSync :- ${_imageFile.lengthSync()}");
+      state = File(result.files.single.path!);
+      print("file size lenghtSync :- ${state.lengthSync()}");
     } else {
       EasyLoading.showInfo("Please Select again");
     }
@@ -38,8 +36,9 @@ class DocumentController extends _$DocumentController {
       maxHeight: 1800,
     );
     if (pickedFile != null) {
-      _imageFile = File(pickedFile.path);
+      state = File(pickedFile.path);
+    }else {
+      EasyLoading.showInfo("Please Select again");
     }
-    state = _imageFile;
   }
 }

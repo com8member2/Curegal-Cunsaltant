@@ -31,12 +31,9 @@ class AuthController {
       print("response login $response & phonenumber $phone");
 
       Constants.isNewUser = !response;
-      if(response){
-        authRepository.signInWithOtp(phoneNumber).then((value) {
+        await authRepository.signInWithOtp(phoneNumber).then((value) {
           Navigator.pushNamed(context, AppRoutes.sendOtpScreen, arguments: {"phoneNumber": phoneNumber});
         });
-      }
-
       EasyLoading.dismiss();
     } catch (e) {
       log(e.toString());

@@ -1,9 +1,10 @@
-import 'package:consultation_curegal/shared/textfield_decoration.dart';
+import 'package:consultation_curegal/shared/widget/textfield_decoration.dart';
 import 'package:consultation_curegal/utility/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../consatant/ColorConstant.dart';
+import '../../consatant/ColorConstant.dart';
+
 
 class DividerLightPink extends StatelessWidget {
   const DividerLightPink({Key? key}) : super(key: key);

@@ -1,8 +1,8 @@
 import 'dart:math';
 import 'package:consultation_curegal/screens/account/controller/document_controller.dart';
-import 'package:consultation_curegal/shared/custom_image_view.dart';
-import 'package:consultation_curegal/shared/shared_small_widgets.dart';
-import 'package:consultation_curegal/shared/textfield_decoration.dart';
+import 'package:consultation_curegal/shared/widget/custom_image_view.dart';
+import 'package:consultation_curegal/shared/widget/shared_small_widgets.dart';
+import 'package:consultation_curegal/shared/widget/textfield_decoration.dart';
 import 'package:consultation_curegal/utility/utility.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +12,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../consatant/ColorConstant.dart';
 import '../../../consatant/Constants.dart';
-import '../../../shared/common_bottom_align.dart';
-import '../../../shared/custom_button.dart';
+import '../../../shared/widget/common_bottom_align.dart';
+import '../../../shared/widget/custom_button.dart';
 import 'package:dotted_border/dotted_border.dart';
 
 class DocumentUploadScreen extends HookConsumerWidget {
