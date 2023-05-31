@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:consultation_curegal/consatant/ColorConstant.dart';
 import 'package:consultation_curegal/routing/app_routes.dart';
@@ -5,6 +7,7 @@ import 'package:consultation_curegal/screens/account/controller/consultation_cat
 import 'package:consultation_curegal/shared/controller/user_profile.dart';
 import 'package:consultation_curegal/shared/widget/custom_button.dart';
 import 'package:consultation_curegal/shared/widget/custom_dropdown.dart';
+import 'package:consultation_curegal/shared/widget/custom_image_view.dart';
 import 'package:consultation_curegal/shared/widget/shared_small_widgets.dart';
 import 'package:consultation_curegal/utility/utility.dart';
 import 'package:csv/csv.dart';
@@ -47,12 +50,11 @@ class ConsultationProfile extends HookConsumerWidget {
     var emailController = useTextEditingController(text: consultantProfiledata?[0]['email']);
     var phoneNumberController = useTextEditingController(text: ref.read(authControllerProvider).phoneNumber);
     var dobController = useTextEditingController(text: consultantProfiledata?[0]['date_of_birth']);
-    var genderController = useTextEditingController(text: consultantProfiledata?[0]['gender']);
+    var genderController = useTextEditingController(text: consultantProfiledata?[0]['gender']??"Other");
     var countryController = useTextEditingController(text: "India");
-    var stateController = useTextEditingController(text: consultantProfiledata?[0]['state']);
-    var cityController = useTextEditingController(text: consultantProfiledata?[0]['city']);
+    var stateController = useTextEditingController(text: consultantProfiledata?[0]['state']??"Gujrat");
+    var cityController = useTextEditingController(text: consultantProfiledata?[0]['city']??city.first);
     var consultantPriceController = useTextEditingController(text: consultantProfiledata?[0]['consulting_price']);
-
 
     return Scaffold(
       backgroundColor: CustomColor.white,
@@ -82,9 +84,6 @@ class ConsultationProfile extends HookConsumerWidget {
                     'city': cityController.text,
                     'phone': phoneNumberController.text,
                     'consulting_price': consultantPriceController.text,
-                    'profile': Constants.supabaseClient.storage
-                        .from('consultant_documents')
-                        .getPublicUrl('${Constants.supabaseClient.auth.currentSession?.user.id}/profile.jpg')
                   });
                 },
                 child: Text(
@@ -145,28 +144,14 @@ class ConsultationProfile extends HookConsumerWidget {
                             children: [
                               ClipRRect(
                                   borderRadius: BorderRadius.circular(500.0),
-                                  child: CachedNetworkImage(
-                                      fit: BoxFit.fill,
-                                      errorWidget: (context, url, error) => Image.asset(
-                                            "assets/images/image_not_found.jpg",
-                                            height: 100,
-                                            width: 100,
-                                            alignment: Alignment.bottomCenter,
-                                          ),
-                                      placeholder: (context, url) => Image.asset(
-                                            "assets/images/image_not_found.jpg",
-                                            height: 100,
-                                            width: 100,
-                                            alignment: Alignment.bottomCenter,
-                                          ),
+                                  child: CustomImageView(
+                                    useCache: false,
                                       height: 100,
                                       width: 100,
                                       alignment: Alignment.bottomCenter,
-                                      imageUrl: Constants.supabaseClient.auth.currentSession!.user.id.isEmpty ||
-                                              consultantProfiledata!.isEmpty ||
-                                              consultantProfiledata?[0]['profile'] == ''
-                                          ? "assets/images/image_not_found.jpg"
-                                          : consultantProfiledata?[0]['profile'])),
+                                      imagePath:  "assets/images/image_not_found.jpg",
+                                      file: ref.watch(documentControllerProvider),
+                                      url: consultantProfiledata?[0]['profile'])),
                               CircleAvatar(
                                 backgroundColor: CustomColor.primaryPurple,
                                 radius: 20,

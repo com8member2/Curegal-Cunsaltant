@@ -14,22 +14,19 @@ part 'document_controller.g.dart';
 
 @riverpod
 class DocumentController extends _$DocumentController {
-  var _imageFile = File("");
 
   @override
   File build() {
-    return _imageFile;
+    return File("");
   }
 
   getImageFromGallery() async {
     var docType = ['jpg', 'jpeg', 'pdf', 'png'];
     FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: docType);
     if (result != null) {
-      _imageFile = File(result.files.single.path!);
-      state = _imageFile;
+      state = File(result.files.single.path!);
 
       final avatarFile = File(result.files.single.path!);
-      ref.read(userProfileProvider.notifier).uploadProfile(avatarFile);
     } else {
       EasyLoading.showInfo("Please Select again");
     }
@@ -41,16 +38,17 @@ class DocumentController extends _$DocumentController {
       maxWidth: 1800,
       maxHeight: 1800,
     );
-    print("file path on submitt ${ ref.read(documentControllerProvider.notifier).getImageFromGallery()}");
+    // print("file path on submitt ${ ref.read(documentControllerProvider.notifier).getImageFromGallery()}");
     if (pickedFile != null) {
-      _imageFile = File(pickedFile.path);
+      state = File(pickedFile.path);
 
-      final avatarFile = File(pickedFile.path);
-      ref.read(userProfileProvider.notifier).uploadProfile(avatarFile);
     }
-    state = _imageFile;
   }
 
+  reset()
+  {
+    state = File("");
+  }
 
 
 

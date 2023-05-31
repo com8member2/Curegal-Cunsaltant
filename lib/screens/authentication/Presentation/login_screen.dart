@@ -1,15 +1,9 @@
-import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../consatant/ColorConstant.dart';
-import '../../../shared/widget/common_bottom_align.dart';
-import '../../../shared/widget/custom_button.dart';
-import '../../../shared/widget/shared_small_widgets.dart';
 import '../../../consatant/Constants.dart';
 import '../../../shared/widget/common_bottom_align.dart';
 import '../../../shared/widget/custom_button.dart';
@@ -68,51 +62,23 @@ class LoginScreen extends HookConsumerWidget {
                       },
                       onChanged: (value) {},
                       decoration: InputDecoration(
-                          icon: GestureDetector(
-                            onTap: () {
-                              showCountryPicker(
-                                countryListTheme: CountryListThemeData(
-                                  borderRadius: BorderRadius.zero,
-                                  textStyle: TextStyle(fontFamily: "uber"),
-                                  backgroundColor: CustomColor.white,
-                                  inputDecoration: InputDecoration(
-                                    suffixIcon: Icon(Icons.search),
-                                    fillColor: CustomColor.gray,
-                                    filled: true,
-                                    hintText: tr(context).search,
-                                    border: OutlineInputBorder(
-                                      borderSide: BorderSide.none,
-                                      borderRadius: BorderRadius.circular(0),
-                                    ),
-                                  ),
-                                ),
-                                context: context,
-                                showPhoneCode: true,
-                                onSelect: (Country country) {
-                                  countryCode.value = country.phoneCode;
-                                  mobileMaxLength.value = country.example.length;
-                                  ref.read(authControllerProvider).country = country.name;
-                                },
-                              );
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: 80,
-                              height: 55,
-                              decoration: BoxDecoration(
-                                color: CustomColor.gray,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(countryCode.value.isEmpty ? "" : "+${countryCode.value}"),
-                                  const Icon(
-                                    Icons.arrow_drop_down_sharp,
-                                    color: Colors.grey,
-                                  )
-                                ],
-                              ),
+                          icon: Container(
+                            alignment: Alignment.center,
+                            width: 80,
+                            height: 55,
+                            decoration: BoxDecoration(
+                              color: CustomColor.gray,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(countryCode.value.isEmpty ? "" : "+${countryCode.value}"),
+                                const Icon(
+                                  Icons.arrow_drop_down_sharp,
+                                  color: Colors.grey,
+                                )
+                              ],
                             ),
                           ),
                           labelStyle: const TextStyle(fontSize: 15),

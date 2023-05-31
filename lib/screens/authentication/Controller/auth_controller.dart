@@ -37,11 +37,9 @@ class AuthController {
 
       Constants.isNewUser = !response;
 
-      if (!response) {
         authRepository.signInWithOtp(phoneNumber).then((value) {
           Navigator.pushNamed(context, AppRoutes.sendOtpScreen, arguments: {"phoneNumber": phoneNumber});
         });
-      }
 
       EasyLoading.dismiss();
     } catch (e) {
@@ -57,7 +55,7 @@ class AuthController {
     authRepository.verifyOtp(otpValue, phoneNumber).then((value) async {
       final consultantData = await authRepository.getConsultantAuthID();
       if (consultantData.isEmpty) {
-        ref.read(userProfileProvider.notifier).insert({'supabase_auth_id': Constants.supabaseClient.auth.currentSession?.user.id});
+        ref.read(userProfileProvider.notifier).insert({'supabase_auth_id': Constants.supabaseClient.auth.currentSession?.user.id,"phone":phoneNumber});
       } else {
         ref.read(userProfileProvider.notifier).getUserData();
         (await getSharedPreference()).setString(PrefsKeys.consultantID, consultantData[0]['id']);
