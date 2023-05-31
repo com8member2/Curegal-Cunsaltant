@@ -7,7 +7,7 @@ part of 'document_controller.dart';
 // **************************************************************************
 
 String _$documentControllerHash() =>
-    r'4a9cd4d85d05104b60dc1750db86fb1439eca496';
+    r'36c4b8a83b06adc4e9e5909c0ed7c62131f0135f';
 
 /// See also [DocumentController].
 @ProviderFor(DocumentController)

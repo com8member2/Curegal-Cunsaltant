@@ -176,13 +176,13 @@ class AddConsultantProvider extends AutoDisposeFutureProvider<void> {
 }
 
 String _$getConsultantProfileHash() =>
-    r'ec8afccc524a7e2ac8698585196a3cda67c476bd';
+    r'55fd470bd351bda3e0dcd7c51b0d753171ba5b98';
 
-/// See also [getConsultantProfile].
-@ProviderFor(getConsultantProfile)
-final getConsultantProfileProvider =
-    AutoDisposeFutureProvider<List<dynamic>>.internal(
-  getConsultantProfile,
+/// See also [GetConsultantProfile].
+@ProviderFor(GetConsultantProfile)
+final getConsultantProfileProvider = AutoDisposeAsyncNotifierProvider<
+    GetConsultantProfile, List<dynamic>>.internal(
+  GetConsultantProfile.new,
   name: r'getConsultantProfileProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
@@ -191,5 +191,5 @@ final getConsultantProfileProvider =
   allTransitiveDependencies: null,
 );
 
-typedef GetConsultantProfileRef = AutoDisposeFutureProviderRef<List<dynamic>>;
+typedef _$GetConsultantProfile = AutoDisposeAsyncNotifier<List<dynamic>>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

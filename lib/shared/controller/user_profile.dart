@@ -1,8 +1,12 @@
 
+import 'dart:developer';
+
 import 'package:consultation_curegal/shared/model/user_entity.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'dart:io';
 import '../../consatant/Constants.dart';
+import '../../screens/account/controller/consultant_profile_controller.dart';
 import '../../utility/utility.dart';
 
 part 'user_profile.g.dart';
@@ -11,6 +15,7 @@ part 'user_profile.g.dart';
 class UserProfile extends _$UserProfile {
   @override
   UserEntity build() {
+    ref.keepAlive();
     return UserEntity();
   }
 
@@ -20,11 +25,19 @@ class UserProfile extends _$UserProfile {
   }
 
   update(Map<String,dynamic> map) async {
+    EasyLoading.show(status: "Loadong ");
     print(" in method   ${(await getSharedPreference()).getString(PrefsKeys.consultantID)}");
-    var res = await Constants.supabaseClient.from(SupaTables.consultantProfile).update(map)
-        .match({'id' : (await getSharedPreference()).getString(PrefsKeys.consultantID)});
-
-    state = UserEntity.fromJson(res);
+   await Constants.supabaseClient.from(SupaTables.consultantProfile).update(map)
+        .match({'id' : (await getSharedPreference()).getString(PrefsKeys.consultantID)}).select().then(
+      (value) {
+        state = UserEntity.fromJson(value[0]);
+        ref.watch(getConsultantProfileProvider.notifier).refesh(value[0]);
+        EasyLoading.dismiss();
+      },
+    ).onError((error, stackTrace) {
+      log(error.toString());
+      EasyLoading.showError("Something went wrong");
+    },);
   }
 
   insert(Map<String,dynamic> map) async {

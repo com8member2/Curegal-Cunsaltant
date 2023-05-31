@@ -49,11 +49,21 @@ Future<void> addConsultant(ref,String userNameController, String emailController
 
 
 @riverpod
-Future<List<dynamic>> getConsultantProfile(GetConsultantProfileRef ref) async {
+class GetConsultantProfile extends _$GetConsultantProfile {
+  @override
+  Future<List<dynamic>> build() async {
   var consultantProfileRepository = ref.watch(profileRepositoryProvider);
   ref.read(authControllerProvider).phoneNumber = (await getSharedPreference()).getString(PrefsKeys.phoneNumber)!;
   PostgrestResponse<dynamic> res = await consultantProfileRepository.getConsultantProfile();
+
+  print("user data ${res.data}");
+
   return res.data as List<dynamic>;
+}
+
+  void refesh(value) {
+    state = AsyncValue.data([value]);
+  }
 }
 
 
