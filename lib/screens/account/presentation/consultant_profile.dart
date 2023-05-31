@@ -277,6 +277,7 @@ class ConsultationProfile extends HookConsumerWidget {
                                       child: Text(genderName),
                                     );
                                   }).toList(),
+                                  value: genderController.text,
                                   onChanged: (String? gender) {
                                     if (gender != null) {
                                       genderController.text = gender;
@@ -358,6 +359,7 @@ class ConsultationProfile extends HookConsumerWidget {
                                   child: Text(stateName),
                                 );
                               }).toList(),
+                              value: stateController.text,
                               onChanged: (String? selectedState) {
                                 if (selectedState != null) {
                                   stateController.text = selectedState;
@@ -395,6 +397,7 @@ class ConsultationProfile extends HookConsumerWidget {
                                 child: Text(stateName),
                               );
                             }).toList(),
+                            value: cityController.text,
                             onChanged: (String? selectedState) {
                               if (selectedState != null) {
                                 selectedState = cityController.text;
