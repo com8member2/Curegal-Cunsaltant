@@ -3,15 +3,15 @@ import 'package:consultation_curegal/shared/model/user_entity.dart';
 
 UserEntity $UserEntityFromJson(Map<String, dynamic> json) {
 	final UserEntity userEntity = UserEntity();
-	final dynamic id = jsonConvert.convert<dynamic>(json['id']);
+	final String? id = jsonConvert.convert<String>(json['id']);
 	if (id != null) {
 		userEntity.id = id;
 	}
-	final dynamic createdAt = jsonConvert.convert<dynamic>(json['created_at']);
+	final String? createdAt = jsonConvert.convert<String>(json['created_at']);
 	if (createdAt != null) {
 		userEntity.createdAt = createdAt;
 	}
-	final dynamic supabaseAuthId = jsonConvert.convert<dynamic>(json['supabase_auth_id']);
+	final String? supabaseAuthId = jsonConvert.convert<String>(json['supabase_auth_id']);
 	if (supabaseAuthId != null) {
 		userEntity.supabaseAuthId = supabaseAuthId;
 	}
@@ -27,11 +27,11 @@ UserEntity $UserEntityFromJson(Map<String, dynamic> json) {
 	if (phone != null) {
 		userEntity.phone = phone;
 	}
-	final dynamic updatedAt = jsonConvert.convert<dynamic>(json['updated_at']);
+	final String? updatedAt = jsonConvert.convert<String>(json['updated_at']);
 	if (updatedAt != null) {
 		userEntity.updatedAt = updatedAt;
 	}
-	final dynamic deletedAt = jsonConvert.convert<dynamic>(json['deleted_at']);
+	final String? deletedAt = jsonConvert.convert<String>(json['deleted_at']);
 	if (deletedAt != null) {
 		userEntity.deletedAt = deletedAt;
 	}

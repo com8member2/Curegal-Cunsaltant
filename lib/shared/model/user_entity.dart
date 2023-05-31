@@ -4,19 +4,18 @@ import 'dart:convert';
 
 @JsonSerializable()
 class UserEntity {
-
-	dynamic id;
+	String? id;
 	@JSONField(name: "created_at")
-	dynamic createdAt;
+	String? createdAt;
 	@JSONField(name: "supabase_auth_id")
-	dynamic supabaseAuthId;
+	String? supabaseAuthId;
 	dynamic name;
 	dynamic email;
 	dynamic phone;
 	@JSONField(name: "updated_at")
-	dynamic updatedAt;
+	String? updatedAt;
 	@JSONField(name: "deleted_at")
-	dynamic deletedAt;
+	String? deletedAt;
 	@JSONField(name: "approve_status")
 	dynamic approveStatus;
 	@JSONField(name: "approve_status_updated_by")
@@ -41,15 +40,16 @@ class UserEntity {
 	dynamic consulatationLanguageStatus;
 	@JSONField(name: "documentation_status")
 	dynamic documentationStatus;
-  
-  UserEntity();
 
-  factory UserEntity.fromJson(Map<String, dynamic> json) => $UserEntityFromJson(json);
+	UserEntity();
 
-  Map<String, dynamic> toJson() => $UserEntityToJson(this);
+	factory UserEntity.fromJson(Map<String, dynamic> json) => $UserEntityFromJson(json);
 
-  UserEntity copyWith({dynamic id, dynamic createdAt, dynamic supabaseAuthId, dynamic name, dynamic email, dynamic phone, dynamic updatedAt, dynamic deletedAt, dynamic approveStatus, dynamic approveStatusUpdatedBy, dynamic password, dynamic dateOfBirth, dynamic gender, dynamic address, dynamic city, dynamic state, dynamic country, dynamic rating, dynamic profile, dynamic consultingPrice, dynamic consultantPersonType, dynamic educationExperienceStatus, dynamic consulatationLanguageStatus, dynamic documentationStatus}) {
-      return UserEntity()..id= id ?? this.id
+	Map<String, dynamic> toJson() => $UserEntityToJson(this);
+
+	UserEntity copyWith({String? id, String? createdAt, String? supabaseAuthId, dynamic name, dynamic email, dynamic phone, String? updatedAt, String? deletedAt, dynamic approveStatus, dynamic approveStatusUpdatedBy, dynamic password, dynamic dateOfBirth, dynamic gender, dynamic address, dynamic city, dynamic state, dynamic country, dynamic rating, dynamic profile, dynamic consultingPrice, dynamic consultantPersonType, dynamic educationExperienceStatus, dynamic consulatationLanguageStatus, dynamic documentationStatus}) {
+		return UserEntity()
+			..id= id ?? this.id
 			..createdAt= createdAt ?? this.createdAt
 			..supabaseAuthId= supabaseAuthId ?? this.supabaseAuthId
 			..name= name ?? this.name
@@ -73,10 +73,10 @@ class UserEntity {
 			..educationExperienceStatus= educationExperienceStatus ?? this.educationExperienceStatus
 			..consulatationLanguageStatus= consulatationLanguageStatus ?? this.consulatationLanguageStatus
 			..documentationStatus= documentationStatus ?? this.documentationStatus;
-  }
-    
-  @override
-  String toString() {
-    return jsonEncode(this);
-  }
+	}
+
+	@override
+	String toString() {
+		return jsonEncode(this);
+	}
 }

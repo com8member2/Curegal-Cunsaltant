@@ -2,11 +2,14 @@ import 'package:consultation_curegal/consatant/Constants.dart';
 import 'package:consultation_curegal/routing/app_routes.dart';
 import 'package:consultation_curegal/screens/account/presentation/language_selection_screen.dart';
 
+import 'package:consultation_curegal/shared/widget/shared_small_widgets.dart';
 import 'package:consultation_curegal/utility/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../../consatant/ColorConstant.dart';
+import '../../../shared/widget/common_bottom_align.dart';
+import '../../../shared/widget/custom_button.dart';
 
 import '../../../shared/widget/shared_small_widgets.dart';
 import 'consultation_doctor_type_sub_screen.dart';
@@ -18,9 +21,9 @@ class ConsultationType extends HookWidget {
   Widget build(BuildContext context) {
     final radioValue = useState('');
     List<Map<String, dynamic>> consultationTypes = [
-      {'title': tr(context).doctor, 'icon': Icons.person,'desc' : tr(context).doctor_desc},
-      {'title': tr(context).wellness_coach, 'icon': Icons.person,'desc' : tr(context).wellness_coach_desc},
-      {'title': tr(context).trainer, 'icon': Icons.person,'desc' : tr(context).trainer_desc},
+      {'title': tr(context).doctor, 'icon': Icons.person, 'desc': tr(context).doctor_desc},
+      {'title': tr(context).wellness_coach, 'icon': Icons.person, 'desc': tr(context).wellness_coach_desc},
+      {'title': tr(context).trainer, 'icon': Icons.person, 'desc': tr(context).trainer_desc},
       // Add more options as needed
     ];
 
@@ -32,12 +35,14 @@ class ConsultationType extends HookWidget {
             child: Form(
               key: _formKey,
               child: Padding(
-                padding: const EdgeInsets.only( left: 15, right: 15),
+                padding: const EdgeInsets.only(left: 15, right: 15),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     screenHeadingSubtitle(tr(context).consultation_type_screen_heading, tr(context).consultation_type_screen_heading),
-                    SizedBox(height: 30,),
+                    SizedBox(
+                      height: 30,
+                    ),
                     ...consultationTypes.map((type) {
                       return CardListViewDesign(
                         customWidget: Row(
@@ -77,26 +82,22 @@ class ConsultationType extends HookWidget {
                               ),
                             ),
                             Flexible(
+                              flex: 3,
                               child: Radio<String>(
                                 value: type['title'],
                                 groupValue: radioValue.value,
                                 onChanged: (value) async {
                                   radioValue.value = value!;
-                                  if(type['title'] == tr(context).doctor){
-
-                                    var res = await Constants.supabaseClient.
-                                        from('consultation_category')
-                                        .select("name")
-                                        .execute();
-
-                                    print("name ${res.data as List<dynamic>}");
-
-                                   Navigator.pushNamed(context, AppRoutes.doctorConsultationSubTypeScreen);
+                                  if (type['title'] == tr(context).trainer) {
+                                    Navigator.pushNamed(context, AppRoutes.doctorConsultationSubTypeScreen, arguments: 1);
+                                  } else if (type['title'] == tr(context).wellness_coach) {
+                                    Navigator.pushNamed(context, AppRoutes.doctorConsultationSubTypeScreen, arguments: 2);
+                                  } else if (type['title'] == tr(context).doctor) {
+                                    Navigator.pushNamed(context, AppRoutes.doctorConsultationSubTypeScreen, arguments: 3);
                                   }
                                 },
                                 activeColor: CustomColor.primaryPurple,
                               ),
-                              flex: 3,
                             ),
                           ],
                         ),

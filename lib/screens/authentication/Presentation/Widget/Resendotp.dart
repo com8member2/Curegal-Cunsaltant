@@ -1,25 +1,16 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../../../consatant/ColorConstant.dart';
 import '../../../../consatant/Constants.dart';
 import '../../../../utility/utility.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-
-import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-
-import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 
 class ResendOTPTimerWidget extends HookWidget {
 
   final String phoneNumber;
-  const ResendOTPTimerWidget({ required this.phoneNumber});
+  const ResendOTPTimerWidget({super.key,  required this.phoneNumber});
   @override
   Widget build(BuildContext context) {
 
@@ -31,7 +22,7 @@ class ResendOTPTimerWidget extends HookWidget {
         timerRunning.value = true;
         timerValue.value = 10;
 
-        Timer.periodic(Duration(seconds: 1), (Timer timer) {
+        Timer.periodic(const Duration(seconds: 1), (Timer timer) {
           if (timerValue.value > 0) {
             timerValue.value--;
           } else {
@@ -76,7 +67,7 @@ class ResendOTPTimerWidget extends HookWidget {
                 tr(context).resend_otp,
               ),
             ),
-            Spacer(),
+            const Spacer(),
             AnimatedDefaultTextStyle(
               style: TextStyle(
                   color: timerValue.value == 0 ?  CustomColor.rxtBlue : CustomColor.txtGray,

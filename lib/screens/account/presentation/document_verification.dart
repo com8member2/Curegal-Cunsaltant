@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:consultation_curegal/consatant/ColorConstant.dart';
 
+import 'package:consultation_curegal/shared/widget/shared_small_widgets.dart';
 import 'package:consultation_curegal/utility/utility.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,9 @@ import '../../../shared/widget/common_bottom_align.dart';
 import '../../../shared/widget/custom_button.dart';
 import '../../../shared/widget/shared_small_widgets.dart';
 
+import '../../../shared/widget/account_setting_card_child_widget.dart';
+import '../../../shared/widget/common_bottom_align.dart';
+import '../../../shared/widget/custom_button.dart';
 
 class DocumentsVerificationScreen extends HookWidget {
   @override
@@ -97,14 +101,5 @@ class DocumentsVerificationScreen extends HookWidget {
         ), //Center
       ),
     );
-  }
-
-  Future<PostgrestResponse<dynamic>> getDocumentList() async {
-    PostgrestResponse<dynamic> res = await Constants.supabaseClient
-        .from('consultant_profile')
-        .select()
-        .eq("consultant_person_type", 3)
-        .execute();
-    return res;
   }
 }

@@ -16,4 +16,6 @@ class PrefsKeys {
 
 class SupaTables{
   static String consultantProfile ="consultant_profile";
+  static String consultationCategory = "consultation_category";
+  static String consultationSubCategory = "consultation_sub_categories";
 }
