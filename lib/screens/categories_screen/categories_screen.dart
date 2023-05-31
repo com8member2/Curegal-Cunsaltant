@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-import '../../shared/shared_small_widgets.dart';
+import '../../shared/widget/shared_small_widgets.dart';
 import '../../utility/utility.dart';
 import '../../../routing/app_routes.dart';
 import '../../../utility/utility.dart';

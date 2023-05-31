@@ -21,7 +21,7 @@ class CustomChipWidget extends StatelessWidget {
           child: ChoiceChip(
             disabledColor: Colors.transparent,
             pressElevation: 0,
-            padding:  EdgeInsets.only(left: 20, right: 20, top: 12, bottom: 12),
+            padding: EdgeInsets.only(left: 20, right: 20, top: 12, bottom: 12),
             labelPadding: EdgeInsets.zero,
             label: Text(
               text,
@@ -38,10 +38,6 @@ class CustomChipWidget extends StatelessWidget {
             backgroundColor:CustomColor.primaryPurple,
             selectedColor: CustomColor.primaryPurple,
             shape: RoundedRectangleBorder(
-              side: BorderSide(
-                color: (isSelected) ? Colors.transparent : CustomColor.primaryPurple,
-                width: 1,
-              ),
               borderRadius: BorderRadius.circular(
                                   24,
               ),

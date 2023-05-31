@@ -1,15 +1,18 @@
 import 'package:consultation_curegal/consatant/ColorConstant.dart';
 import 'package:consultation_curegal/consatant/Constants.dart';
-import 'package:consultation_curegal/shared/custom_chip_widget.dart';
-import 'package:consultation_curegal/shared/shared_small_widgets.dart';
+
 import 'package:consultation_curegal/utility/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../shared/common_bottom_align.dart';
-import '../../../shared/custom_button.dart';
+import '../../../shared/widget/common_bottom_align.dart';
+import '../../../shared/widget/custom_button.dart';
+import '../../../shared/widget/custom_chip_widget.dart';
+import '../../../shared/widget/shared_small_widgets.dart';
+
+
 
 class DoctorConsultantSubType extends HookWidget {
   @override

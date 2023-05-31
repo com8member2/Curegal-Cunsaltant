@@ -20,16 +20,19 @@ class SplashScreen extends HookWidget {
 
 
     useEffect(() {
-      Future.delayed(Duration(seconds:3), ()  {
 
-        if(Constants.supabaseClient.auth.currentUser?.id != null){
+      if(Constants.supabaseClient.auth.currentUser?.id != null){
+        Future.delayed(Duration(seconds: 2),() {
           Navigator.pushNamed(context, AppRoutes.homeScreen);
+        },);
+      }
+      else
+        {
+          Future.delayed(Duration(seconds: 0),() {
+            Navigator.pushNamedAndRemoveUntil(context, AppRoutes.loginScreen, (route) => true);
+          },);
+
         }
-        else{
-          //Navigator.pushNamed(context, AppRoutes.splashScreen);
-        Navigator.pushNamedAndRemoveUntil(context, AppRoutes.splashScreen, (route) => true);
-        }
-      });
     },);
 
     return WillPopScope(

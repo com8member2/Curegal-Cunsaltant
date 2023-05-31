@@ -7,9 +7,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../consatant/ColorConstant.dart';
-import '../../../shared/common_bottom_align.dart';
-import '../../../shared/custom_button.dart';
-import '../../../shared/shared_small_widgets.dart';
+import '../../../consatant/Constants.dart';
+import '../../../shared/widget/common_bottom_align.dart';
+import '../../../shared/widget/custom_button.dart';
+import '../../../shared/widget/shared_small_widgets.dart';
 import '../../../utility/utility.dart';
 import '../Controller/auth_controller.dart';
 
@@ -57,7 +58,7 @@ class LoginScreen extends HookConsumerWidget {
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter Phone Number';
+                          return 'Please enter number';
                         }else if (value.length != mobileMaxLength.value){
                           return "Please enter valid Phone Number";
                         }
@@ -85,10 +86,9 @@ class LoginScreen extends HookConsumerWidget {
                                 context: context,
                                 showPhoneCode: true,
                                 onSelect: (Country country) {
-                                  ref.read(authControllerProvider).country = country.name;
-                                  print(country.name);
                                   countryCode.value = country.phoneCode;
                                   mobileMaxLength.value = country.example.length;
+                                  ref.read(authControllerProvider).country = country.name;
                                 },
                               );
                             },
@@ -103,10 +103,7 @@ class LoginScreen extends HookConsumerWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  ValueListenableBuilder(
-                                    valueListenable: countryCode,
-                                    builder: (context, value, child) => Text("+${countryCode.value}"),
-                                  ),
+                                  Text(countryCode.value.isEmpty ? "" : "+${countryCode.value}"),
                                   const Icon(
                                     Icons.arrow_drop_down_sharp,
                                     color: Colors.grey,
@@ -141,6 +138,8 @@ class LoginScreen extends HookConsumerWidget {
                   padding: const EdgeInsets.only(top: 40),
                   child: CommonBottomAlignWidget(
                     setBottomWidget: CustomButton(CustomColor.white, CustomColor.primaryPurple, tr(context).continu, () async {
+                      (await getSharedPreference()).setString(PrefsKeys.phoneNumber, "+${countryCode.value} ${phoneController.text}");
+
                       if (_formKey.currentState?.validate()??false) {
                         ref.read(authControllerProvider).checkUser(countryCode.value, phoneController.text, context);
                       }

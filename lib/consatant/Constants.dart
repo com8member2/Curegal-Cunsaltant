@@ -10,4 +10,10 @@ class Constants{
 
 class PrefsKeys {
   static String isLogin = "isLogin";
+  static String consultantID = "consultantID";
+  static String phoneNumber = "phoneNumber";
+}
+
+class SupaTables{
+  static String consultantProfile ="consultant_profile";
 }

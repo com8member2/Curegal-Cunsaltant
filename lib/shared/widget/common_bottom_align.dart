@@ -1,7 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 
-import '../utility/utility.dart';
+import '../../utility/utility.dart';
 
 class CommonBottomAlignWidget extends StatelessWidget{
   final Widget setBottomWidget;
