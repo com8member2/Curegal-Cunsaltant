@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:consultation_curegal/consatant/ColorConstant.dart';
-import 'package:consultation_curegal/shared/shared_small_widgets.dart';
+import 'package:consultation_curegal/shared/widget/shared_small_widgets.dart';
 import 'package:consultation_curegal/utility/utility.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +8,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../../routing/app_routes.dart';
-import '../../../shared/account_setting_card_child_widget.dart';
-import '../../../shared/common_bottom_align.dart';
-import '../../../shared/custom_button.dart';
+import '../../../shared/widget/account_setting_card_child_widget.dart';
+import '../../../shared/widget/common_bottom_align.dart';
+import '../../../shared/widget/custom_button.dart';
 
 class DocumentsVerificationScreen extends HookWidget {
   @override

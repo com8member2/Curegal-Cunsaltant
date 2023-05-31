@@ -1,13 +1,13 @@
 import 'package:consultation_curegal/consatant/ColorConstant.dart';
 import 'package:consultation_curegal/routing/app_routes.dart';
-import 'package:consultation_curegal/shared/shared_small_widgets.dart';
+import 'package:consultation_curegal/shared/widget/shared_small_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-import '../../../shared/account_setting_card_child_widget.dart';
+import '../../../shared/widget/account_setting_card_child_widget.dart';
 import '../../../utility/utility.dart';
 
-class AccountSettingsScreen extends HookWidget {
+class   AccountSettingsScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(

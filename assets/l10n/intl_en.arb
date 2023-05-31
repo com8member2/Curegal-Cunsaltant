@@ -114,5 +114,7 @@
   "state" : "State",
   "city" : "City",
   "consulting_price" : "Consulting Price",
-  "consulting_price_hint" : "Enter Consulting Price"
+  "consulting_price_hint" : "Enter Consulting Price",
+  "family_member" : "Family Member",
+  "save" : "Save"
 }

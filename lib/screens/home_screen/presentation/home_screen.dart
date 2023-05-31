@@ -1,5 +1,8 @@
 
-import 'package:consultation_curegal/screens/home_screen/presentation/tabs/home_tab_screen.dart';
+import 'dart:developer';
+
+import 'package:consultation_curegal/shared/controller/user_profile.dart';
+import 'package:consultation_curegal/shared/model/user_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -7,20 +10,19 @@ import '../../../consatant/ColorConstant.dart';
 import '../../account/presentation/account_setting.dart';
 import '../../account/presentation/consultant_profile.dart';
 
-class HomeScreen extends HookWidget {
+class HomeScreen extends HookConsumerWidget {
   const HomeScreen({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
 
-    var index=useState(0);
-
+    var index=useState(2);
     return SafeArea(
       child: Scaffold(
         body: _getBody(index.value),
-        bottomNavigationBar: BottomNavigationBar(
+        bottomNavigationBar: BottomNavigationBar(currentIndex: index.value,
             selectedItemColor: CustomColor.white,
             backgroundColor: CustomColor.primaryPurple,
             unselectedItemColor: CustomColor.whiteLight,
@@ -56,13 +58,12 @@ class HomeScreen extends HookWidget {
   Widget _getBody(int index) {
     switch (index) {
       case 0:
-        return HomeTabScreen();
+        return Container();
       case 1:
-        return HomeTabScreen();
+        return Container();
       case 2:
         return AccountSettingsScreen();
     }
     return Center(child: Text("There is no page builder for this index."),);
   }
-
 }
