@@ -1,10 +1,14 @@
 import 'dart:io';
 
+import 'package:consultation_curegal/consatant/Constants.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../../../shared/controller/user_profile.dart';
 
 part 'document_controller.g.dart';
 
@@ -18,12 +22,11 @@ class DocumentController extends _$DocumentController {
 
   getImageFromGallery() async {
     var docType = ['jpg', 'jpeg', 'pdf', 'png'];
-    //That use fully File manager and also use specific file type like jpg, png, pdf, png etc...
     FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: docType);
-
     if (result != null) {
       state = File(result.files.single.path!);
-      print("file size lenghtSync :- ${state.lengthSync()}");
+
+      final avatarFile = File(result.files.single.path!);
     } else {
       EasyLoading.showInfo("Please Select again");
     }
@@ -35,10 +38,19 @@ class DocumentController extends _$DocumentController {
       maxWidth: 1800,
       maxHeight: 1800,
     );
+    // print("file path on submitt ${ ref.read(documentControllerProvider.notifier).getImageFromGallery()}");
     if (pickedFile != null) {
       state = File(pickedFile.path);
-    }else {
-      EasyLoading.showInfo("Please Select again");
+
     }
   }
+
+  reset()
+  {
+    state = File("");
+  }
+
+
+
+
 }

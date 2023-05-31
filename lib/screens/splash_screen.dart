@@ -10,19 +10,23 @@ import '../utility/utility.dart';
 class SplashScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
-    useEffect(
-      () {
-        Future.delayed(Duration(seconds: 3), () async {
-          if (Constants.supabaseClient.auth.currentUser?.id != null) {
-            Navigator.pushNamedAndRemoveUntil(context, AppRoutes.homeScreen, (route) => true);
-          } else {
-            //Navigator.pushNamed(context, AppRoutes.splashScreen);
-            Navigator.pushReplacementNamed(context, AppRoutes.loginScreen);
-          }
-        });
-        return null;
-      },[]
-    );
+
+
+    useEffect(() {
+
+      if(Constants.supabaseClient.auth.currentUser?.id != null){
+        Future.delayed(Duration(seconds: 2),() {
+          Navigator.pushNamed(context, AppRoutes.homeScreen);
+        },);
+      }
+      else
+        {
+          Future.delayed(Duration(seconds: 0),() {
+            Navigator.pushNamedAndRemoveUntil(context, AppRoutes.loginScreen, (route) => true);
+          },);
+
+        }
+    },);
 
     return WillPopScope(
       onWillPop: () {

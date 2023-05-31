@@ -16,6 +16,12 @@ import '../../../shared/widget/common_bottom_align.dart';
 import '../../../shared/widget/custom_button.dart';
 import 'package:dotted_border/dotted_border.dart';
 
+import '../../../shared/widget/common_bottom_align.dart';
+import '../../../shared/widget/custom_button.dart';
+import '../../../shared/widget/custom_image_view.dart';
+import '../../../shared/widget/shared_small_widgets.dart';
+import '../../../shared/widget/textfield_decoration.dart';
+
 class DocumentUploadScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {

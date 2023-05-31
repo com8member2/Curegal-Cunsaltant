@@ -242,12 +242,19 @@ class EducationnExperience extends HookWidget {
   }
 
   Future<PostgrestResponse<dynamic>> getEducation() async {
-    PostgrestResponse<dynamic> res = await Constants.supabaseClient.from('consultant_education').select().execute();
+
+    PostgrestResponse<dynamic> res = await Constants.supabaseClient
+        .from('consultant_education')
+        .select()
+        .eq("cosultant_id",  Constants.supabaseClient.auth.currentSession?.user.id)
+        .execute();
     return res;
   }
 
   Future<PostgrestResponse<dynamic>> getExperience() async {
-    PostgrestResponse<dynamic> res = await Constants.supabaseClient.from('consultant_education_experience').select().execute();
+    PostgrestResponse<dynamic> res = await Constants.supabaseClient.from('consultant_education_experience').select()
+        .eq("cosultant_id",  Constants.supabaseClient.auth.currentSession?.user.id).
+    execute();
     return res;
   }
 }

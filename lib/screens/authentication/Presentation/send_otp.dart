@@ -9,6 +9,12 @@ import '../../../consatant/ColorConstant.dart';
 import '../../../shared/widget/common_bottom_align.dart';
 import '../../../shared/widget/custom_button.dart';
 import '../../../shared/widget/shared_small_widgets.dart';
+import '../../../consatant/Constants.dart';
+import '../../../routing/app_routes.dart';
+
+import '../../../shared/widget/common_bottom_align.dart';
+import '../../../shared/widget/custom_button.dart';
+import '../../../shared/widget/shared_small_widgets.dart';
 import '../../../utility/utility.dart';
 import '../Controller/auth_controller.dart';
 import 'Widget/Resendotp.dart';
@@ -26,12 +32,6 @@ class SendOTP extends HookConsumerWidget {
     var otp = useState("");
     var otpValue = useState('');
     TextEditingController otpController = TextEditingController();
-    // useEffect(
-    //   () {
-    //     otpController.selection = TextSelection.fromPosition(TextPosition(offset: 0));
-    //
-    //   },
-    // );
     return Scaffold(
       appBar: customAppBarH(tr(context).otp, context, CustomColor.primaryPurple, Colors.white, true),
       body: Form(

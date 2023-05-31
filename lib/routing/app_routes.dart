@@ -47,5 +47,6 @@ class AppRoutes {
     languageSelectScreen: (p0) => LanguageSelect(),
     documentUploadScreen: (p0) => DocumentUploadScreen(),
     doctorConsultationSubTypeScreen: (p0) => DoctorConsultantSubType(),
+
   };
 }

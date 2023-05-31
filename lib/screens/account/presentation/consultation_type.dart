@@ -1,6 +1,7 @@
 import 'package:consultation_curegal/consatant/Constants.dart';
 import 'package:consultation_curegal/routing/app_routes.dart';
 import 'package:consultation_curegal/screens/account/presentation/language_selection_screen.dart';
+
 import 'package:consultation_curegal/shared/widget/shared_small_widgets.dart';
 import 'package:consultation_curegal/utility/utility.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import '../../../consatant/ColorConstant.dart';
 import '../../../shared/widget/common_bottom_align.dart';
 import '../../../shared/widget/custom_button.dart';
+
+import '../../../shared/widget/shared_small_widgets.dart';
 import 'consultation_doctor_type_sub_screen.dart';
 
 class ConsultationType extends HookWidget {

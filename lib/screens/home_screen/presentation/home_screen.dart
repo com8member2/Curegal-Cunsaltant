@@ -3,12 +3,24 @@ import 'dart:developer';
 
 import 'package:consultation_curegal/shared/controller/user_profile.dart';
 import 'package:consultation_curegal/shared/model/user_entity.dart';
+import 'package:consultation_curegal/consatant/Constants.dart';
+import 'package:consultation_curegal/routing/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import '../../../consatant/ColorConstant.dart';
 import '../../account/presentation/account_setting.dart';
 import '../../account/presentation/consultant_profile.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
+
+import '../../../consatant/Constants.dart';
+import '../../../routing/app_routes.dart';
+import '../../../utility/utility.dart';
+
 
 class HomeScreen extends HookConsumerWidget {
   const HomeScreen({
@@ -21,7 +33,7 @@ class HomeScreen extends HookConsumerWidget {
     var index=useState(2);
     return SafeArea(
       child: Scaffold(
-        body: _getBody(index.value),
+        body: _getBody(index.value,context),
         bottomNavigationBar: BottomNavigationBar(currentIndex: index.value,
             selectedItemColor: CustomColor.white,
             backgroundColor: CustomColor.primaryPurple,
@@ -55,15 +67,21 @@ class HomeScreen extends HookConsumerWidget {
     );
   }
 
-  Widget _getBody(int index) {
+  Widget _getBody(int index,BuildContext context) {
     switch (index) {
       case 0:
         return Container();
       case 1:
-        return Container();
+        return GestureDetector(child:Center(child: Text("sign Out")),onTap: () async {
+          Constants.supabaseClient.auth.signOut().then((value) async {
+            (await getSharedPreference()).remove(PrefsKeys.phoneNumber);
+            Navigator.pushNamed(context, AppRoutes.loginScreen);
+          },);
+        },);
       case 2:
         return AccountSettingsScreen();
     }
     return Center(child: Text("There is no page builder for this index."),);
   }
+
 }

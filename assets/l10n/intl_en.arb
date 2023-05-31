@@ -116,5 +116,19 @@
   "consulting_price" : "Consulting Price",
   "consulting_price_hint" : "Enter Consulting Price",
   "family_member" : "Family Member",
-  "save" : "Save"
+  "save" : "Save",
+  "consulting_price_error" : "Please enter consulting price",
+  "phone_number" : "Phone Number",
+  "enter_phone_number" : "Enter your number",
+  "phone_number_error" : "Please enter valid number",
+  "gender_error" : "Please select gender",
+  "language_error" : "Please enter language",
+  "country_error" : "Please enter country",
+  "state_error" : "Please enter state",
+  "city_error" : "Please enter city",
+  "languages" : "Languages",
+  "languages_hint" : "Enter Languages",
+  "address": "Address",
+  "country": "Country",
+  "upload_profile_image": "Upload Profile"
 }
