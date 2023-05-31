@@ -26,7 +26,7 @@ class UserProfile extends _$UserProfile {
   }
 
   update(Map<String,dynamic> map) async {
-    EasyLoading.show(status: "Loadong ");
+    EasyLoading.show(status: "Data update in progress");
     print(" in method   ${(await getSharedPreference()).getString(PrefsKeys.consultantID)}");
    await Constants.supabaseClient.from(SupaTables.consultantProfile).update(map)
         .match({'id' : (await getSharedPreference()).getString(PrefsKeys.consultantID)}).select().then(
