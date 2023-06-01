@@ -56,7 +56,7 @@ class UserProfile extends _$UserProfile {
         },
       );
     } on Exception catch (e,stackTrac) {
-      log(e.message);
+      log(e.toString());
       log(stackTrac.toString());
       EasyLoading.showError("Something went wrong");
     }

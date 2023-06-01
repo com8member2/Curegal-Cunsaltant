@@ -293,7 +293,7 @@ class ConsultationProfile extends HookConsumerWidget {
                                           : genderController.text,
                                       context),
                                   validator: (value) {
-                                    if (genderController.text.isEmpty || genderController.text == tr(context).gender) {
+                                    if (genderController.text.isEmpty || value == tr(context).gender) {
                                       return tr(context).gender_error;
                                     }
                                   },
@@ -387,7 +387,7 @@ class ConsultationProfile extends HookConsumerWidget {
                                       : stateController.text,
                                   context),
                               validator: (value) {
-                                if (stateController.text.isEmpty || stateController.text==tr(context).selecState) {
+                                if (stateController.text.isEmpty || value==tr(context).selecState) {
                                   return tr(context).state_error;
                                 }
                               },
@@ -425,7 +425,7 @@ class ConsultationProfile extends HookConsumerWidget {
                                     : cityController.text,
                                 context),
                             validator: (value) {
-                              if (cityController.text.isEmpty||cityController.text == tr(context).selecCity) {
+                              if (cityController.text.isEmpty||value == tr(context).selecCity) {
                                 return tr(context).city_error;
                               }
                             },
