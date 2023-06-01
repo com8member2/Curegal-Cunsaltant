@@ -1,12 +1,12 @@
 import 'package:consultation_curegal/consatant/ColorConstant.dart';
 import 'package:consultation_curegal/screens/account/presentation/widgets/add_education.dart';
 import 'package:consultation_curegal/screens/account/presentation/widgets/add_experience.dart';
-import 'package:consultation_curegal/shared/widget/custom_chip_widget.dart';
 import 'package:consultation_curegal/utility/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../consatant/Constants.dart';
+import '../../../shared/widget/shared_small_widgets.dart';
 
 
 class EducationnExperience extends HookWidget {

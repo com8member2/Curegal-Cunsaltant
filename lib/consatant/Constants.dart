@@ -19,3 +19,15 @@ class SupaTables{
   static String consultationCategory = "consultation_category";
   static String consultationSubCategory = "consultation_sub_categories";
 }
+
+
+enum DocumentStatus {
+  rejected("REJECTED"),
+  pending("PENDING"),
+  uploaded("UPLOADED"),
+  approved("APPROVED");
+
+  const DocumentStatus(this.value);
+
+  final String value;
+}

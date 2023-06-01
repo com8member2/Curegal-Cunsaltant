@@ -67,29 +67,3 @@ extension HexColor on Color {
       '${green.toRadixString(16).padLeft(2, '0')}'
       '${blue.toRadixString(16).padLeft(2, '0')}';*/
 }
-
-class CardListViewDesign extends StatelessWidget {
-  final VoidCallback onClick;
-  final Widget customWidget;
-
-  const CardListViewDesign({super.key, required this.onClick, required this.customWidget});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5),
-          side: BorderSide(color:Colors.transparent),
-        ),
-        color: CustomColor.backgroundColor,
-        elevation: 10,
-        shadowColor: CustomColor.white,
-        child: customWidget,
-      ),
-      onTap: () {
-        onClick();
-      },
-    );
-  }
-}

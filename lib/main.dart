@@ -23,10 +23,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       builder: EasyLoading.init(builder: (context, child) {
-        return ScrollConfiguration(behavior: MyBehavior(), child: child ?? SizedBox());
+        return ScrollConfiguration(behavior: MyBehavior(), child: child ?? const SizedBox());
       }),
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       initialRoute: AppRoutes.splashScreen,

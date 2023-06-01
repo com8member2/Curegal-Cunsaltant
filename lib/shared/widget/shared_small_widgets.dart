@@ -121,3 +121,32 @@ class TextFieldWithLable extends StatelessWidget {
   }
 
 }
+
+
+class CardListViewDesign extends StatelessWidget {
+  final VoidCallback onClick;
+  final Widget customWidget;
+  final EdgeInsetsGeometry? edgeInsets;
+
+  const CardListViewDesign({super.key, required this.onClick, required this.customWidget, this.edgeInsets});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      child: Card(
+        margin: edgeInsets,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5),
+          side: BorderSide(color:Colors.transparent),
+        ),
+        color: CustomColor.backgroundColor,
+        elevation: 10,
+        shadowColor: CustomColor.white,
+        child: customWidget,
+      ),
+      onTap: () {
+        onClick();
+      },
+    );
+  }
+}

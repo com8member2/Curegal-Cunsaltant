@@ -17,57 +17,60 @@ class UserProfile extends _$UserProfile {
   @override
   UserEntity build() {
     ref.keepAlive();
+    getUserData();
     return UserEntity();
   }
 
-  getUserData() async {
+  Future<UserEntity> getUserData() async {
     var res = await Constants.supabaseClient.from(SupaTables.consultantProfile).select().eq("supabase_auth_id", Constants.supabaseClient.auth.currentUser?.id) as List;
     state = UserEntity.fromJson(res.first as Map<String, dynamic>);
+    return state;
   }
 
-  update(Map<String,dynamic> map) async {
+  update(Map<String, dynamic> map) async {
     EasyLoading.show(status: "Data update in progress");
     try {
       var file = ref.read(documentControllerProvider);
-      if(file.path.isNotEmpty){
+      if (file.path.isNotEmpty) {
         await uploadProfile(file);
-        map.addAll({'profile': Constants.supabaseClient.storage
-            .from('consultant_documents')
-            .getPublicUrl('${Constants.supabaseClient.auth.currentSession?.user.id}/profile.jpg')});
+        map.addAll({
+          'profile': Constants.supabaseClient.storage.from('consultant_documents').getPublicUrl('${Constants.supabaseClient.auth.currentSession?.user.id}/profile.jpg')
+        });
       }
       print(" in method   ${map}");
-         await Constants.supabaseClient.from(SupaTables.consultantProfile).update(map)
-          .match({'id' : (await getSharedPreference()).getString(PrefsKeys.consultantID)}).select().then(
-        (value) {
-          state = UserEntity.fromJson(value[0]);
-          ref.watch(getConsultantProfileProvider.notifier).refesh(value[0]);
-          EasyLoading.dismiss();
-        },
-      );
+      await Constants.supabaseClient
+          .from(SupaTables.consultantProfile)
+          .update(map)
+          .match({'id': (await getSharedPreference()).getString(PrefsKeys.consultantID)})
+          .select()
+          .then(
+            (value) {
+              state = UserEntity.fromJson(value[0]);
+              ref.watch(getConsultantProfileProvider.notifier).refesh(value[0]);
+              EasyLoading.dismiss();
+            },
+          );
     } on Exception catch (e) {
       log(e.toString());
       EasyLoading.showError("Something went wrong");
     }
   }
 
-  insert(Map<String,dynamic> map) async {
+  insert(Map<String, dynamic> map) async {
     var res = await Constants.supabaseClient.from(SupaTables.consultantProfile).insert(map).select().single();
     state = UserEntity.fromJson(res);
 
-     (await getSharedPreference()).setString(PrefsKeys.consultantID, res['id']);
+    (await getSharedPreference()).setString(PrefsKeys.consultantID, res['id']);
     print(" in if   ${(await getSharedPreference()).getString(PrefsKeys.consultantID)}");
-
   }
 
   uploadProfile(File file) async {
-       await Constants.supabaseClient.storage.from('consultant_documents')
-          .upload('${Constants.supabaseClient.auth.currentSession?.user.id}/profile.jpg', file,fileOptions: const FileOptions(upsert: true)).then((value) {
-            state = state.copyWith(profile:  value);
-          });
-
-       ref.read(documentControllerProvider.notifier).reset();
-
+    await Constants.supabaseClient.storage
+        .from('consultant_documents')
+        .upload('${Constants.supabaseClient.auth.currentSession?.user.id}/profile.jpg', file, fileOptions: const FileOptions(upsert: true))
+        .then((value) {
+      state = state.copyWith(profile: value);
+    });
+    ref.read(documentControllerProvider.notifier).reset();
   }
-
-
 }

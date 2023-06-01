@@ -1,25 +1,13 @@
 
-import 'dart:developer';
-
-import 'package:consultation_curegal/shared/controller/user_profile.dart';
-import 'package:consultation_curegal/shared/model/user_entity.dart';
 import 'package:consultation_curegal/consatant/Constants.dart';
 import 'package:consultation_curegal/routing/app_routes.dart';
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import '../../../consatant/ColorConstant.dart';
-import '../../account/presentation/account_setting.dart';
-import '../../account/presentation/consultant_profile.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
 
-import '../../../consatant/Constants.dart';
-import '../../../routing/app_routes.dart';
+import '../../../consatant/ColorConstant.dart';
 import '../../../utility/utility.dart';
+import '../../account/presentation/account_setting.dart';
 
 
 class HomeScreen extends HookConsumerWidget {

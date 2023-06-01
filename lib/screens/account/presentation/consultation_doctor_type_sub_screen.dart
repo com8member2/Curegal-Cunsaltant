@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:consultation_curegal/consatant/ColorConstant.dart';
 import 'package:consultation_curegal/consatant/Constants.dart';
+import 'package:consultation_curegal/routing/app_routes.dart';
 import 'package:consultation_curegal/screens/account/controller/consultation_category_controller.dart';
 import 'package:consultation_curegal/shared/widget/custom_chip_widget.dart';
 import 'package:consultation_curegal/shared/widget/shared_small_widgets.dart';
@@ -52,7 +53,8 @@ class DoctorConsultantSubType extends HookConsumerWidget {
                     setBottomWidget: CustomButton(CustomColor.white, CustomColor.primaryPurple, tr(context).submit, () async {
                       try {
                         EasyLoading.show();
-                        await ref.watch(consultationCategoryRepositoryProvider).addConsultationCategory(ref);
+                        await ref.watch(consultationCategoryRepositoryProvider).addConsultationCategory(ref,personType);
+                        Navigator.popUntil(context, (route) => route.settings.name== AppRoutes.homeScreen);
                         EasyLoading.dismiss();
                       } on Exception catch (e) {
                         log(e.toString());
@@ -106,7 +108,7 @@ class _ItemView extends HookConsumerWidget {
             ),
           ),
           if (ref.watch(categoryProvider.select((value) => value.elementAt(index).isSelected ?? false)))
-            Wrap(
+            ref.watch(categoryProvider.select((value) => value.elementAt(index).data?.length ?? 0)) != 0 ?Wrap(
               spacing: 0,
               children: List<Widget>.generate(
                 ref.watch(categoryProvider.select((value) => value.elementAt(index).data?.length ?? 0)),
@@ -114,7 +116,7 @@ class _ItemView extends HookConsumerWidget {
                   return SubItem(index, subIndex);
                 },
               ),
-            )
+            ) : const Text("No Categories available")
         ],
       ),
     );

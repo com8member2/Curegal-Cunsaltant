@@ -105,6 +105,8 @@
 "clinic_hint": "Clinic name",
 "document_upload": "Document Upload",
 "document_number_hint": "Please Enter Your Document No",
+"registration_date_hint": "Please Enter Your Registration Date",
+"expiration_date_hint": "Please Enter Your Expiration Date",
   "maxSize": "File max size",
   "select_document_text" : "Select your document",
   "open_file_manager" : "Open File Manager",

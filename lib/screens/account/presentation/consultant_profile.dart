@@ -1,32 +1,18 @@
-import 'dart:developer';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:consultation_curegal/consatant/ColorConstant.dart';
-import 'package:consultation_curegal/routing/app_routes.dart';
-import 'package:consultation_curegal/screens/account/controller/consultation_category_controller.dart';
 import 'package:consultation_curegal/shared/controller/user_profile.dart';
 import 'package:consultation_curegal/shared/widget/custom_button.dart';
-import 'package:consultation_curegal/shared/widget/custom_dropdown.dart';
 import 'package:consultation_curegal/shared/widget/custom_image_view.dart';
 import 'package:consultation_curegal/shared/widget/shared_small_widgets.dart';
 import 'package:consultation_curegal/utility/utility.dart';
-import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
-import '../../../shared/widget/common_bottom_align.dart';
-import '../../../shared/widget/textfield_decoration.dart';
-import '../../../consatant/Constants.dart';
-import '../../../shared/widget/custom_button.dart';
-import '../../../shared/widget/shared_small_widgets.dart';
 import '../../../shared/widget/textfield_decoration.dart';
 import '../../authentication/Controller/auth_controller.dart';
-import '../controller/document_controller.dart';
 import '../controller/consultant_profile_controller.dart';
-import '../repository/consultant_profile_repository.dart';
+import '../controller/document_controller.dart';
 
 class ConsultationProfile extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
