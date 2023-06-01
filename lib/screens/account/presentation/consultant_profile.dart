@@ -28,18 +28,39 @@ class ConsultationProfile extends HookConsumerWidget {
 
   Scaffold view(BuildContext context, WidgetRef ref, [List<dynamic>? consultantProfiledata]) {
     final formKey = useMemoized(() => GlobalKey<FormState>(), []);
-    final List<String> city = ["Rajkot", "Ahemdabad", "Surat"];
-    final List<String> state = ["Gujrat", "Rajshthan", "MP"];
-    final List<String> gender = ["Male", "Female", "Other"];
+    final cityItems = useState<List<String>>([]);
+    final stateItems = useState<List<String>>([]);
+
+
+    useEffect(() {
+      loadCSV('assets/csv/IndiaStates.csv').then((state) {
+        state.add(tr(context).selecState);
+        stateItems.value = state;
+        print("all state ${stateItems.value}");
+      });
+
+
+      loadCSV('assets/csv/IndiaCities.csv').then((city) {
+        city.add(tr(context).selecCity);
+        cityItems.value = city;
+        print("all city ${cityItems.value}");
+      },);
+      return null;
+    }, []);
+
+
+
+    final List<String> gender = ["Male", "Female", "Other",tr(context).gender];
 
     var nameController = useTextEditingController(text: consultantProfiledata?[0]['name']);
     var emailController = useTextEditingController(text: consultantProfiledata?[0]['email']);
     var phoneNumberController = useTextEditingController(text: ref.read(authControllerProvider).phoneNumber);
     var dobController = useTextEditingController(text: consultantProfiledata?[0]['date_of_birth']);
-    var genderController = useTextEditingController(text: consultantProfiledata?[0]['gender']??"Other");
+    var genderController = useTextEditingController(text: consultantProfiledata?[0]['gender']);
     var countryController = useTextEditingController(text: "India");
-    var stateController = useTextEditingController(text: consultantProfiledata?[0]['state']??"Gujrat");
-    var cityController = useTextEditingController(text: consultantProfiledata?[0]['city']??city.first);
+    var addressController = useTextEditingController(text: consultantProfiledata?[0]['address']);
+    var stateController = useTextEditingController(text: consultantProfiledata?[0]['state']);
+    var cityController = useTextEditingController(text: consultantProfiledata?[0]['city']);
     var consultantPriceController = useTextEditingController(text: consultantProfiledata?[0]['consulting_price']);
 
     return Scaffold(
@@ -61,16 +82,22 @@ class ConsultationProfile extends HookConsumerWidget {
                   padding: const EdgeInsets.all(10.0),
                 ),
                 onPressed: () {
-                  ref.read(userProfileProvider.notifier).update({
-                    'name': nameController.text,
-                    'email': emailController.text,
-                    'date_of_birth': dobController.text,
-                    'gender': genderController.text,
-                    'state': stateController.text,
-                    'city': cityController.text,
-                    'phone': phoneNumberController.text,
-                    'consulting_price': consultantPriceController.text,
-                  });
+
+                  if (formKey.currentState!.validate()){
+                    ref.read(userProfileProvider.notifier).update({
+                      'name': nameController.text,
+                      'email': emailController.text,
+                      'date_of_birth': dobController.text,
+                      'gender': genderController.text,
+                      'state': stateController.text,
+                      'city': cityController.text,
+                      'phone': phoneNumberController.text,
+                      'address' : addressController.text,
+                      'consulting_price': consultantPriceController.text,
+                    });
+                  }
+
+
                 },
                 child: Text(
                   tr(context).save,
@@ -148,7 +175,7 @@ class ConsultationProfile extends HookConsumerWidget {
                         ),
                         TextFieldWithLable(
                           tr(context).name,
-                          consultantProfiledata!.isEmpty || consultantProfiledata?[0]['name'] == '' ? tr(context).username_hint : nameController.text,
+                          consultantProfiledata!.isEmpty || consultantProfiledata?[0]['name'] == null ? tr(context).username_hint : nameController.text,
                           MediaQuery.of(context).size.width / 1.7,
                           nameController,
                           (value) {
@@ -159,14 +186,15 @@ class ConsultationProfile extends HookConsumerWidget {
                         )
                       ],
                     ),
-                    Padding(
+                     Padding(
                       padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                       child: TextFieldWithLable(
                           tr(context).email,
-                          consultantProfiledata.isEmpty || consultantProfiledata?[0]['email'] == '' ? tr(context).email_hint : emailController.text,
+                          consultantProfiledata.isEmpty || consultantProfiledata?[0]['email'] == null ? tr(context).email_hint : emailController.text,
                           MediaQuery.of(context).size.width,
-                          emailController, (value) {
-                        if (emailController.text.isEmpty) {
+                          emailController,
+                              (value) {
+                            if (emailController.text.isEmpty || !emailController.text.contains('@') || !emailController.text.contains('.')) {
                           return tr(context).email_error;
                         }
                       }),
@@ -182,7 +210,7 @@ class ConsultationProfile extends HookConsumerWidget {
                           if (phoneNumberController.text.isEmpty) {
                             return tr(context).phone_number_error;
                           }
-                        }, TextInputType.number),
+                        }, TextInputType.number,false),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -201,7 +229,7 @@ class ConsultationProfile extends HookConsumerWidget {
                                 showCursor: false,
                                 scrollPadding: EdgeInsets.only(bottom: 130),
                                 decoration: textFieldDecorationForProfile(
-                                    consultantProfiledata!.isEmpty || consultantProfiledata?[0]['date_of_birth'] == ''
+                                    consultantProfiledata!.isEmpty || consultantProfiledata?[0]['date_of_birth'] == null
                                         ? tr(context).dob_hint
                                         : dobController.text,
                                     context),
@@ -214,7 +242,7 @@ class ConsultationProfile extends HookConsumerWidget {
                                 },
                                 onTap: () async {
                                   final DateTime? selectedDate = await showDatePicker(
-                                      context: context, initialDate: DateTime.now(), firstDate: DateTime(1900), lastDate: DateTime(2100));
+                                      context: context, initialDate: DateTime.now().copyWith(year: DateTime.now().year - 18), firstDate: DateTime(1900), lastDate: DateTime.now().copyWith(year: DateTime.now().year - 18));
 
                                   if (selectedDate != null) {
                                     final DateFormat formatter = DateFormat('yyyy-MM-dd');
@@ -253,7 +281,7 @@ class ConsultationProfile extends HookConsumerWidget {
                                       child: Text(genderName),
                                     );
                                   }).toList(),
-                                  value: genderController.text,
+                                  value: tr(context).gender,
                                   onChanged: (String? gender) {
                                     if (gender != null) {
                                       genderController.text = gender;
@@ -265,7 +293,7 @@ class ConsultationProfile extends HookConsumerWidget {
                                           : genderController.text,
                                       context),
                                   validator: (value) {
-                                    if (genderController.text.isEmpty) {
+                                    if (genderController.text.isEmpty || genderController.text == tr(context).gender) {
                                       return tr(context).gender_error;
                                     }
                                   },
@@ -309,12 +337,24 @@ class ConsultationProfile extends HookConsumerWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 20),
+                      child: TextFieldWithLable(tr(context).address,
+                          consultantProfiledata!.isEmpty || consultantProfiledata?[0]['address'] == null ? tr(context).enter_address : addressController.text,
+
+                           MediaQuery.of(context).size.width, addressController,
+                              (value) {
+                            if (addressController.text.isEmpty) {
+                              return tr(context).address_error;
+                            }
+                          },TextInputType.text),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
                       child: TextFieldWithLable(tr(context).country, countryController.text, MediaQuery.of(context).size.width, countryController,
                           (value) {
                         if (countryController.text.isEmpty) {
                           return tr(context).country_error;
                         }
-                      }),
+                      },TextInputType.text,false),
                     ),
                     Padding(
                         padding: const EdgeInsets.only(bottom: 20),
@@ -329,25 +369,25 @@ class ConsultationProfile extends HookConsumerWidget {
                               ),
                             ),
                             DropdownButtonFormField<String>(
-                              items: state.map((String stateName) {
+                              items: stateItems.value.map((String stateName) {
                                 return DropdownMenuItem<String>(
                                   value: stateName,
                                   child: Text(stateName),
                                 );
                               }).toList(),
-                              value: stateController.text,
+                              value: stateController.text.isEmpty ? tr(context).selecState : stateController.text,
                               onChanged: (String? selectedState) {
                                 if (selectedState != null) {
                                   stateController.text = selectedState;
                                 }
                               },
                               decoration: textFieldDecorationForProfile(
-                                  consultantProfiledata!.isEmpty || consultantProfiledata?[0]['state'] == ''
+                                  consultantProfiledata.isEmpty || consultantProfiledata?[0]['state'] == ''
                                       ? tr(context).selecState
                                       : stateController.text,
                                   context),
                               validator: (value) {
-                                if (stateController.text.isEmpty) {
+                                if (stateController.text.isEmpty || stateController.text==tr(context).selecState) {
                                   return tr(context).state_error;
                                 }
                               },
@@ -367,17 +407,16 @@ class ConsultationProfile extends HookConsumerWidget {
                             ),
                           ),
                           DropdownButtonFormField<String>(
-                            items: city.map((String stateName) {
+                            items: cityItems.value.map((String cityName) {
                               return DropdownMenuItem<String>(
-                                value: stateName,
-                                child: Text(stateName),
+                                value: cityName,
+                                child: Text(cityName),
                               );
                             }).toList(),
-                            value: cityController.text,
-                            onChanged: (String? selectedState) {
-                              if (selectedState != null) {
-                                selectedState = cityController.text;
-                                cityController.text = selectedState;
+                            value: cityController.text.isEmpty ? tr(context).selecCity : cityController.text,
+                            onChanged: (String? selectedCity) {
+                              if (selectedCity != null) {
+                                cityController.text = selectedCity;
                               }
                             },
                             decoration: textFieldDecorationForProfile(
@@ -386,7 +425,7 @@ class ConsultationProfile extends HookConsumerWidget {
                                     : cityController.text,
                                 context),
                             validator: (value) {
-                              if (cityController.text.isEmpty) {
+                              if (cityController.text.isEmpty||cityController.text == tr(context).selecCity) {
                                 return tr(context).city_error;
                               }
                             },
@@ -403,4 +442,20 @@ class ConsultationProfile extends HookConsumerWidget {
       ),
     );
   }
+  Future<List<String>> loadCSV(String fileName) async {
+    final String csvData = await rootBundle.loadString(fileName);
+    final  List<dynamic> rowsAsListOfValues = CsvToListConverter(eol: '\n').convert(csvData);
+
+    final cities = rowsAsListOfValues
+        .map((row) => row[1].toString())
+        .toList();
+
+    if (cities.isNotEmpty && cities[0].toLowerCase() == 'name') {
+      cities.removeAt(0);
+    }
+   return cities;
+  }
 }
+
+
+

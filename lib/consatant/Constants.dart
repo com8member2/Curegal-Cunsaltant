@@ -12,6 +12,7 @@ class PrefsKeys {
   static String isLogin = "isLogin";
   static String consultantID = "consultantID";
   static String phoneNumber = "phoneNumber";
+  static String userProfileUrl = "userProfileUrl";
 }
 
 class SupaTables{

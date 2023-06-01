@@ -4,6 +4,7 @@ import 'package:consultation_curegal/consatant/Constants.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -29,6 +30,9 @@ class DocumentController extends _$DocumentController {
       state = File(result.files.single.path!);
 
       final avatarFile = File(result.files.single.path!);
+
+
+
     } else {
       EasyLoading.showInfo("Please Select again");
     }

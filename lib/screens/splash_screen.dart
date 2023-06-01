@@ -25,7 +25,7 @@ class SplashScreen extends HookConsumerWidget {
         (ref.read(userProfileProvider).toString());
 
         Future.delayed(Duration(seconds: 2),() {
-          Navigator.pushNamed(context, AppRoutes.homeScreen);
+          Navigator.pushReplacementNamed(context, AppRoutes.homeScreen);
         },);
       }
       else
