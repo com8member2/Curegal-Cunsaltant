@@ -53,8 +53,8 @@ class UserProfile extends _$UserProfile {
           EasyLoading.dismiss();
         },
       );
-    } on CompressError catch (e,stackTrac) {
-      log(e.message);
+    } on Exception catch (e,stackTrac) {
+      log(e.toString());
       log(stackTrac.toString());
       EasyLoading.showError("Something went wrong");
     }
