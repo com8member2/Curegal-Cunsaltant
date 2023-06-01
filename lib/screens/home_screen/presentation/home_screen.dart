@@ -30,7 +30,7 @@ class HomeScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
-    var index=useState(2);
+    var index=useState(1);
     return SafeArea(
       child: Scaffold(
         body: _getBody(index.value,context),
@@ -48,12 +48,12 @@ class HomeScreen extends HookConsumerWidget {
                     child: SizedBox(width: 20, height: 20, child: Image.asset('assets/images/home.png')),
                   ),
                   label: "Home"),
-              BottomNavigationBarItem(
-                  icon: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: SizedBox(width: 24, height: 24, child: Image.asset('assets/images/track_period.png')),
-                  ),
-                  label: "Track Period"),
+              // BottomNavigationBarItem(
+              //     icon: Padding(
+              //       padding: const EdgeInsets.all(10),
+              //       child: SizedBox(width: 24, height: 24, child: Image.asset('assets/images/track_period.png')),
+              //     ),
+              //     label: "Track Period"),
               /*BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: "Health"),
           BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: "Chatbot"),*/
               BottomNavigationBarItem(
@@ -72,13 +72,6 @@ class HomeScreen extends HookConsumerWidget {
       case 0:
         return Container();
       case 1:
-        return GestureDetector(child:Center(child: Text("sign Out")),onTap: () async {
-          Constants.supabaseClient.auth.signOut().then((value) async {
-            (await getSharedPreference()).remove(PrefsKeys.phoneNumber);
-            Navigator.pushNamed(context, AppRoutes.loginScreen);
-          },);
-        },);
-      case 2:
         return AccountSettingsScreen();
     }
     return Center(child: Text("There is no page builder for this index."),);

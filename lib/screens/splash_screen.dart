@@ -16,7 +16,7 @@ class SplashScreen extends HookWidget {
 
       if(Constants.supabaseClient.auth.currentUser?.id != null){
         Future.delayed(Duration(seconds: 2),() {
-          Navigator.pushNamed(context, AppRoutes.homeScreen);
+          Navigator.pushReplacementNamed(context, AppRoutes.homeScreen);
         },);
       }
       else

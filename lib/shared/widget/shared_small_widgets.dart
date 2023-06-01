@@ -97,9 +97,10 @@ class TextFieldWithLable extends StatelessWidget {
   final TextEditingController controller;
   final FormFieldValidator<String> validator;
   final TextInputType keyboardType;
+  final bool isEnable;
 
 
-  const TextFieldWithLable(this.text,this.textfieldHinttext,this.textfieldWidth,this.controller,this.validator,[this.keyboardType=TextInputType.text]);
+  const TextFieldWithLable(this.text,this.textfieldHinttext,this.textfieldWidth,this.controller,this.validator,[this.keyboardType=TextInputType.text,this.isEnable=true]);
 
   @override
   Widget build(BuildContext context) {
@@ -111,6 +112,7 @@ class TextFieldWithLable extends StatelessWidget {
             width: textfieldWidth,
             child: TextFormField(
               controller: controller,
+              enabled: isEnable,
               decoration: textFieldDecorationForProfile(textfieldHinttext, context),
               validator: validator,
               keyboardType: keyboardType,
