@@ -25,6 +25,7 @@ class UserProfile extends _$UserProfile {
   Future<UserEntity> getUserData() async {
     var res = await Constants.supabaseClient.from(SupaTables.consultantProfile).select().eq("supabase_auth_id", Constants.supabaseClient.auth.currentUser?.id) as List;
     state = UserEntity.fromJson(res.first as Map<String, dynamic>);
+    log(state.toString());
     return state;
   }
 
@@ -72,7 +73,7 @@ class UserProfile extends _$UserProfile {
           .from('consultant_documents')
           .remove([(await getSharedPreference()).getString(PrefsKeys.userProfileUrl) ?? ""])
           .then((value) {
-        state = state.copyWith(profile: value);
+        state = state.copyWith(profile: value.toString());
       });
 
       (await getSharedPreference()).remove(PrefsKeys.userProfileUrl);

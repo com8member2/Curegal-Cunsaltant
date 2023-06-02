@@ -108,10 +108,10 @@ class _ItemView extends HookConsumerWidget {
             ),
           ),
           if (ref.watch(categoryProvider.select((value) => value.elementAt(index).isSelected ?? false)))
-            ref.watch(categoryProvider.select((value) => value.elementAt(index).data?.length ?? 0)) != 0 ?Wrap(
+            ref.watch(categoryProvider.select((value) => value.elementAt(index).consultationSubCategories?.length ?? 0)) != 0 ?Wrap(
               spacing: 0,
               children: List<Widget>.generate(
-                ref.watch(categoryProvider.select((value) => value.elementAt(index).data?.length ?? 0)),
+                ref.watch(categoryProvider.select((value) => value.elementAt(index).consultationSubCategories?.length ?? 0)),
                 (subIndex) {
                   return SubItem(index, subIndex);
                 },
@@ -135,7 +135,7 @@ class SubItem extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var item = ref.watch(categoryProvider.select((value) => value.elementAt(index).data![subIndex]));
+    var item = ref.watch(categoryProvider.select((value) => value.elementAt(index).consultationSubCategories![subIndex]));
     return Padding(
       padding: const EdgeInsets.all(2),
       child: CustomChipWidget(

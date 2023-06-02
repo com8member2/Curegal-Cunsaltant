@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:consultation_curegal/consatant/Constants.dart';
@@ -29,7 +30,6 @@ class DocumentController extends _$DocumentController {
     FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: docType);
     if (result != null) {
       state = File(result.files.single.path!);
-
     } else {
       EasyLoading.showInfo("Please Select again");
     }
@@ -54,26 +54,50 @@ class DocumentController extends _$DocumentController {
 
 @riverpod
 Future<List<ConsultantDocumentsEntity>> getDocuments(GetDocumentsRef ref, int personType) async {
-  return ref.watch(accountRepositoryProvider).getDocuments(personType);
+  List<ConsultantDocumentsEntity> res = await ref.watch(accountRepositoryProvider).getDocuments(personType);
+  var documentStatus = false;
+  for (var element in res) {
+    if (element.consultantDocumentsStatus?.isNotEmpty ?? false) {
+      if (element.consultantDocumentsStatus?.first.documentStatus == DocumentStatus.pending.name ||
+          element.consultantDocumentsStatus?.first.documentStatus == DocumentStatus.rejected.name) {
+        break;
+      } else {
+        if (element == res.last) {
+          documentStatus = true;
+        }
+      }
+    } else {
+      break;
+    }
+  }
+  if(documentStatus != ref.watch(userProfileProvider).documentationStatus) {
+    ref.watch(userProfileProvider.notifier).update({"documentation_status": documentStatus});
+  }
+
+  return res;
 }
 
 @riverpod
-Future uploadDocument(UploadDocumentRef ref, Map map, ConsultantDocumentsEntity doc,BuildContext context) async {
+Future uploadDocument(UploadDocumentRef ref, Map map, ConsultantDocumentsEntity doc, BuildContext context) async {
   EasyLoading.show();
   try {
     var value = await Constants.supabaseClient.storage.from('consultant_documents').upload(
         '${Constants.supabaseClient.auth.currentSession?.user.id}/Documents/${doc.documents?.name}.jpg', ref.read(documentControllerProvider),
         fileOptions: FileOptions(upsert: true));
+    var id = (await getSharedPreference()).getString(PrefsKeys.consultantID);
     map.addAll({
-      "consultant_id": (await getSharedPreference()).getString(PrefsKeys.consultantID),
+      "consultant_id": id,
+      "consultant_documents_id": doc.id ?? 0,
       "document_id": doc.documents?.id ?? 0,
       "document_status": DocumentStatus.uploaded.name,
       "documents_file": value.toString(),
     });
     await Constants.supabaseClient.from('consultant_documents_status').insert(map);
-    Navigator.popUntil(context, (route) => route.settings.name == AppRoutes.homeScreen);
+    Navigator.pop(context);
+    ref.invalidate(getDocumentsProvider);
     EasyLoading.showSuccess("Document Uploaded Successfully");
   } on Exception catch (e) {
+    log(e.toString());
     EasyLoading.showError(e.toString());
   }
 }

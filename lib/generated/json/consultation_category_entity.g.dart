@@ -19,17 +19,17 @@ ConsultationCategoryEntity $ConsultationCategoryEntityFromJson(Map<String, dynam
 	if (consultantPersonsId != null) {
 		consultationCategoryEntity.consultantPersonsId = consultantPersonsId;
 	}
-	final String? textColour = jsonConvert.convert<String>(json['text_colour']);
+	final dynamic textColour = jsonConvert.convert<dynamic>(json['text_colour']);
 	if (textColour != null) {
 		consultationCategoryEntity.textColour = textColour;
-	}
-	final List<ConsultationCategoryData>? data = jsonConvert.convertListNotNull<ConsultationCategoryData>(json['data']);
-	if (data != null) {
-		consultationCategoryEntity.data = data;
 	}
 	final bool? isSelected = jsonConvert.convert<bool>(json['isSelected']);
 	if (isSelected != null) {
 		consultationCategoryEntity.isSelected = isSelected;
+	}
+	final List<ConsultationCategoryConsultationSubCategories>? consultationSubCategories = jsonConvert.convertListNotNull<ConsultationCategoryConsultationSubCategories>(json['consultation_sub_categories']);
+	if (consultationSubCategories != null) {
+		consultationCategoryEntity.consultationSubCategories = consultationSubCategories;
 	}
 	return consultationCategoryEntity;
 }
@@ -41,37 +41,37 @@ Map<String, dynamic> $ConsultationCategoryEntityToJson(ConsultationCategoryEntit
 	data['image'] = entity.image;
 	data['consultant_persons_id'] = entity.consultantPersonsId;
 	data['text_colour'] = entity.textColour;
-	data['data'] =  entity.data?.map((v) => v.toJson()).toList();
 	data['isSelected'] = entity.isSelected;
+	data['consultation_sub_categories'] =  entity.consultationSubCategories?.map((v) => v.toJson()).toList();
 	return data;
 }
 
-ConsultationCategoryData $ConsultationCategoryDataFromJson(Map<String, dynamic> json) {
-	final ConsultationCategoryData consultationCategoryData = ConsultationCategoryData();
+ConsultationCategoryConsultationSubCategories $ConsultationCategoryConsultationSubCategoriesFromJson(Map<String, dynamic> json) {
+	final ConsultationCategoryConsultationSubCategories consultationCategoryConsultationSubCategories = ConsultationCategoryConsultationSubCategories();
 	final int? id = jsonConvert.convert<int>(json['id']);
 	if (id != null) {
-		consultationCategoryData.id = id;
+		consultationCategoryConsultationSubCategories.id = id;
 	}
 	final String? createdAt = jsonConvert.convert<String>(json['created_at']);
 	if (createdAt != null) {
-		consultationCategoryData.createdAt = createdAt;
+		consultationCategoryConsultationSubCategories.createdAt = createdAt;
 	}
 	final String? name = jsonConvert.convert<String>(json['name']);
 	if (name != null) {
-		consultationCategoryData.name = name;
+		consultationCategoryConsultationSubCategories.name = name;
 	}
 	final int? consultationCategoryId = jsonConvert.convert<int>(json['consultation_category_id']);
 	if (consultationCategoryId != null) {
-		consultationCategoryData.consultationCategoryId = consultationCategoryId;
+		consultationCategoryConsultationSubCategories.consultationCategoryId = consultationCategoryId;
 	}
-	final String? image = jsonConvert.convert<String>(json['image']);
+	final dynamic image = jsonConvert.convert<dynamic>(json['image']);
 	if (image != null) {
-		consultationCategoryData.image = image;
+		consultationCategoryConsultationSubCategories.image = image;
 	}
-	return consultationCategoryData;
+	return consultationCategoryConsultationSubCategories;
 }
 
-Map<String, dynamic> $ConsultationCategoryDataToJson(ConsultationCategoryData entity) {
+Map<String, dynamic> $ConsultationCategoryConsultationSubCategoriesToJson(ConsultationCategoryConsultationSubCategories entity) {
 	final Map<String, dynamic> data = <String, dynamic>{};
 	data['id'] = entity.id;
 	data['created_at'] = entity.createdAt;

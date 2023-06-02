@@ -39,7 +39,7 @@ class Category extends _$Category {
 @riverpod
 class SubItemSelected extends _$SubItemSelected {
   @override
-  List<ConsultationCategoryData> build() => [];
+  List<ConsultationCategoryConsultationSubCategories> build() => [];
 
   add(dynamic item) {
     state = [item, ...state];

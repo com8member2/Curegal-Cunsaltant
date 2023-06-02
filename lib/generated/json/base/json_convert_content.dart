@@ -16,8 +16,9 @@ class JsonConvert {
 	static final Map<String, JsonConvertFunction> convertFuncMap = {
 		(ConsultantDocumentsEntity).toString(): ConsultantDocumentsEntity.fromJson,
 		(ConsultantDocumentsDocuments).toString(): ConsultantDocumentsDocuments.fromJson,
+		(ConsultantDocumentsConsultantDocumentsStatus).toString(): ConsultantDocumentsConsultantDocumentsStatus.fromJson,
 		(ConsultationCategoryEntity).toString(): ConsultationCategoryEntity.fromJson,
-		(ConsultationCategoryData).toString(): ConsultationCategoryData.fromJson,
+		(ConsultationCategoryConsultationSubCategories).toString(): ConsultationCategoryConsultationSubCategories.fromJson,
 		(UserEntity).toString(): UserEntity.fromJson,
 	};
 
@@ -103,11 +104,14 @@ List<T>? convertListNotNull<T>(dynamic value, {EnumConvertFunction? enumConvert}
 		if(<ConsultantDocumentsDocuments>[] is M){
 			return data.map<ConsultantDocumentsDocuments>((Map<String, dynamic> e) => ConsultantDocumentsDocuments.fromJson(e)).toList() as M;
 		}
+		if(<ConsultantDocumentsConsultantDocumentsStatus>[] is M){
+			return data.map<ConsultantDocumentsConsultantDocumentsStatus>((Map<String, dynamic> e) => ConsultantDocumentsConsultantDocumentsStatus.fromJson(e)).toList() as M;
+		}
 		if(<ConsultationCategoryEntity>[] is M){
 			return data.map<ConsultationCategoryEntity>((Map<String, dynamic> e) => ConsultationCategoryEntity.fromJson(e)).toList() as M;
 		}
-		if(<ConsultationCategoryData>[] is M){
-			return data.map<ConsultationCategoryData>((Map<String, dynamic> e) => ConsultationCategoryData.fromJson(e)).toList() as M;
+		if(<ConsultationCategoryConsultationSubCategories>[] is M){
+			return data.map<ConsultationCategoryConsultationSubCategories>((Map<String, dynamic> e) => ConsultationCategoryConsultationSubCategories.fromJson(e)).toList() as M;
 		}
 		if(<UserEntity>[] is M){
 			return data.map<UserEntity>((Map<String, dynamic> e) => UserEntity.fromJson(e)).toList() as M;

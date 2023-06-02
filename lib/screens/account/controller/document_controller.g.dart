@@ -113,7 +113,7 @@ class GetDocumentsProvider
   }
 }
 
-String _$uploadDocumentHash() => r'1d25b7c9e25394525c41af22a1a3ad3e9c43ec92';
+String _$uploadDocumentHash() => r'258bcd042ead9eba892e092854e3f89bb1b2dcda';
 typedef UploadDocumentRef = AutoDisposeFutureProviderRef<dynamic>;
 
 /// See also [uploadDocument].
@@ -213,7 +213,7 @@ class UploadDocumentProvider extends AutoDisposeFutureProvider<dynamic> {
 }
 
 String _$documentControllerHash() =>
-    r'65e9b7a0147d7d29f8eea3af439d790449b84744';
+    r'c319337ab67b659db34ae2ee065c54ca3ff384fb';
 
 /// See also [DocumentController].
 @ProviderFor(DocumentController)

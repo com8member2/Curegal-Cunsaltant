@@ -47,6 +47,7 @@ class AccountSettingsScreen extends HookConsumerWidget {
                       image: Icons.category_outlined,
                       title: tr(context).acct_consultation_type,
                       description: tr(context).acct_consultation_detail,
+                      icon: (ref.watch(userProfileProvider.select((value) => value.consultantPersonType != null)))?null:Icons.navigate_next_outlined,
                     ),
                   ),
                 ),
@@ -60,7 +61,8 @@ class AccountSettingsScreen extends HookConsumerWidget {
                         Navigator.pushNamed(context, AppRoutes.documentsVerifyScreen,arguments: id);
                     },
                     customWidget: commonCardChildView(
-                        context: context, image: Icons.featured_play_list, title: tr(context).acct_documents, description: tr(context).acct_documents_detail),
+                        context: context, image: Icons.featured_play_list, title: tr(context).acct_documents, description: tr(context).acct_documents_detail,
+                        icon: (ref.watch(userProfileProvider.select((value) => value.consultantPersonType == null)))?null:Icons.navigate_next_outlined,),
                   ),
                 ),
                 Opacity(
@@ -72,7 +74,8 @@ class AccountSettingsScreen extends HookConsumerWidget {
                         Navigator.pushNamed(context, AppRoutes.educationnExperienceScreen);
                     },
                     customWidget: commonCardChildView(
-                        context: context, image: Icons.history_edu_rounded, title: tr(context).acct_education, description: tr(context).acct_education_details),
+                        context: context, image: Icons.history_edu_rounded, title: tr(context).acct_education, description: tr(context).acct_education_details,
+                        icon: (ref.watch(userProfileProvider.select((value) => value.consultantPersonType == null)))?null:Icons.navigate_next_outlined,),
                   ),
                 ),
                 CardListViewDesign(

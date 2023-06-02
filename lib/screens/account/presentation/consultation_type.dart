@@ -29,96 +29,97 @@ class ConsultationType extends HookWidget {
 
     return Scaffold(
       appBar: customAppBarH("Consultation Type", context),
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    screenHeadingSubtitle(tr(context).consultation_type_screen_heading, tr(context).consultation_type_screen_heading),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    ...consultationTypes.map((type) {
-                      return CardListViewDesign(
-                        customWidget: Row(
-                          children: [
-                            Flexible(
-                              flex: 3,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 0),
-                                child: Center(child: Icon(type['icon'], size: 30, color: CustomColor.txtGray)),
-                              ),
-                            ),
-                            Flexible(
-                              flex: 8,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 0, right: 8, top: 15, bottom: 15),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                                  children: [
-                                    Text(
-                                      type['title'],
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                      softWrap: false,
-                                      style: commonTextStyle(context, 16),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 0, right: 0, top: 7),
-                                      child: Text(
-                                        type['desc'],
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(color: CustomColor.txtGray, fontSize: 13),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Flexible(
-                              flex: 3,
-                              child: Radio<String>(
-                                value: type['title'],
-                                groupValue: radioValue.value,
-                                onChanged: (value) async {
-                                  radioValue.value = value!;
-                                  if (type['title'] == tr(context).trainer) {
-                                    Navigator.pushReplacementNamed(context, AppRoutes.doctorConsultationSubTypeScreen, arguments: 1);
-                                  } else if (type['title'] == tr(context).wellness_coach) {
-                                    Navigator.pushReplacementNamed(context, AppRoutes.doctorConsultationSubTypeScreen, arguments: 2);
-                                  } else if (type['title'] == tr(context).doctor) {
-                                    Navigator.pushReplacementNamed(context, AppRoutes.doctorConsultationSubTypeScreen, arguments: 3);
-                                  }
-                                },
-                                activeColor: CustomColor.primaryPurple,
-                              ),
-                            ),
-                          ],
-                        ),
-                        onClick: () {},
-                      );
-                    }).toList(),
-                  ],
-                ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 15, right: 15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              screenHeadingSubtitle(tr(context).consultation_type_screen_heading, tr(context).consultation_type_screen_heading),
+              SizedBox(
+                height: 30,
               ),
-            ),
+              ...consultationTypes.map((type) {
+                return GestureDetector(
+                  onTap: () {
+                  },
+                  child: CardListViewDesign(
+                    customWidget: GestureDetector(onTap: () {
+
+                      radioValue.value = type['title'];
+                      if (type['title'] == tr(context).trainer) {
+                        Navigator.pushReplacementNamed(context, AppRoutes.doctorConsultationSubTypeScreen, arguments: 1);
+                      } else if (type['title'] == tr(context).wellness_coach) {
+                        Navigator.pushReplacementNamed(context, AppRoutes.doctorConsultationSubTypeScreen, arguments: 2);
+                      } else if (type['title'] == tr(context).doctor) {
+                        Navigator.pushReplacementNamed(context, AppRoutes.doctorConsultationSubTypeScreen, arguments: 3);
+                      }
+                    },
+                      child: Row(
+                        children: [
+                          Flexible(
+                            flex: 3,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 0),
+                              child: Center(child: Icon(type['icon'], size: 30, color: CustomColor.txtGray)),
+                            ),
+                          ),
+                          Flexible(
+                            flex: 8,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 0, right: 8, top: 15, bottom: 15),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Text(
+                                    type['title'],
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    softWrap: false,
+                                    style: commonTextStyle(context, 16),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 0, right: 0, top: 7),
+                                    child: Text(
+                                      type['desc'],
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(color: CustomColor.txtGray, fontSize: 13),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          Flexible(
+                            flex: 3,
+                            child: Radio<String>(
+                              value: type['title'],
+                              groupValue: radioValue.value,
+                              onChanged: (value) async {
+                                radioValue.value = value!;
+                                radioValue.value = type['title'];
+                                if (type['title'] == tr(context).trainer) {
+                                  Navigator.pushReplacementNamed(context, AppRoutes.doctorConsultationSubTypeScreen, arguments: 1);
+                                } else if (type['title'] == tr(context).wellness_coach) {
+                                  Navigator.pushReplacementNamed(context, AppRoutes.doctorConsultationSubTypeScreen, arguments: 2);
+                                } else if (type['title'] == tr(context).doctor) {
+                                  Navigator.pushReplacementNamed(context, AppRoutes.doctorConsultationSubTypeScreen, arguments: 3);
+                                }
+                              },
+                              activeColor: CustomColor.primaryPurple,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    onClick: () {},
+                  ),
+                );
+              }).toList(),
+            ],
           ),
-          // Positioned(
-          //     child: Container(
-          //         padding: const EdgeInsets.only(top: 40),
-          //         child: CommonBottomAlignWidget(
-          //           setBottomWidget: CustomButton(CustomColor.white, CustomColor.primaryPurple, tr(context).submit, () {
-          //             print("object ${radioValue.value}");
-          //
-          //           }, 10, 1, MediaQuery.of(context).size.width),
-          //         ))),
-        ],
+        ),
       ),
     );
   }
