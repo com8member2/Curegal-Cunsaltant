@@ -65,7 +65,7 @@ class UserProfile extends _$UserProfile {
 
   uploadProfile(File file) async {
     if ((await getSharedPreference()).getString(PrefsKeys.userProfileUrl) !=
-        '${Constants.supabaseClient.auth.currentSession?.user.id}/${DateTime.now().millisecond}.jpg') {
+        '${Constants.supabaseClient.auth.currentSession?.user.id}/profile_${DateTime.now().millisecond}.jpg') {
 
       print("old url ${(await getSharedPreference()).getString(PrefsKeys.userProfileUrl)}");
 
@@ -78,7 +78,7 @@ class UserProfile extends _$UserProfile {
 
       (await getSharedPreference()).remove(PrefsKeys.userProfileUrl);
 
-      (await getSharedPreference()).setString(PrefsKeys.userProfileUrl, '${Constants.supabaseClient.auth.currentSession?.user.id}/${DateTime.now().millisecond}.jpg');
+      (await getSharedPreference()).setString(PrefsKeys.userProfileUrl, '${Constants.supabaseClient.auth.currentSession?.user.id}/profile_${DateTime.now().millisecond}.jpg');
 
       await Constants.supabaseClient.storage
           .from('consultant_documents')
@@ -102,11 +102,24 @@ class UserProfile extends _$UserProfile {
   }
 
   Future<dynamic> compressAndGetFile(File file, String targetPath) async {
-    var result = await FlutterImageCompress.compressWithFile(
-    file.absolute.path,
-    quality: 95,
-    );
-    log('file ${file.lengthSync()}');
+
+    int fileSize = await file.length();
+    double fileSizeInKB = fileSize / 1024;
+    double fileSizeInMB = fileSizeInKB / 1024;
+    var result;
+
+    if(fileSizeInMB < 1){
+       result = await FlutterImageCompress.compressWithFile(
+        file.absolute.path,
+        quality: 95,
+      );
+    }
+    else
+      {
+        EasyLoading.showInfo('Please select file between 1MB');
+      }
+
+    log('file ${fileSize} & file size in kb - ${fileSizeInKB} & file size in mb - ${fileSizeInMB}');
 
     return File.fromRawPath(result!);
     }

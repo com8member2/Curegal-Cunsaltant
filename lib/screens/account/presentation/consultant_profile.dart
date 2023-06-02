@@ -30,33 +30,25 @@ class ConsultationProfile extends HookConsumerWidget {
 
   Scaffold view(BuildContext context, WidgetRef ref, [List<dynamic>? consultantProfiledata]) {
     final formKey = useMemoized(() => GlobalKey<FormState>(), []);
+
     final cityItems = useState<List<String>>([]);
-    final stateItems = useState<List<String>>([]);
+    final stateItems =  useState<Map<String, dynamic>>({});
+   // final city = useState<List<String>>([]);
 
 
     useEffect(() {
-      loadCSV('assets/csv/IndiaStates.csv').then((state) {
-        state.add(tr(context).selecState);
+      loadState('assets/csv/IndiaStates.csv').then((state) {
         stateItems.value = state;
-        print("all state ${stateItems.value}");
       });
 
-
-      loadCSV('assets/csv/IndiaCities.csv').then((city) {
-        city.add(tr(context).selecCity);
-        cityItems.value = city;
-        print("all city ${cityItems.value}");
-      },);
       return null;
     }, []);
 
-
-
-    final List<String> gender = ["Male", "Female", "Other",tr(context).gender];
+    final List<String> gender = ["Male", "Female", "Other"];
 
     var nameController = useTextEditingController(text: consultantProfiledata?[0]['name']);
     var emailController = useTextEditingController(text: consultantProfiledata?[0]['email']);
-    var phoneNumberController = useTextEditingController(text: ref.read(authControllerProvider).phoneNumber);
+    var phoneNumberController = useTextEditingController(text: consultantProfiledata?[0]['phone']);
     var dobController = useTextEditingController(text: consultantProfiledata?[0]['date_of_birth']);
     var genderController = useTextEditingController(text: consultantProfiledata?[0]['gender']);
     var countryController = useTextEditingController(text: "India");
@@ -98,8 +90,6 @@ class ConsultationProfile extends HookConsumerWidget {
                       'consulting_price': consultantPriceController.text,
                     });
                   }
-
-
                 },
                 child: Text(
                   tr(context).save,
@@ -206,7 +196,7 @@ class ConsultationProfile extends HookConsumerWidget {
                       children: [
                         TextFieldWithLable(
                             tr(context).phone_number,
-                            phoneNumberController.text,
+                            consultantProfiledata.isEmpty || consultantProfiledata?[0]['phone'] == null ? tr(context).enter_phone_number :  phoneNumberController.text,
                             MediaQuery.of(context).size.width / 2.3,
                             phoneNumberController, (value) {
                           if (phoneNumberController.text.isEmpty) {
@@ -283,7 +273,7 @@ class ConsultationProfile extends HookConsumerWidget {
                                       child: Text(genderName),
                                     );
                                   }).toList(),
-                                  value: tr(context).gender,
+                                  value: genderController.text.isEmpty ? "Male" : genderController.text,
                                   onChanged: (String? gender) {
                                     if (gender != null) {
                                       genderController.text = gender;
@@ -371,16 +361,28 @@ class ConsultationProfile extends HookConsumerWidget {
                               ),
                             ),
                             DropdownButtonFormField<String>(
-                              items: stateItems.value.map((String stateName) {
+                              items: stateItems.value.values.map((stateName) {
                                 return DropdownMenuItem<String>(
-                                  value: stateName,
-                                  child: Text(stateName),
+                                  value: stateName['name'],
+                                  child: Text(stateName['name']),
                                 );
                               }).toList(),
                               value: stateController.text.isEmpty ? tr(context).selecState : stateController.text,
-                              onChanged: (String? selectedState) {
+                              onChanged: (selectedState) async {
                                 if (selectedState != null) {
                                   stateController.text = selectedState;
+                                  String selectedId = stateItems.value.isNotEmpty ? stateItems.value[selectedState]['id'] : null;
+
+                                  await loadCity('assets/csv/IndiaCities.csv').then((data) {
+
+                                    var list =  data.values.where((element) => element['id'] == selectedId).toList();
+
+                                    for(int i = 0; i<list.length; i++){
+                                      cityItems.value.add(list[i]['name']);
+                                    }
+                                    print('Selected ID: $selectedId & ${cityItems.value}');
+                                  });
+
                                 }
                               },
                               decoration: textFieldDecorationForProfile(
@@ -409,7 +411,7 @@ class ConsultationProfile extends HookConsumerWidget {
                             ),
                           ),
                           DropdownButtonFormField<String>(
-                            items: cityItems.value.map((String cityName) {
+                            items: cityItems.value.map((cityName) {
                               return DropdownMenuItem<String>(
                                 value: cityName,
                                 child: Text(cityName),
@@ -444,20 +446,33 @@ class ConsultationProfile extends HookConsumerWidget {
       ),
     );
   }
-  Future<List<String>> loadCSV(String fileName) async {
+  Future<Map<String, dynamic>> loadState(String fileName) async {
     final String csvData = await rootBundle.loadString(fileName);
     final  List<dynamic> rowsAsListOfValues = const CsvToListConverter(eol: '\n').convert(csvData);
 
-    final cities = rowsAsListOfValues
-        .map((row) => row[1].toString())
-        .toList();
-
-    if (cities.isNotEmpty && cities[0].toLowerCase() == 'name') {
-      cities.removeAt(0);
+    Map<String, dynamic> stateMap = {};
+    for (var row in rowsAsListOfValues) {
+      String id = row[0].toString();
+      String name = row[1].toString();
+      stateMap[name] = {'id': id, 'name': name};
     }
-   return cities;
+    return stateMap;
   }
+
+  Future<Map<String, dynamic>> loadCity(String fileName,[String stateID='']) async {
+    String stateCsvData = await rootBundle.loadString(fileName);
+    List<List<dynamic>> cityList = CsvToListConverter(eol: '\n').convert(stateCsvData);
+
+
+    Map<String, dynamic> cityMap = {};
+    for (var row in cityList) {
+      String id = row[2].toString();
+      String name = row[1].toString();
+      cityMap[name] = {'id': id, 'name': name};
+    }
+    return cityMap;
+
+  }
+
 }
-
-
 
