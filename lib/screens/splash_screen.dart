@@ -1,22 +1,31 @@
+import 'dart:developer';
+
 import 'package:consultation_curegal/routing/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../consatant/ColorConstant.dart';
 import '../consatant/Constants.dart';
+import '../shared/controller/user_profile.dart';
 import '../utility/utility.dart';
 
-class SplashScreen extends HookWidget {
+class SplashScreen extends HookConsumerWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
 
 
     useEffect(() {
 
+      EasyLoading.instance.maskType = EasyLoadingMaskType.black;
+      EasyLoading.instance.indicatorType = EasyLoadingIndicatorType.pulse;
       if(Constants.supabaseClient.auth.currentUser?.id != null){
+        (ref.read(userProfileProvider).toString());
+
         Future.delayed(Duration(seconds: 2),() {
-          Navigator.pushNamed(context, AppRoutes.homeScreen);
+          Navigator.pushReplacementNamed(context, AppRoutes.homeScreen);
         },);
       }
       else

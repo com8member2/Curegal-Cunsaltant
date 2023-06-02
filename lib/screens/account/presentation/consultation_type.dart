@@ -89,11 +89,11 @@ class ConsultationType extends HookWidget {
                                 onChanged: (value) async {
                                   radioValue.value = value!;
                                   if (type['title'] == tr(context).trainer) {
-                                    Navigator.pushNamed(context, AppRoutes.doctorConsultationSubTypeScreen, arguments: 1);
+                                    Navigator.pushReplacementNamed(context, AppRoutes.doctorConsultationSubTypeScreen, arguments: 1);
                                   } else if (type['title'] == tr(context).wellness_coach) {
-                                    Navigator.pushNamed(context, AppRoutes.doctorConsultationSubTypeScreen, arguments: 2);
+                                    Navigator.pushReplacementNamed(context, AppRoutes.doctorConsultationSubTypeScreen, arguments: 2);
                                   } else if (type['title'] == tr(context).doctor) {
-                                    Navigator.pushNamed(context, AppRoutes.doctorConsultationSubTypeScreen, arguments: 3);
+                                    Navigator.pushReplacementNamed(context, AppRoutes.doctorConsultationSubTypeScreen, arguments: 3);
                                   }
                                 },
                                 activeColor: CustomColor.primaryPurple,

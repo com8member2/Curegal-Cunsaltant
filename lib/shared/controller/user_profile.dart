@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:consultation_curegal/shared/model/user_entity.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:io';
@@ -9,7 +10,7 @@ import '../../consatant/Constants.dart';
 import '../../screens/account/controller/consultant_profile_controller.dart';
 import '../../screens/account/controller/document_controller.dart';
 import '../../utility/utility.dart';
-
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 part 'user_profile.g.dart';
 
 @riverpod
@@ -17,25 +18,35 @@ class UserProfile extends _$UserProfile {
   @override
   UserEntity build() {
     ref.keepAlive();
+    getUserData();
     return UserEntity();
   }
 
-  getUserData() async {
+  Future<UserEntity> getUserData() async {
     var res = await Constants.supabaseClient.from(SupaTables.consultantProfile).select().eq("supabase_auth_id", Constants.supabaseClient.auth.currentUser?.id) as List;
     state = UserEntity.fromJson(res.first as Map<String, dynamic>);
+    return state;
   }
 
-  update(Map<String,dynamic> map) async {
+  update(Map<String, dynamic> map) async {
     EasyLoading.show(status: "Data update in progress");
     try {
       var file = ref.read(documentControllerProvider);
       if(file.path.isNotEmpty){
+
+        await compressAndGetFile(file,file.path);
+
         await uploadProfile(file);
+
         map.addAll({'profile': Constants.supabaseClient.storage
             .from('consultant_documents')
-            .getPublicUrl('${Constants.supabaseClient.auth.currentSession?.user.id}/profile.jpg')});
+            .getPublicUrl('${(await getSharedPreference()).getString(PrefsKeys.userProfileUrl)}')});
+
+        print('public url ${Constants.supabaseClient.storage
+            .from('consultant_documents')
+            .getPublicUrl('${(await getSharedPreference()).getString(PrefsKeys.userProfileUrl)}')}');
+
       }
-      print(" in method   ${map}");
          await Constants.supabaseClient.from(SupaTables.consultantProfile).update(map)
           .match({'id' : (await getSharedPreference()).getString(PrefsKeys.consultantID)}).select().then(
         (value) {
@@ -44,9 +55,40 @@ class UserProfile extends _$UserProfile {
           EasyLoading.dismiss();
         },
       );
-    } on Exception catch (e) {
+    } on Exception catch (e,stackTrac) {
       log(e.toString());
+      log(stackTrac.toString());
       EasyLoading.showError("Something went wrong");
+    }
+  }
+
+  uploadProfile(File file) async {
+    if ((await getSharedPreference()).getString(PrefsKeys.userProfileUrl) !=
+        '${Constants.supabaseClient.auth.currentSession?.user.id}/${DateTime.now().millisecond}.jpg') {
+
+      print("old url ${(await getSharedPreference()).getString(PrefsKeys.userProfileUrl)}");
+
+      await Constants.supabaseClient.storage
+          .from('consultant_documents')
+          .remove([(await getSharedPreference()).getString(PrefsKeys.userProfileUrl) ?? ""])
+          .then((value) {
+        state = state.copyWith(profile: value);
+      });
+
+      (await getSharedPreference()).remove(PrefsKeys.userProfileUrl);
+
+      (await getSharedPreference()).setString(PrefsKeys.userProfileUrl, '${Constants.supabaseClient.auth.currentSession?.user.id}/${DateTime.now().millisecond}.jpg');
+
+      await Constants.supabaseClient.storage
+          .from('consultant_documents')
+          .upload((await getSharedPreference()).getString(PrefsKeys.userProfileUrl) ?? "", file, fileOptions: const FileOptions(upsert: true))
+          .then((value) {
+        state = state.copyWith(profile: value);
+      });
+
+      ref.read(documentControllerProvider.notifier).reset();
+
+      print("old url3 ${(await getSharedPreference()).getString(PrefsKeys.userProfileUrl)}");
     }
   }
 
@@ -54,20 +96,18 @@ class UserProfile extends _$UserProfile {
     var res = await Constants.supabaseClient.from(SupaTables.consultantProfile).insert(map).select().single();
     state = UserEntity.fromJson(res);
 
-     (await getSharedPreference()).setString(PrefsKeys.consultantID, res['id']);
+    (await getSharedPreference()).setString(PrefsKeys.consultantID, res['id']);
     print(" in if   ${(await getSharedPreference()).getString(PrefsKeys.consultantID)}");
-
   }
 
-  uploadProfile(File file) async {
-       await Constants.supabaseClient.storage.from('consultant_documents')
-          .upload('${Constants.supabaseClient.auth.currentSession?.user.id}/profile.jpg', file,fileOptions: const FileOptions(upsert: true)).then((value) {
-            state = state.copyWith(profile:  value);
-          });
+  Future<dynamic> compressAndGetFile(File file, String targetPath) async {
+    var result = await FlutterImageCompress.compressWithFile(
+    file.absolute.path,
+    quality: 95,
+    );
+    log('file ${file.lengthSync()}');
 
-       ref.read(documentControllerProvider.notifier).reset();
-
-  }
-
+    return File.fromRawPath(result!);
+    }
 
 }

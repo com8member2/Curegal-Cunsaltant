@@ -1,3 +1,4 @@
+import 'package:consultation_curegal/shared/controller/user_profile.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
 
@@ -21,16 +22,19 @@ class ConsultationCategoryRepository {
         .toList();
   }
 
-  Future<void> addConsultationCategory(WidgetRef ref) async {
+  Future<void> addConsultationCategory(WidgetRef ref, int personType) async {
     var data = ref
         .read(subItemSelectedProvider)
         .map((e) => {
               'consultant_person_id': Constants.supabaseClient.auth.currentUser?.id,
               'consultation_category_id': e.consultationCategoryId,
-              'consultation_sub_category_ids': e.id
+              'consultation_sub_category_ids': e.id,
+              'consultation_sub_category_name': e.name
             })
         .toList();
-    await Constants.supabaseClient.from('consultant_sub_categories').insert(data);
+    await Constants.supabaseClient.from('consultant_sub_categories').insert(data).then((value) async {
+      await ref.read(userProfileProvider.notifier).update({"consultant_person_type":personType});
+    });
     ref.read(subItemSelectedProvider.notifier).reset();
   }
 }

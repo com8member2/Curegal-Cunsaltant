@@ -12,10 +12,23 @@ class PrefsKeys {
   static String isLogin = "isLogin";
   static String consultantID = "consultantID";
   static String phoneNumber = "phoneNumber";
+  static String userProfileUrl = "userProfileUrl";
 }
 
 class SupaTables{
   static String consultantProfile ="consultant_profile";
   static String consultationCategory = "consultation_category";
   static String consultationSubCategory = "consultation_sub_categories";
+}
+
+
+enum DocumentStatus {
+  rejected("REJECTED"),
+  pending("PENDING"),
+  uploaded("UPLOADED"),
+  approved("APPROVED");
+
+  const DocumentStatus(this.value);
+
+  final String value;
 }
