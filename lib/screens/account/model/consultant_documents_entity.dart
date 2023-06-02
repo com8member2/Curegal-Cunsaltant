@@ -85,7 +85,7 @@ class ConsultantDocumentsConsultantDocumentsStatus {
 	@JSONField(name: "document_status")
 	String? documentStatus;
 	@JSONField(name: "document_status_message")
-	dynamic documentStatusMessage;
+	String? documentStatusMessage;
 	@JSONField(name: "document_number")
 	dynamic documentNumber;
 	@JSONField(name: "document_registration_date")
@@ -103,7 +103,7 @@ class ConsultantDocumentsConsultantDocumentsStatus {
 
 	Map<String, dynamic> toJson() => $ConsultantDocumentsConsultantDocumentsStatusToJson(this);
 
-	ConsultantDocumentsConsultantDocumentsStatus copyWith({double? id, String? consultantId, double? documentId, String? documentStatus, dynamic documentStatusMessage, dynamic documentNumber, dynamic documentRegistrationDate, dynamic documentExpirationDate, String? documentsFile, double? consultantDocumentsId}) {
+	ConsultantDocumentsConsultantDocumentsStatus copyWith({double? id, String? consultantId, double? documentId, String? documentStatus, String? documentStatusMessage, dynamic documentNumber, dynamic documentRegistrationDate, dynamic documentExpirationDate, String? documentsFile, double? consultantDocumentsId}) {
 		return ConsultantDocumentsConsultantDocumentsStatus()
 			..id= id ?? this.id
 			..consultantId= consultantId ?? this.consultantId

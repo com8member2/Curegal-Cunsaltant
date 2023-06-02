@@ -16,8 +16,6 @@ class EducationnExperience extends HookWidget {
     var degree = useState("");
     var year = useState("");
 
-
-
     Future<List<dynamic>> education() async {
       PostgrestResponse<dynamic> res = await getEducation();
       return res.data as List<dynamic>;
@@ -29,11 +27,47 @@ class EducationnExperience extends HookWidget {
     }
 
     return Scaffold(
+      appBar: customAppBarH("Education & Experience", context,CustomColor.primaryPurple,Colors.white),
       body: Padding(
-        padding: const EdgeInsets.only(top: 70.0, left: 15, right: 15),
+        padding: const EdgeInsets.only(top: 5.0 ,right: 5,left: 5),
         child: SingleChildScrollView(
           child: Column(
             children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10.0),
+                child: CardListViewDesign(
+                  onClick: () {},
+                  customWidget: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Row(
+                      children: [
+                        Text(
+                          tr(context).education,
+                          style: commonTextStyle(context, 16),
+                        ),
+                        Spacer(),
+                        GestureDetector(
+                          onTap: () async {
+                            var temp = await showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const AddEducationDialogBox();
+                              },
+                            );
+                            schoolOrCollageName.value = temp['schoolOrCollege'];
+                            degree.value = temp['degree'];
+                            year.value = temp['year'];
+                          },
+                          child: Icon(
+                            Icons.add_circle_outline,
+                            color: CustomColor.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
               FutureBuilder(
                 future: education(),
                 builder: (context, educationSnapshot) {
@@ -48,43 +82,9 @@ class EducationnExperience extends HookWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 10.0),
-                          child: CardListViewDesign(
-                            onClick: () {},
-                            customWidget: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    tr(context).education,
-                                    style: commonTextStyle(context, 16),
-                                  ),
-                                  Spacer(),
-                                  GestureDetector(
-                                    onTap: () async {
-                                      var temp = await showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return const AddEducationDialogBox();
-                                        },
-                                      );
-                                      schoolOrCollageName.value = temp['schoolOrCollege'];
-                                      degree.value = temp['degree'];
-                                      year.value = temp['year'];
-                                    },
-                                    child: Icon(
-                                      Icons.add_circle_outline,
-                                      color: CustomColor.black,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
                         if (educationSnapshot.data!.isNotEmpty)
                           ListView.builder(
+                            padding: EdgeInsets.only(left: 15, right: 15),
                             physics: NeverScrollableScrollPhysics(),
                             itemCount: educationSnapshot.data?.length,
                             shrinkWrap: true,
@@ -133,6 +133,35 @@ class EducationnExperience extends HookWidget {
                   }
                 },
               ),
+              CardListViewDesign(
+                onClick: () {},
+                customWidget: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        tr(context).experience,
+                        style: commonTextStyle(context, 16),
+                      ),
+                      Spacer(),
+                      GestureDetector(
+                        onTap: () async {
+                          var experience = await showDialog(
+                            context: context,
+                            builder: (context) {
+                              return const AddExperinceDialogBox();
+                            },
+                          );
+                        },
+                        child: Icon(
+                          Icons.add_circle_outline,
+                          color: CustomColor.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               FutureBuilder(
                 future: experience(),
                 builder: (context, experienceSnapshot) {
@@ -149,37 +178,9 @@ class EducationnExperience extends HookWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CardListViewDesign(
-                            onClick: () {},
-                            customWidget: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    tr(context).experience,
-                                    style: commonTextStyle(context, 16),
-                                  ),
-                                  Spacer(),
-                                  GestureDetector(
-                                    onTap: () async {
-                                      var experience = await showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return const AddExperinceDialogBox();
-                                        },
-                                      );
-                                    },
-                                    child: Icon(
-                                      Icons.add_circle_outline,
-                                      color: CustomColor.black,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
                           if (experienceSnapshot.data!.isNotEmpty)
                             ListView.builder(
+                              padding: EdgeInsets.only(left: 15, right: 15),
                               physics: NeverScrollableScrollPhysics(),
                               itemCount: experienceSnapshot.data?.length,
                               shrinkWrap: true,

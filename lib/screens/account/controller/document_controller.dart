@@ -30,7 +30,6 @@ class DocumentController extends _$DocumentController {
     FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: docType);
     if (result != null) {
       state = File(result.files.single.path!);
-
     } else {
       EasyLoading.showInfo("Please Select again");
     }
@@ -55,11 +54,31 @@ class DocumentController extends _$DocumentController {
 
 @riverpod
 Future<List<ConsultantDocumentsEntity>> getDocuments(GetDocumentsRef ref, int personType) async {
-  return ref.watch(accountRepositoryProvider).getDocuments(personType);
+  List<ConsultantDocumentsEntity> res = await ref.watch(accountRepositoryProvider).getDocuments(personType);
+  var documentStatus = false;
+  for (var element in res) {
+    if (element.consultantDocumentsStatus?.isNotEmpty ?? false) {
+      if (element.consultantDocumentsStatus?.first.documentStatus == DocumentStatus.pending.name ||
+          element.consultantDocumentsStatus?.first.documentStatus == DocumentStatus.rejected.name) {
+        break;
+      } else {
+        if (element == res.last) {
+          documentStatus = true;
+        }
+      }
+    } else {
+      break;
+    }
+  }
+  if(documentStatus != ref.watch(userProfileProvider).documentationStatus) {
+    ref.watch(userProfileProvider.notifier).update({"documentation_status": documentStatus});
+  }
+
+  return res;
 }
 
 @riverpod
-Future uploadDocument(UploadDocumentRef ref, Map map, ConsultantDocumentsEntity doc,BuildContext context) async {
+Future uploadDocument(UploadDocumentRef ref, Map map, ConsultantDocumentsEntity doc, BuildContext context) async {
   EasyLoading.show();
   try {
     var value = await Constants.supabaseClient.storage.from('consultant_documents').upload(

@@ -15,15 +15,15 @@ UserEntity $UserEntityFromJson(Map<String, dynamic> json) {
 	if (supabaseAuthId != null) {
 		userEntity.supabaseAuthId = supabaseAuthId;
 	}
-	final dynamic name = jsonConvert.convert<dynamic>(json['name']);
+	final String? name = jsonConvert.convert<String>(json['name']);
 	if (name != null) {
 		userEntity.name = name;
 	}
-	final dynamic email = jsonConvert.convert<dynamic>(json['email']);
+	final String? email = jsonConvert.convert<String>(json['email']);
 	if (email != null) {
 		userEntity.email = email;
 	}
-	final dynamic phone = jsonConvert.convert<dynamic>(json['phone']);
+	final String? phone = jsonConvert.convert<String>(json['phone']);
 	if (phone != null) {
 		userEntity.phone = phone;
 	}
@@ -35,7 +35,7 @@ UserEntity $UserEntityFromJson(Map<String, dynamic> json) {
 	if (deletedAt != null) {
 		userEntity.deletedAt = deletedAt;
 	}
-	final dynamic approveStatus = jsonConvert.convert<dynamic>(json['approve_status']);
+	final String? approveStatus = jsonConvert.convert<String>(json['approve_status']);
 	if (approveStatus != null) {
 		userEntity.approveStatus = approveStatus;
 	}
@@ -47,55 +47,55 @@ UserEntity $UserEntityFromJson(Map<String, dynamic> json) {
 	if (password != null) {
 		userEntity.password = password;
 	}
-	final dynamic dateOfBirth = jsonConvert.convert<dynamic>(json['date_of_birth']);
+	final String? dateOfBirth = jsonConvert.convert<String>(json['date_of_birth']);
 	if (dateOfBirth != null) {
 		userEntity.dateOfBirth = dateOfBirth;
 	}
-	final dynamic gender = jsonConvert.convert<dynamic>(json['gender']);
+	final String? gender = jsonConvert.convert<String>(json['gender']);
 	if (gender != null) {
 		userEntity.gender = gender;
 	}
-	final dynamic address = jsonConvert.convert<dynamic>(json['address']);
+	final String? address = jsonConvert.convert<String>(json['address']);
 	if (address != null) {
 		userEntity.address = address;
 	}
-	final dynamic city = jsonConvert.convert<dynamic>(json['city']);
+	final String? city = jsonConvert.convert<String>(json['city']);
 	if (city != null) {
 		userEntity.city = city;
 	}
-	final dynamic state = jsonConvert.convert<dynamic>(json['state']);
+	final String? state = jsonConvert.convert<String>(json['state']);
 	if (state != null) {
 		userEntity.state = state;
 	}
-	final dynamic country = jsonConvert.convert<dynamic>(json['country']);
+	final String? country = jsonConvert.convert<String>(json['country']);
 	if (country != null) {
 		userEntity.country = country;
 	}
-	final dynamic rating = jsonConvert.convert<dynamic>(json['rating']);
+	final int? rating = jsonConvert.convert<int>(json['rating']);
 	if (rating != null) {
 		userEntity.rating = rating;
 	}
-	final dynamic profile = jsonConvert.convert<dynamic>(json['profile']);
+	final String? profile = jsonConvert.convert<String>(json['profile']);
 	if (profile != null) {
 		userEntity.profile = profile;
 	}
-	final dynamic consultingPrice = jsonConvert.convert<dynamic>(json['consulting_price']);
+	final String? consultingPrice = jsonConvert.convert<String>(json['consulting_price']);
 	if (consultingPrice != null) {
 		userEntity.consultingPrice = consultingPrice;
 	}
-	final dynamic consultantPersonType = jsonConvert.convert<dynamic>(json['consultant_person_type']);
+	final int? consultantPersonType = jsonConvert.convert<int>(json['consultant_person_type']);
 	if (consultantPersonType != null) {
 		userEntity.consultantPersonType = consultantPersonType;
 	}
-	final dynamic educationExperienceStatus = jsonConvert.convert<dynamic>(json['education_experience_status']);
+	final bool? educationExperienceStatus = jsonConvert.convert<bool>(json['education_experience_status']);
 	if (educationExperienceStatus != null) {
 		userEntity.educationExperienceStatus = educationExperienceStatus;
 	}
-	final dynamic consulatationLanguageStatus = jsonConvert.convert<dynamic>(json['consulatation_language_status']);
-	if (consulatationLanguageStatus != null) {
-		userEntity.consulatationLanguageStatus = consulatationLanguageStatus;
+	final dynamic consultationLanguageStatus = jsonConvert.convert<dynamic>(json['consultation_language_status']);
+	if (consultationLanguageStatus != null) {
+		userEntity.consultationLanguageStatus = consultationLanguageStatus;
 	}
-	final dynamic documentationStatus = jsonConvert.convert<dynamic>(json['documentation_status']);
+	final bool? documentationStatus = jsonConvert.convert<bool>(json['documentation_status']);
 	if (documentationStatus != null) {
 		userEntity.documentationStatus = documentationStatus;
 	}
@@ -126,7 +126,7 @@ Map<String, dynamic> $UserEntityToJson(UserEntity entity) {
 	data['consulting_price'] = entity.consultingPrice;
 	data['consultant_person_type'] = entity.consultantPersonType;
 	data['education_experience_status'] = entity.educationExperienceStatus;
-	data['consulatation_language_status'] = entity.consulatationLanguageStatus;
+	data['consultation_language_status'] = entity.consultationLanguageStatus;
 	data['documentation_status'] = entity.documentationStatus;
 	return data;
 }

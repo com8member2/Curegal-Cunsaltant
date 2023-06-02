@@ -109,7 +109,7 @@ ConsultantDocumentsConsultantDocumentsStatus $ConsultantDocumentsConsultantDocum
 	if (documentStatus != null) {
 		consultantDocumentsConsultantDocumentsStatus.documentStatus = documentStatus;
 	}
-	final dynamic documentStatusMessage = jsonConvert.convert<dynamic>(json['document_status_message']);
+	final String? documentStatusMessage = jsonConvert.convert<String>(json['document_status_message']);
 	if (documentStatusMessage != null) {
 		consultantDocumentsConsultantDocumentsStatus.documentStatusMessage = documentStatusMessage;
 	}

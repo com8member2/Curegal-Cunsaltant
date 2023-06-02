@@ -9,37 +9,37 @@ class UserEntity {
 	String? createdAt;
 	@JSONField(name: "supabase_auth_id")
 	String? supabaseAuthId;
-	dynamic name;
-	dynamic email;
-	dynamic phone;
+	String? name;
+	String? email;
+	String? phone;
 	@JSONField(name: "updated_at")
 	String? updatedAt;
 	@JSONField(name: "deleted_at")
 	String? deletedAt;
 	@JSONField(name: "approve_status")
-	dynamic approveStatus;
+	String? approveStatus;
 	@JSONField(name: "approve_status_updated_by")
 	dynamic approveStatusUpdatedBy;
 	dynamic password;
 	@JSONField(name: "date_of_birth")
-	dynamic dateOfBirth;
-	dynamic gender;
-	dynamic address;
-	dynamic city;
-	dynamic state;
-	dynamic country;
-	dynamic rating;
-	dynamic profile;
+	String? dateOfBirth;
+	String? gender;
+	String? address;
+	String? city;
+	String? state;
+	String? country;
+	int? rating;
+	String? profile;
 	@JSONField(name: "consulting_price")
-	dynamic consultingPrice;
+	String? consultingPrice;
 	@JSONField(name: "consultant_person_type")
-	dynamic consultantPersonType;
+	int? consultantPersonType;
 	@JSONField(name: "education_experience_status")
-	dynamic educationExperienceStatus;
-	@JSONField(name: "consulatation_language_status")
-	dynamic consulatationLanguageStatus;
+	bool? educationExperienceStatus;
+	@JSONField(name: "consultation_language_status")
+	dynamic consultationLanguageStatus;
 	@JSONField(name: "documentation_status")
-	dynamic documentationStatus;
+	bool? documentationStatus;
 
 	UserEntity();
 
@@ -47,7 +47,7 @@ class UserEntity {
 
 	Map<String, dynamic> toJson() => $UserEntityToJson(this);
 
-	UserEntity copyWith({String? id, String? createdAt, String? supabaseAuthId, dynamic name, dynamic email, dynamic phone, String? updatedAt, String? deletedAt, dynamic approveStatus, dynamic approveStatusUpdatedBy, dynamic password, dynamic dateOfBirth, dynamic gender, dynamic address, dynamic city, dynamic state, dynamic country, dynamic rating, dynamic profile, dynamic consultingPrice, dynamic consultantPersonType, dynamic educationExperienceStatus, dynamic consulatationLanguageStatus, dynamic documentationStatus}) {
+	UserEntity copyWith({String? id, String? createdAt, String? supabaseAuthId, String? name, String? email, String? phone, String? updatedAt, String? deletedAt, String? approveStatus, dynamic approveStatusUpdatedBy, dynamic password, String? dateOfBirth, String? gender, String? address, String? city, String? state, String? country, int? rating, String? profile, String? consultingPrice, int? consultantPersonType, bool? educationExperienceStatus, dynamic consulatationLanguageStatus, bool? documentationStatus}) {
 		return UserEntity()
 			..id= id ?? this.id
 			..createdAt= createdAt ?? this.createdAt
@@ -71,7 +71,7 @@ class UserEntity {
 			..consultingPrice= consultingPrice ?? this.consultingPrice
 			..consultantPersonType= consultantPersonType ?? this.consultantPersonType
 			..educationExperienceStatus= educationExperienceStatus ?? this.educationExperienceStatus
-			..consulatationLanguageStatus= consulatationLanguageStatus ?? this.consulatationLanguageStatus
+			..consultationLanguageStatus= consulatationLanguageStatus ?? this.consultationLanguageStatus
 			..documentationStatus= documentationStatus ?? this.documentationStatus;
 	}
 
