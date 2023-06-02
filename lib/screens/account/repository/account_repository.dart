@@ -28,7 +28,7 @@ class AccountRepository {
   }
 
   Future<List<ConsultantDocumentsEntity>> getDocuments(int personType) async {
-    List res = await Constants.supabaseClient.from('consultant_documents').select('*, documents!inner(*)').eq("consultant_person_type_id", personType);
+    List res = await Constants.supabaseClient.from('consultant_documents').select('*, documents!inner(*), consultant_documents_status(*)').eq("consultant_person_type_id", personType).eq("consultant_documents_status.consultant_id", (await getSharedPreference()).getString(PrefsKeys.consultantID));
     return res.map((e) => ConsultantDocumentsEntity.fromJson(e)).toList();
   }
 
@@ -36,12 +36,12 @@ class AccountRepository {
     final selectedValues = ref.read(languagesProvider).value?.where((element) => element["isSelected"] ?? false).toList() ?? [];
     if (selectedValues.isEmpty) return;
     EasyLoading.show();
-    var s = (await getSharedPreference()).getString(PrefsKeys.consultantID);
-    await Constants.supabaseClient.from('consultant_languages').delete().match({"consultant_person_id": (await getSharedPreference()).getString(PrefsKeys.consultantID)});
+    var id = (await getSharedPreference()).getString(PrefsKeys.consultantID);
+    await Constants.supabaseClient.from('consultant_languages').delete().match({"consultant_person_id": id});
     await Constants.supabaseClient
         .from('consultant_languages')
         .insert(selectedValues.map((e) {
-          return {'consultant_person_id': s, 'consultant_language_name': e["name"]};
+          return {'consultant_person_id': id, 'consultant_language_name': e["name"]};
         }).toList())
         .then(
       (value) async {

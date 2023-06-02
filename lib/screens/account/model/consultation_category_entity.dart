@@ -10,9 +10,10 @@ class ConsultationCategoryEntity {
 	@JSONField(name: "consultant_persons_id")
 	int? consultantPersonsId;
 	@JSONField(name: "text_colour")
-	String? textColour;
-	List<ConsultationCategoryData>? data;
+	dynamic textColour;
 	bool? isSelected;
+	@JSONField(name: "consultation_sub_categories")
+	List<ConsultationCategoryConsultationSubCategories>? consultationSubCategories;
 
 	ConsultationCategoryEntity();
 
@@ -20,15 +21,15 @@ class ConsultationCategoryEntity {
 
 	Map<String, dynamic> toJson() => $ConsultationCategoryEntityToJson(this);
 
-	ConsultationCategoryEntity copyWith({int? id, String? name, dynamic image, int? consultantPersonsId, String? textColour, List<ConsultationCategoryData>? data, bool? isSelected}) {
+	ConsultationCategoryEntity copyWith({int? id, String? name, dynamic image, int? consultantPersonsId, dynamic textColour, bool? isSelected, List<ConsultationCategoryConsultationSubCategories>? consultationSubCategories}) {
 		return ConsultationCategoryEntity()
 			..id= id ?? this.id
 			..name= name ?? this.name
 			..image= image ?? this.image
 			..consultantPersonsId= consultantPersonsId ?? this.consultantPersonsId
 			..textColour= textColour ?? this.textColour
-			..data= data ?? this.data
-			..isSelected= isSelected ?? this.isSelected;
+			..isSelected= isSelected ?? this.isSelected
+			..consultationSubCategories= consultationSubCategories ?? this.consultationSubCategories;
 	}
 
 	@override
@@ -38,23 +39,23 @@ class ConsultationCategoryEntity {
 }
 
 @JsonSerializable()
-class ConsultationCategoryData {
+class ConsultationCategoryConsultationSubCategories {
 	int? id;
 	@JSONField(name: "created_at")
 	String? createdAt;
 	String? name;
 	@JSONField(name: "consultation_category_id")
 	int? consultationCategoryId;
-	String? image;
+	dynamic image;
 
-	ConsultationCategoryData();
+	ConsultationCategoryConsultationSubCategories();
 
-	factory ConsultationCategoryData.fromJson(Map<String, dynamic> json) => $ConsultationCategoryDataFromJson(json);
+	factory ConsultationCategoryConsultationSubCategories.fromJson(Map<String, dynamic> json) => $ConsultationCategoryConsultationSubCategoriesFromJson(json);
 
-	Map<String, dynamic> toJson() => $ConsultationCategoryDataToJson(this);
+	Map<String, dynamic> toJson() => $ConsultationCategoryConsultationSubCategoriesToJson(this);
 
-	ConsultationCategoryData copyWith({int? id, String? createdAt, String? name, int? consultationCategoryId, String? image}) {
-		return ConsultationCategoryData()
+	ConsultationCategoryConsultationSubCategories copyWith({int? id, String? createdAt, String? name, int? consultationCategoryId, dynamic image}) {
+		return ConsultationCategoryConsultationSubCategories()
 			..id= id ?? this.id
 			..createdAt= createdAt ?? this.createdAt
 			..name= name ?? this.name

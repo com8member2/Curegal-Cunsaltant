@@ -21,12 +21,12 @@ final categoryProvider = AutoDisposeNotifierProvider<Category,
 );
 
 typedef _$Category = AutoDisposeNotifier<List<ConsultationCategoryEntity>>;
-String _$subItemSelectedHash() => r'baf61e1441c1247b412209cecceb3fad8f84ffbe';
+String _$subItemSelectedHash() => r'6e9d1e1c2b2e1d051fbbfd8311602a6db147e8b4';
 
 /// See also [SubItemSelected].
 @ProviderFor(SubItemSelected)
 final subItemSelectedProvider = AutoDisposeNotifierProvider<SubItemSelected,
-    List<ConsultationCategoryData>>.internal(
+    List<ConsultationCategoryConsultationSubCategories>>.internal(
   SubItemSelected.new,
   name: r'subItemSelectedProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -36,5 +36,6 @@ final subItemSelectedProvider = AutoDisposeNotifierProvider<SubItemSelected,
   allTransitiveDependencies: null,
 );
 
-typedef _$SubItemSelected = AutoDisposeNotifier<List<ConsultationCategoryData>>;
+typedef _$SubItemSelected
+    = AutoDisposeNotifier<List<ConsultationCategoryConsultationSubCategories>>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

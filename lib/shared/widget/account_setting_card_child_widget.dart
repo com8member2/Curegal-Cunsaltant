@@ -10,8 +10,9 @@ class commonCardChildView extends HookWidget{
   final IconData image;
   final String title;
   final String description;
+  final Color descriptionColor;
 
-  const commonCardChildView({super.key, required this.context,required this.title,required this.description,required this.image,});
+  const commonCardChildView({super.key, required this.context,required this.title,required this.description,required this.image,this.descriptionColor = CustomColor.txtGray});
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +48,7 @@ class commonCardChildView extends HookWidget{
                     description,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: CustomColor.txtGray, fontSize: 13),
+                    style: TextStyle(color: descriptionColor, fontSize: 13),
                   ),
                 )
               ],

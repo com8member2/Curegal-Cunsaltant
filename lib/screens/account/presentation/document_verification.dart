@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:consultation_curegal/consatant/ColorConstant.dart';
+import 'package:consultation_curegal/consatant/Constants.dart';
 import 'package:consultation_curegal/screens/account/controller/document_controller.dart';
 import 'package:consultation_curegal/shared/widget/shared_small_widgets.dart';
 import 'package:consultation_curegal/utility/utility.dart';
@@ -45,14 +48,30 @@ class DocumentsVerificationScreen extends HookConsumerWidget {
                   ),
                 ),
                 documents.when(
-                    data: (data) => ListView.builder(itemCount: data.length,shrinkWrap: true,physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (BuildContext context, int index) => CardListViewDesign(edgeInsets: const EdgeInsets.symmetric(vertical: 10),
-                            onClick: () {
-                              Navigator.pushNamed(context, AppRoutes.documentUploadScreen, arguments: data[index].toJson());
-                            },
-                            customWidget: commonCardChildView(
-                                context: context, image: Icons.featured_play_list, title: data[index].documents?.name??"", description: tr(context).aadhaar_card),
-                          ),
+                    data: (data) => ListView.builder(
+                          itemCount: data.length,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (BuildContext context, int index) {
+                            String status = DocumentStatus.pending.name;
+                            if (data[index].consultantDocumentsStatus?.isNotEmpty ?? false) {
+                              status = data[index].consultantDocumentsStatus?.first.documentStatus ?? "";
+                            }
+                            bool isClickable = (status == DocumentStatus.pending.name || status == DocumentStatus.rejected.name);
+                            return Opacity(
+                              opacity: isClickable ? 1 : 0.5,
+                              child: CardListViewDesign(
+                                edgeInsets: const EdgeInsets.symmetric(vertical: 10),
+                                onClick: () {
+                                  if(isClickable) {
+                                    Navigator.pushNamed(context, AppRoutes.documentUploadScreen, arguments: data[index].toJson());
+                                  }
+                                },
+                                customWidget:
+                                    commonCardChildView(context: context, image: Icons.featured_play_list, title: data[index].documents?.name ?? "", description: "( $status )",descriptionColor: Colors.black,),
+                              ),
+                            );
+                          },
                         ),
                     error: (error, stackTrace) => Text(error.toString()),
                     loading: () => Center(child: CircularProgressIndicator())),

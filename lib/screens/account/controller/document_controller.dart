@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:consultation_curegal/consatant/Constants.dart';
@@ -64,16 +65,20 @@ Future uploadDocument(UploadDocumentRef ref, Map map, ConsultantDocumentsEntity 
     var value = await Constants.supabaseClient.storage.from('consultant_documents').upload(
         '${Constants.supabaseClient.auth.currentSession?.user.id}/Documents/${doc.documents?.name}.jpg', ref.read(documentControllerProvider),
         fileOptions: FileOptions(upsert: true));
+    var id = (await getSharedPreference()).getString(PrefsKeys.consultantID);
     map.addAll({
-      "consultant_id": (await getSharedPreference()).getString(PrefsKeys.consultantID),
+      "consultant_id": id,
+      "consultant_documents_id": doc.id ?? 0,
       "document_id": doc.documents?.id ?? 0,
       "document_status": DocumentStatus.uploaded.name,
       "documents_file": value.toString(),
     });
     await Constants.supabaseClient.from('consultant_documents_status').insert(map);
-    Navigator.popUntil(context, (route) => route.settings.name == AppRoutes.homeScreen);
+    Navigator.pop(context);
+    ref.invalidate(getDocumentsProvider);
     EasyLoading.showSuccess("Document Uploaded Successfully");
   } on Exception catch (e) {
+    log(e.toString());
     EasyLoading.showError(e.toString());
   }
 }
