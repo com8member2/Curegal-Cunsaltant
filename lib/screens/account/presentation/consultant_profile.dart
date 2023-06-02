@@ -4,7 +4,9 @@ import 'package:consultation_curegal/shared/widget/custom_button.dart';
 import 'package:consultation_curegal/shared/widget/custom_image_view.dart';
 import 'package:consultation_curegal/shared/widget/shared_small_widgets.dart';
 import 'package:consultation_curegal/utility/utility.dart';
+import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -444,7 +446,7 @@ class ConsultationProfile extends HookConsumerWidget {
   }
   Future<List<String>> loadCSV(String fileName) async {
     final String csvData = await rootBundle.loadString(fileName);
-    final  List<dynamic> rowsAsListOfValues = CsvToListConverter(eol: '\n').convert(csvData);
+    final  List<dynamic> rowsAsListOfValues = const CsvToListConverter(eol: '\n').convert(csvData);
 
     final cities = rowsAsListOfValues
         .map((row) => row[1].toString())

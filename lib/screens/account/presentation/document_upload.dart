@@ -191,7 +191,7 @@ class DocumentUploadScreen extends HookConsumerWidget {
                                 if (document.isNumberRequired ?? false) "document_number": documentNoController.text,
                                 if (document.isRegistrationDateRequired ?? false) "document_registration_date": registrationDateController.text,
                                 if (document.isExpirationDateRequired ?? false) "document_expiration_date": expirationDateController.text,
-                              },document));
+                              },document,context));
                         } else {
                           EasyLoading.showInfo("Please Select image to upload.");
                         }

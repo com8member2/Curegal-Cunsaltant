@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:consultation_curegal/consatant/Constants.dart';
+import 'package:consultation_curegal/routing/app_routes.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -28,10 +29,6 @@ class DocumentController extends _$DocumentController {
     FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: docType);
     if (result != null) {
       state = File(result.files.single.path!);
-
-      final avatarFile = File(result.files.single.path!);
-
-
 
     } else {
       EasyLoading.showInfo("Please Select again");
@@ -61,7 +58,7 @@ Future<List<ConsultantDocumentsEntity>> getDocuments(GetDocumentsRef ref, int pe
 }
 
 @riverpod
-Future uploadDocument(UploadDocumentRef ref, Map map, ConsultantDocumentsEntity doc) async {
+Future uploadDocument(UploadDocumentRef ref, Map map, ConsultantDocumentsEntity doc,BuildContext context) async {
   EasyLoading.show();
   try {
     var value = await Constants.supabaseClient.storage.from('consultant_documents').upload(
@@ -74,7 +71,8 @@ Future uploadDocument(UploadDocumentRef ref, Map map, ConsultantDocumentsEntity 
       "documents_file": value.toString(),
     });
     await Constants.supabaseClient.from('consultant_documents_status').insert(map);
-    EasyLoading.dismiss();
+    Navigator.popUntil(context, (route) => route.settings.name == AppRoutes.homeScreen);
+    EasyLoading.showSuccess("Document Uploaded Successfully");
   } on Exception catch (e) {
     EasyLoading.showError(e.toString());
   }

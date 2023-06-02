@@ -113,7 +113,7 @@ class GetDocumentsProvider
   }
 }
 
-String _$uploadDocumentHash() => r'7585ef603f9d9d320c67929d7207d3aa2639e6d3';
+String _$uploadDocumentHash() => r'1d25b7c9e25394525c41af22a1a3ad3e9c43ec92';
 typedef UploadDocumentRef = AutoDisposeFutureProviderRef<dynamic>;
 
 /// See also [uploadDocument].
@@ -129,10 +129,12 @@ class UploadDocumentFamily extends Family<AsyncValue<dynamic>> {
   UploadDocumentProvider call(
     Map<dynamic, dynamic> map,
     ConsultantDocumentsEntity doc,
+    BuildContext context,
   ) {
     return UploadDocumentProvider(
       map,
       doc,
+      context,
     );
   }
 
@@ -143,6 +145,7 @@ class UploadDocumentFamily extends Family<AsyncValue<dynamic>> {
     return call(
       provider.map,
       provider.doc,
+      provider.context,
     );
   }
 
@@ -167,11 +170,13 @@ class UploadDocumentProvider extends AutoDisposeFutureProvider<dynamic> {
   UploadDocumentProvider(
     this.map,
     this.doc,
+    this.context,
   ) : super.internal(
           (ref) => uploadDocument(
             ref,
             map,
             doc,
+            context,
           ),
           from: uploadDocumentProvider,
           name: r'uploadDocumentProvider',
@@ -186,12 +191,14 @@ class UploadDocumentProvider extends AutoDisposeFutureProvider<dynamic> {
 
   final Map<dynamic, dynamic> map;
   final ConsultantDocumentsEntity doc;
+  final BuildContext context;
 
   @override
   bool operator ==(Object other) {
     return other is UploadDocumentProvider &&
         other.map == map &&
-        other.doc == doc;
+        other.doc == doc &&
+        other.context == context;
   }
 
   @override
@@ -199,6 +206,7 @@ class UploadDocumentProvider extends AutoDisposeFutureProvider<dynamic> {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, map.hashCode);
     hash = _SystemHash.combine(hash, doc.hashCode);
+    hash = _SystemHash.combine(hash, context.hashCode);
 
     return _SystemHash.finish(hash);
   }
