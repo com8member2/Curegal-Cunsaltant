@@ -27,7 +27,7 @@ class EducationnExperience extends HookWidget {
     }
 
     return Scaffold(
-      appBar: customAppBarH("Education & Experience", context,CustomColor.primaryPurple,Colors.white),
+      appBar: customAppBarH("Education & Experience", context,backgroundColor: CustomColor.primaryPurple,textColor: Colors.white),
       body: Padding(
         padding: const EdgeInsets.only(top: 5.0 ,right: 5,left: 5),
         child: SingleChildScrollView(
@@ -54,6 +54,7 @@ class EducationnExperience extends HookWidget {
                                 return const AddEducationDialogBox();
                               },
                             );
+                            if(temp == null)return;
                             schoolOrCollageName.value = temp['schoolOrCollege'];
                             degree.value = temp['degree'];
                             year.value = temp['year'];

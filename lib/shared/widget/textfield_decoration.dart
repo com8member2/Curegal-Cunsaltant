@@ -16,7 +16,7 @@ InputDecoration textFieldDecoration(String hint,BuildContext context) {
 }
 
 InputDecoration textFieldDecorationForProfile(String hint,BuildContext context) {
-  return InputDecoration(
+  return InputDecoration(contentPadding: EdgeInsets.symmetric(horizontal: 15),
     filled: true,
     hintText: hint,
     counterText: "",

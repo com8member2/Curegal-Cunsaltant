@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:consultation_curegal/consatant/ColorConstant.dart';
 import 'package:consultation_curegal/shared/controller/user_profile.dart';
 import 'package:consultation_curegal/shared/widget/custom_button.dart';
@@ -12,34 +14,38 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../../../shared/widget/textfield_decoration.dart';
-import '../../authentication/Controller/auth_controller.dart';
 import '../controller/consultant_profile_controller.dart';
 import '../controller/document_controller.dart';
 
 class ConsultationProfile extends HookConsumerWidget {
+  const ConsultationProfile({super.key});
+
+  @override
   Widget build(BuildContext context, WidgetRef ref) {
     var profile = ref.watch(getConsultantProfileProvider);
 
     return profile.when(
         data: (data) => view(context, ref, data),
-        error: (error, stackTrace) => SizedBox(
+        error: (error, stackTrace) => const SizedBox(
               child: Center(child: Text("error")),
             ),
-        loading: () => Center(child: SizedBox(height: 50, width: 50, child: CircularProgressIndicator())));
+        loading: () => const Center(child: SizedBox(height: 50, width: 50, child: CircularProgressIndicator())));
   }
 
   Scaffold view(BuildContext context, WidgetRef ref, [List<dynamic>? consultantProfiledata]) {
     final formKey = useMemoized(() => GlobalKey<FormState>(), []);
 
     final cityItems = useState<List<String>>([]);
-    final stateItems =  useState<Map<String, dynamic>>({});
-   // final city = useState<List<String>>([]);
-
+    final stateItems = useState<Map<String, dynamic>>({});
+    // final city = useState<List<String>>([]);
 
     useEffect(() {
-      loadState('assets/csv/IndiaStates.csv').then((state) {
-        stateItems.value = state;
-      });
+        loadState('assets/csv/IndiaStates.csv').then((state) {
+          state.addAll({
+            "name": {"id": 0, "name": tr(context).selecState}
+          });
+          stateItems.value = state;
+        });
 
       return null;
     }, []);
@@ -60,7 +66,7 @@ class ConsultationProfile extends HookConsumerWidget {
     return Scaffold(
       backgroundColor: CustomColor.white,
       appBar: AppBar(
-        title: Text("Profile"),
+        title: const Text("Profile"),
         actions: [
           Padding(
             padding: const EdgeInsets.only(left: 10.0, right: 10, top: 20, bottom: 20),
@@ -70,14 +76,13 @@ class ConsultationProfile extends HookConsumerWidget {
               child: TextButton(
                 style: TextButton.styleFrom(
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                  side: BorderSide(width: 2, color: Colors.transparent),
+                  side: const BorderSide(width: 2, color: Colors.transparent),
                   backgroundColor: CustomColor.primaryPurple,
                   foregroundColor: CustomColor.white,
                   padding: const EdgeInsets.all(10.0),
                 ),
                 onPressed: () {
-
-                  if (formKey.currentState!.validate()){
+                  if (formKey.currentState!.validate()) {
                     ref.read(userProfileProvider.notifier).update({
                       'name': nameController.text,
                       'email': emailController.text,
@@ -86,7 +91,7 @@ class ConsultationProfile extends HookConsumerWidget {
                       'state': stateController.text,
                       'city': cityController.text,
                       'phone': phoneNumberController.text,
-                      'address' : addressController.text,
+                      'address': addressController.text,
                       'consulting_price': consultantPriceController.text,
                     });
                   }
@@ -102,8 +107,8 @@ class ConsultationProfile extends HookConsumerWidget {
         elevation: 0,
         toolbarHeight: MediaQuery.of(context).size.height / 10,
         backgroundColor: CustomColor.white,
-        titleTextStyle: TextStyle(color: CustomColor.black, fontSize: 20, fontWeight: FontWeight.bold),
-        leading: GestureDetector(onTap: () => Navigator.pop(context), child: Icon(Icons.arrow_back_ios, color: CustomColor.black)),
+        titleTextStyle: const TextStyle(color: CustomColor.black, fontSize: 20, fontWeight: FontWeight.bold),
+        leading: GestureDetector(onTap: () => Navigator.pop(context), child: const Icon(Icons.arrow_back_ios, color: CustomColor.black)),
       ),
       body: Stack(
         children: [
@@ -150,14 +155,14 @@ class ConsultationProfile extends HookConsumerWidget {
                               ClipRRect(
                                   borderRadius: BorderRadius.circular(500.0),
                                   child: CustomImageView(
-                                    useCache: false,
+                                      useCache: false,
                                       height: 100,
                                       width: 100,
                                       alignment: Alignment.bottomCenter,
-                                      imagePath:  "assets/images/image_not_found.jpg",
+                                      imagePath: "assets/images/image_not_found.jpg",
                                       file: ref.watch(documentControllerProvider),
                                       url: consultantProfiledata?[0]['profile'])),
-                              CircleAvatar(
+                              const CircleAvatar(
                                 backgroundColor: CustomColor.primaryPurple,
                                 radius: 20,
                                 child: Icon(Icons.camera_alt, color: CustomColor.white),
@@ -167,28 +172,29 @@ class ConsultationProfile extends HookConsumerWidget {
                         ),
                         TextFieldWithLable(
                           tr(context).name,
-                          consultantProfiledata!.isEmpty || consultantProfiledata?[0]['name'] == null ? tr(context).username_hint : nameController.text,
+                          consultantProfiledata!.isEmpty || consultantProfiledata[0]['name'] == null ? tr(context).username_hint : nameController.text,
                           MediaQuery.of(context).size.width / 1.7,
                           nameController,
                           (value) {
                             if (nameController.text.isEmpty) {
                               return tr(context).username_error;
                             }
+                            return null;
                           },
                         )
                       ],
                     ),
-                     Padding(
+                    Padding(
                       padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                       child: TextFieldWithLable(
                           tr(context).email,
-                          consultantProfiledata.isEmpty || consultantProfiledata?[0]['email'] == null ? tr(context).email_hint : emailController.text,
+                          consultantProfiledata.isEmpty || consultantProfiledata[0]['email'] == null ? tr(context).email_hint : emailController.text,
                           MediaQuery.of(context).size.width,
-                          emailController,
-                              (value) {
-                            if (emailController.text.isEmpty || !emailController.text.contains('@') || !emailController.text.contains('.')) {
+                          emailController, (value) {
+                        if (emailController.text.isEmpty || !emailController.text.contains('@') || !emailController.text.contains('.')) {
                           return tr(context).email_error;
                         }
+                        return null;
                       }),
                     ),
                     Row(
@@ -196,13 +202,14 @@ class ConsultationProfile extends HookConsumerWidget {
                       children: [
                         TextFieldWithLable(
                             tr(context).phone_number,
-                            consultantProfiledata.isEmpty || consultantProfiledata?[0]['phone'] == null ? tr(context).enter_phone_number :  phoneNumberController.text,
+                            consultantProfiledata.isEmpty || consultantProfiledata[0]['phone'] == null ? tr(context).enter_phone_number : phoneNumberController.text,
                             MediaQuery.of(context).size.width / 2.3,
                             phoneNumberController, (value) {
                           if (phoneNumberController.text.isEmpty) {
                             return tr(context).phone_number_error;
                           }
-                        }, TextInputType.number,false),
+                          return null;
+                        }, keyboardType: TextInputType.number, isEnable: false),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -219,11 +226,9 @@ class ConsultationProfile extends HookConsumerWidget {
                                 enableInteractiveSelection: false,
                                 controller: dobController,
                                 showCursor: false,
-                                scrollPadding: EdgeInsets.only(bottom: 130),
+                                scrollPadding: const EdgeInsets.only(bottom: 130),
                                 decoration: textFieldDecorationForProfile(
-                                    consultantProfiledata!.isEmpty || consultantProfiledata?[0]['date_of_birth'] == null
-                                        ? tr(context).dob_hint
-                                        : dobController.text,
+                                    consultantProfiledata.isEmpty || consultantProfiledata[0]['date_of_birth'] == null ? tr(context).dob_hint : dobController.text,
                                     context),
                                 validator: (value) {
                                   if (dobController.text.isEmpty) {
@@ -234,7 +239,10 @@ class ConsultationProfile extends HookConsumerWidget {
                                 },
                                 onTap: () async {
                                   final DateTime? selectedDate = await showDatePicker(
-                                      context: context, initialDate: DateTime.now().copyWith(year: DateTime.now().year - 18), firstDate: DateTime(1900), lastDate: DateTime.now().copyWith(year: DateTime.now().year - 18));
+                                      context: context,
+                                      initialDate: DateTime.now().copyWith(year: DateTime.now().year - 18),
+                                      firstDate: DateTime(1900),
+                                      lastDate: DateTime.now().copyWith(year: DateTime.now().year - 18));
 
                                   if (selectedDate != null) {
                                     final DateFormat formatter = DateFormat('yyyy-MM-dd');
@@ -280,14 +288,12 @@ class ConsultationProfile extends HookConsumerWidget {
                                     }
                                   },
                                   decoration: textFieldDecorationForProfile(
-                                      consultantProfiledata!.isEmpty || consultantProfiledata[0]['gender'] == ''
-                                          ? tr(context).gender
-                                          : genderController.text,
-                                      context),
+                                      consultantProfiledata.isEmpty || consultantProfiledata[0]['gender'] == '' ? tr(context).gender : genderController.text, context),
                                   validator: (value) {
                                     if (genderController.text.isEmpty || value == tr(context).gender) {
                                       return tr(context).gender_error;
                                     }
+                                    return null;
                                   },
                                 ),
                               ],
@@ -295,7 +301,7 @@ class ConsultationProfile extends HookConsumerWidget {
                           ),
                           TextFieldWithLable(
                               tr(context).consulting_price,
-                              consultantProfiledata!.isEmpty || consultantProfiledata?[0]['consulting_price'] == ''
+                              consultantProfiledata.isEmpty || consultantProfiledata[0]['consulting_price'] == ''
                                   ? tr(context).consulting_price_hint
                                   : consultantPriceController.text,
                               MediaQuery.of(context).size.width / 2.3,
@@ -303,7 +309,8 @@ class ConsultationProfile extends HookConsumerWidget {
                             if (consultantPriceController.text.isEmpty) {
                               return tr(context).consulting_price_error;
                             }
-                          }, TextInputType.number),
+                            return null;
+                          }, keyboardType: TextInputType.number),
                         ],
                       ),
                     ),
@@ -315,12 +322,12 @@ class ConsultationProfile extends HookConsumerWidget {
                             tr(context).address,
                             style: commonTextStyle(context, 14, FontWeight.bold),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 5,
                           ),
                           SizedBox(
                               width: MediaQuery.of(context).size.width / 1.35,
-                              child: Divider(
+                              child: const Divider(
                                 color: CustomColor.borderPurple,
                                 thickness: 0.5,
                               ))
@@ -329,24 +336,25 @@ class ConsultationProfile extends HookConsumerWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 20),
-                      child: TextFieldWithLable(tr(context).address,
-                          consultantProfiledata!.isEmpty || consultantProfiledata?[0]['address'] == null ? tr(context).enter_address : addressController.text,
-
-                           MediaQuery.of(context).size.width, addressController,
-                              (value) {
-                            if (addressController.text.isEmpty) {
-                              return tr(context).address_error;
-                            }
-                          },TextInputType.text),
+                      child: TextFieldWithLable(
+                          tr(context).address,
+                          consultantProfiledata.isEmpty || consultantProfiledata[0]['address'] == null ? tr(context).enter_address : addressController.text,
+                          MediaQuery.of(context).size.width,
+                          addressController, (value) {
+                        if (addressController.text.isEmpty) {
+                          return tr(context).address_error;
+                        }
+                        return null;
+                      },keyboardType:  TextInputType.text),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 20),
-                      child: TextFieldWithLable(tr(context).country, countryController.text, MediaQuery.of(context).size.width, countryController,
-                          (value) {
+                      child: TextFieldWithLable(tr(context).country, countryController.text, MediaQuery.of(context).size.width, countryController, (value) {
                         if (countryController.text.isEmpty) {
                           return tr(context).country_error;
                         }
-                      },TextInputType.text,false),
+                        return null;
+                      }, keyboardType: TextInputType.text,isEnable:  false),
                     ),
                     Padding(
                         padding: const EdgeInsets.only(bottom: 20),
@@ -374,26 +382,25 @@ class ConsultationProfile extends HookConsumerWidget {
                                   String selectedId = stateItems.value.isNotEmpty ? stateItems.value[selectedState]['id'] : null;
 
                                   await loadCity('assets/csv/IndiaCities.csv').then((data) {
-
-                                    var list =  data.values.where((element) => element['id'] == selectedId).toList();
-
-                                    for(int i = 0; i<list.length; i++){
-                                      cityItems.value.add(list[i]['name']);
-                                    }
+                                    var list = data.values.where((element) => element['id'] == selectedId).toList();
+                                    cityItems.value.clear();
+                                    cityItems.value = list.map((e) => e["name"].toString()).toList();
+                                    // for(int i = 0; i<list.length; i++){
+                                    //   cityItems.value.add(list[i]['name']);
+                                    // }
+                                    cityItems.value.insert(0, tr(context).selecCity);
+                                    cityController.text = "";
                                     print('Selected ID: $selectedId & ${cityItems.value}');
                                   });
-
                                 }
                               },
                               decoration: textFieldDecorationForProfile(
-                                  consultantProfiledata.isEmpty || consultantProfiledata?[0]['state'] == ''
-                                      ? tr(context).selecState
-                                      : stateController.text,
-                                  context),
+                                  consultantProfiledata.isEmpty || consultantProfiledata[0]['state'] == '' ? tr(context).selecState : stateController.text, context),
                               validator: (value) {
-                                if (stateController.text.isEmpty || value==tr(context).selecState) {
+                                if (stateController.text.isEmpty || value == tr(context).selecState) {
                                   return tr(context).state_error;
                                 }
+                                return null;
                               },
                             ),
                           ],
@@ -424,14 +431,12 @@ class ConsultationProfile extends HookConsumerWidget {
                               }
                             },
                             decoration: textFieldDecorationForProfile(
-                                consultantProfiledata!.isEmpty || consultantProfiledata?[0]['city'] == ''
-                                    ? tr(context).selecCity
-                                    : cityController.text,
-                                context),
+                                consultantProfiledata.isEmpty || consultantProfiledata[0]['city'] == '' ? tr(context).selecCity : cityController.text, context),
                             validator: (value) {
-                              if (cityController.text.isEmpty||value == tr(context).selecCity) {
+                              if (cityController.text.isEmpty || value == tr(context).selecCity) {
                                 return tr(context).city_error;
                               }
+                              return null;
                             },
                           ),
                         ],
@@ -446,9 +451,10 @@ class ConsultationProfile extends HookConsumerWidget {
       ),
     );
   }
+
   Future<Map<String, dynamic>> loadState(String fileName) async {
     final String csvData = await rootBundle.loadString(fileName);
-    final  List<dynamic> rowsAsListOfValues = const CsvToListConverter(eol: '\n').convert(csvData);
+    final List<dynamic> rowsAsListOfValues = const CsvToListConverter(eol: '\n').convert(csvData);
 
     Map<String, dynamic> stateMap = {};
     for (var row in rowsAsListOfValues) {
@@ -459,10 +465,9 @@ class ConsultationProfile extends HookConsumerWidget {
     return stateMap;
   }
 
-  Future<Map<String, dynamic>> loadCity(String fileName,[String stateID='']) async {
+  Future<Map<String, dynamic>> loadCity(String fileName, [String stateID = '']) async {
     String stateCsvData = await rootBundle.loadString(fileName);
-    List<List<dynamic>> cityList = CsvToListConverter(eol: '\n').convert(stateCsvData);
-
+    List<List<dynamic>> cityList = const CsvToListConverter(eol: '\n').convert(stateCsvData);
 
     Map<String, dynamic> cityMap = {};
     for (var row in cityList) {
@@ -471,8 +476,5 @@ class ConsultationProfile extends HookConsumerWidget {
       cityMap[name] = {'id': id, 'name': name};
     }
     return cityMap;
-
   }
-
 }
-

@@ -30,7 +30,7 @@ class DocumentUploadScreen extends HookConsumerWidget {
     var expirationDateController = useTextEditingController();
     var registrationDateController = useTextEditingController();
     return Scaffold(
-      appBar: customAppBarH(tr(context).document_upload, context, CustomColor.primaryPurple, CustomColor.white),
+      appBar: customAppBarH(document.documents?.name ?? "", context,backgroundColor:  CustomColor.primaryPurple,textColor:  CustomColor.white),
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -39,7 +39,7 @@ class DocumentUploadScreen extends HookConsumerWidget {
               child: Padding(
                 padding: const EdgeInsets.only(left: 20.0, right: 20, bottom: 120),
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  screenHeadingSubtitle(document.documents?.name ?? "", document.documents?.description ?? ""),
+                  screenHeadingSubtitle(null, document.documents?.description ?? ""),
                   if (document.isNumberRequired ?? false)
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0, bottom: 20),
@@ -100,7 +100,7 @@ class DocumentUploadScreen extends HookConsumerWidget {
                       ),
                     ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 10),
+                    padding: const EdgeInsets.only(top: 20),
                     child: Text(
                       "${tr(context).maxSize} 3mb",
                       style: commonTextStyle(context, 14, FontWeight.normal, Colors.red),

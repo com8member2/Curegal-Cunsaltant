@@ -6,6 +6,7 @@ class CustomColor{
   static const Color backgroundColor = Color(0xfff8f8f8);
   static const Color whiteLight = Color(0xb3ffffff);
   static const Color black = Color(0xff000000);
+  static const Color textBlack = Color(0xff777474);
   static const Color lightGray = Color(0xfff5f5f7);
   static const Color secondPrimaryPurple = Color(0xfff6f5fe);
   static const Color mediumPurple = Color(0xffab9fed);
