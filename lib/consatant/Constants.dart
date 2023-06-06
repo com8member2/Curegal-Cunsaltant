@@ -19,6 +19,7 @@ class SupaTables{
   static String consultantProfile ="consultant_profile";
   static String consultationCategory = "consultation_category";
   static String consultationSubCategory = "consultation_sub_categories";
+  static String userExperience = "consultant_experience";
 }
 
 

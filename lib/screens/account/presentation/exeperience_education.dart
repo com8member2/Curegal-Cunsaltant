@@ -54,10 +54,6 @@ class EducationnExperience extends HookWidget {
                                 return const AddEducationDialogBox();
                               },
                             );
-                            if(temp == null)return;
-                            schoolOrCollageName.value = temp['schoolOrCollege'];
-                            degree.value = temp['degree'];
-                            year.value = temp['year'];
                           },
                           child: Icon(
                             Icons.add_circle_outline,
@@ -147,7 +143,7 @@ class EducationnExperience extends HookWidget {
                       Spacer(),
                       GestureDetector(
                         onTap: () async {
-                          var experience = await showDialog(
+                          await showDialog(
                             context: context,
                             builder: (context) {
                               return const AddExperinceDialogBox();
@@ -254,7 +250,7 @@ class EducationnExperience extends HookWidget {
   }
 
   Future<PostgrestResponse<dynamic>> getExperience() async {
-    PostgrestResponse<dynamic> res = await Constants.supabaseClient.from('consultant_education_experience').select()
+    PostgrestResponse<dynamic> res = await Constants.supabaseClient.from('consultant_experience').select()
         .eq("cosultant_id",  Constants.supabaseClient.auth.currentSession?.user.id).
     execute();
     return res;
