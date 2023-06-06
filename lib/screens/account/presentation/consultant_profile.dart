@@ -55,7 +55,7 @@ class ConsultationProfile extends HookConsumerWidget {
     var addressController = useTextEditingController(text: consultantProfiledata?[0]['address']);
     var stateController = useTextEditingController(text: consultantProfiledata?[0]['state']);
     var cityController = useTextEditingController(text: consultantProfiledata?[0]['city']);
-    var consultantPriceController = useTextEditingController(text: consultantProfiledata?[0]['consulting_price']);
+
 
     return Scaffold(
       backgroundColor: CustomColor.white,
@@ -87,7 +87,6 @@ class ConsultationProfile extends HookConsumerWidget {
                       'city': cityController.text,
                       'phone': phoneNumberController.text,
                       'address' : addressController.text,
-                      'consulting_price': consultantPriceController.text,
                     });
                   }
                 },
@@ -251,65 +250,50 @@ class ConsultationProfile extends HookConsumerWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0, bottom: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 2.3,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 8.0),
-                                  child: Text(
-                                    tr(context).gender,
-                                    style: commonTextStyle(context, 14, FontWeight.normal, CustomColor.txtGray),
-                                  ),
-                                ),
-                                DropdownButtonFormField<String>(
-                                  items: gender.map((String genderName) {
-                                    return DropdownMenuItem<String>(
-                                      value: genderName,
-                                      child: Text(genderName),
-                                    );
-                                  }).toList(),
-                                  value: genderController.text.isEmpty ? "Male" : genderController.text,
-                                  onChanged: (String? gender) {
-                                    if (gender != null) {
-                                      genderController.text = gender;
-                                    }
-                                  },
-                                  decoration: textFieldDecorationForProfile(
-                                      consultantProfiledata!.isEmpty || consultantProfiledata[0]['gender'] == ''
-                                          ? tr(context).gender
-                                          : genderController.text,
-                                      context),
-                                  validator: (value) {
-                                    if (genderController.text.isEmpty || value == tr(context).gender) {
-                                      return tr(context).gender_error;
-                                    }
-                                  },
-                                ),
-                              ],
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: Text(
+                                tr(context).gender,
+                                style: commonTextStyle(context, 14, FontWeight.normal, CustomColor.txtGray),
+                              ),
                             ),
-                          ),
-                          TextFieldWithLable(
-                              tr(context).consulting_price,
-                              consultantProfiledata!.isEmpty || consultantProfiledata?[0]['consulting_price'] == ''
-                                  ? tr(context).consulting_price_hint
-                                  : consultantPriceController.text,
-                              MediaQuery.of(context).size.width / 2.3,
-                              consultantPriceController, (value) {
-                            if (consultantPriceController.text.isEmpty) {
-                              return tr(context).consulting_price_error;
-                            }
-                          }, TextInputType.number),
-                        ],
+                            DropdownButtonFormField<String>(
+                              items: gender.map((String genderName) {
+                                return DropdownMenuItem<String>(
+                                  value: genderName,
+                                  child: Text(genderName),
+                                );
+                              }).toList(),
+                              value: genderController.text.isEmpty ? "Male" : genderController.text,
+                              onChanged: (String? gender) {
+                                if (gender != null) {
+                                  genderController.text = gender;
+                                }
+                              },
+                              decoration: textFieldDecorationForProfile(
+                                  consultantProfiledata!.isEmpty || consultantProfiledata[0]['gender'] == ''
+                                      ? tr(context).gender
+                                      : genderController.text,
+                                  context),
+                              validator: (value) {
+                                if (genderController.text.isEmpty || value == tr(context).gender) {
+                                  return tr(context).gender_error;
+                                }
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 20.0),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
                             tr(context).address,
@@ -319,7 +303,7 @@ class ConsultationProfile extends HookConsumerWidget {
                             width: 5,
                           ),
                           SizedBox(
-                              width: MediaQuery.of(context).size.width / 1.35,
+                              width: MediaQuery.of(context).size.width/1.4,
                               child: Divider(
                                 color: CustomColor.borderPurple,
                                 thickness: 0.5,

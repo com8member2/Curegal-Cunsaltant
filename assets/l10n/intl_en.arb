@@ -135,5 +135,7 @@
   "address_error": "please enter address",
   "country": "Country",
   "upload_profile_image": "Upload Profile",
-  "gender_error" : "Please select gender"
+  "clinic_error" : "Please enter clinic",
+  "role_error" : "Please enter role",
+  "user_role_hint" : "User role"
 }
