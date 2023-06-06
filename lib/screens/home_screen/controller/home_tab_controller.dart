@@ -32,7 +32,7 @@ class ConsultantAvailability extends _$ConsultantAvailability {
       if(element.dayOfWeek==parentIndex){
         var time = element.time;
         time?.removeAt(index);
-        element.time = time;
+        element.time = [...?time];
       }
       return element;
     }).toList();
