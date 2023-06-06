@@ -28,6 +28,7 @@ class ConsultationCategoryRepository {
         .toList();
 
     await Constants.supabaseClient.from('consultant_sub_categories').insert(data).then((value) async {
+      if(!(ref.read(userProfileProvider).consultantPersonType != null))
       await ref.read(userProfileProvider.notifier).update({"consultant_person_type": personType});
     });
     ref.read(subItemSelectedProvider.notifier).reset();

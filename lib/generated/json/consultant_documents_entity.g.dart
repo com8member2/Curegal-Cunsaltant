@@ -93,7 +93,7 @@ Map<String, dynamic> $ConsultantDocumentsDocumentsToJson(ConsultantDocumentsDocu
 
 ConsultantDocumentsConsultantDocumentsStatus $ConsultantDocumentsConsultantDocumentsStatusFromJson(Map<String, dynamic> json) {
 	final ConsultantDocumentsConsultantDocumentsStatus consultantDocumentsConsultantDocumentsStatus = ConsultantDocumentsConsultantDocumentsStatus();
-	final double? id = jsonConvert.convert<double>(json['id']);
+	final int? id = jsonConvert.convert<int>(json['id']);
 	if (id != null) {
 		consultantDocumentsConsultantDocumentsStatus.id = id;
 	}

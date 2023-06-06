@@ -67,3 +67,14 @@ extension HexColor on Color {
       '${green.toRadixString(16).padLeft(2, '0')}'
       '${blue.toRadixString(16).padLeft(2, '0')}';*/
 }
+TimeOfDay? parseTimeOfDay(String timeString) {
+  List<String> parts = timeString.split(':');
+  try {
+    int hour = int.parse(parts[0]);
+    int minute = int.parse(parts[1]);
+
+    return TimeOfDay(hour: hour, minute: minute);
+  } on Exception {
+    return null;
+  }
+}

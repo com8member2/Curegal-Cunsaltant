@@ -77,7 +77,7 @@ class ConsultantDocumentsDocuments {
 
 @JsonSerializable()
 class ConsultantDocumentsConsultantDocumentsStatus {
-	double? id;
+	int? id;
 	@JSONField(name: "consultant_id")
 	String? consultantId;
 	@JSONField(name: "document_id")
@@ -103,7 +103,7 @@ class ConsultantDocumentsConsultantDocumentsStatus {
 
 	Map<String, dynamic> toJson() => $ConsultantDocumentsConsultantDocumentsStatusToJson(this);
 
-	ConsultantDocumentsConsultantDocumentsStatus copyWith({double? id, String? consultantId, double? documentId, String? documentStatus, String? documentStatusMessage, dynamic documentNumber, dynamic documentRegistrationDate, dynamic documentExpirationDate, String? documentsFile, double? consultantDocumentsId}) {
+	ConsultantDocumentsConsultantDocumentsStatus copyWith({int? id, String? consultantId, double? documentId, String? documentStatus, String? documentStatusMessage, dynamic documentNumber, dynamic documentRegistrationDate, dynamic documentExpirationDate, String? documentsFile, double? consultantDocumentsId}) {
 		return ConsultantDocumentsConsultantDocumentsStatus()
 			..id= id ?? this.id
 			..consultantId= consultantId ?? this.consultantId

@@ -72,14 +72,13 @@
 "acct_education_details" : "Education & Experience refers to the combination of an individual's educational background and practical knowledge gained through professional or personal experiences. ",
 "acct_languages" : "Consultation Languages",
 "acct_languages_details" : "choose languages that allow users to discuss in those languages during consulting.",
-"document_heading": "Welcome,",
 "remaining_steps": "Remaining Steps",
-"remaining_desc": "Here's what you need to do set up your account.",
+"remaining_desc": "All documents required or reasonably implied by the nature of the scope of services to be performed by Consultant",
 "continu": "Continue",
 "aadhaar_card": "Aadhaar card",
 "pan_card": "PAN card",
 "doctor_certificate": "Doctor Certificate",
-"document_verify": "Document Verification",
+"document_verify": "Documents",
 "choose_your_language": "Choose Your Language",
 "sub_heading_language_screen": "You can change it later in Settings",
 "heading_language_screen": "Language Selection",
@@ -135,5 +134,7 @@
   "address_error": "please enter address",
   "country": "Country",
   "upload_profile_image": "Upload Profile",
-  "gender_error" : "Please select gender"
+  "clinic_error" : "Please enter clinic",
+  "role_error" : "Please enter role",
+  "user_role_hint" : "User role"
 }

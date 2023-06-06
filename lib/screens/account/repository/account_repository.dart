@@ -45,6 +45,7 @@ class AccountRepository {
         }).toList())
         .then(
       (value) async {
+        if(!(ref.read(userProfileProvider).consultationLanguageStatus??false))
         await ref.read(userProfileProvider.notifier).update({"consultation_language_status": true});
         EasyLoading.dismiss();
         Navigator.popUntil(context, (route) => route.settings.name == AppRoutes.homeScreen);

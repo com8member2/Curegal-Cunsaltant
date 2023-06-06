@@ -6,6 +6,7 @@
 import 'package:flutter/material.dart' show debugPrint;
 import 'package:consultation_curegal/screens/account/model/consultant_documents_entity.dart';
 import 'package:consultation_curegal/screens/account/model/consultation_category_entity.dart';
+import 'package:consultation_curegal/screens/home_screen/model/consultat_availability_entity.dart';
 import 'package:consultation_curegal/shared/model/user_entity.dart';
 
 JsonConvert jsonConvert = JsonConvert();
@@ -19,6 +20,8 @@ class JsonConvert {
 		(ConsultantDocumentsConsultantDocumentsStatus).toString(): ConsultantDocumentsConsultantDocumentsStatus.fromJson,
 		(ConsultationCategoryEntity).toString(): ConsultationCategoryEntity.fromJson,
 		(ConsultationCategoryConsultationSubCategories).toString(): ConsultationCategoryConsultationSubCategories.fromJson,
+		(ConsultantAvailabilityEntity).toString(): ConsultantAvailabilityEntity.fromJson,
+		(ConsultatAvailabilityTime).toString(): ConsultatAvailabilityTime.fromJson,
 		(UserEntity).toString(): UserEntity.fromJson,
 	};
 
@@ -112,6 +115,12 @@ List<T>? convertListNotNull<T>(dynamic value, {EnumConvertFunction? enumConvert}
 		}
 		if(<ConsultationCategoryConsultationSubCategories>[] is M){
 			return data.map<ConsultationCategoryConsultationSubCategories>((Map<String, dynamic> e) => ConsultationCategoryConsultationSubCategories.fromJson(e)).toList() as M;
+		}
+		if(<ConsultantAvailabilityEntity>[] is M){
+			return data.map<ConsultantAvailabilityEntity>((Map<String, dynamic> e) => ConsultantAvailabilityEntity.fromJson(e)).toList() as M;
+		}
+		if(<ConsultatAvailabilityTime>[] is M){
+			return data.map<ConsultatAvailabilityTime>((Map<String, dynamic> e) => ConsultatAvailabilityTime.fromJson(e)).toList() as M;
 		}
 		if(<UserEntity>[] is M){
 			return data.map<UserEntity>((Map<String, dynamic> e) => UserEntity.fromJson(e)).toList() as M;

@@ -1,3 +1,4 @@
+import 'package:consultation_curegal/consatant/ColorConstant.dart';
 import 'package:consultation_curegal/routing/app_routes.dart';
 import 'package:consultation_curegal/utility/utility.dart';
 import 'package:flutter/material.dart';
@@ -5,8 +6,13 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:stack_trace/stack_trace.dart' as stack_trace;
 void main() async {
-
+  FlutterError.demangleStackTrace = (StackTrace stack) {
+    if (stack is stack_trace.Trace) return stack.vmTrace;
+    if (stack is stack_trace.Chain) return stack.toTrace().vmTrace;
+    return stack;
+  };
   WidgetsFlutterBinding.ensureInitialized();
   await Supabase.initialize(
       url: "https://vjbzoymwstifxmeywnxn.supabase.co",
@@ -21,7 +27,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp(theme: Theme.of(context).copyWith(primaryColor: CustomColor.primaryPurple),
       builder: EasyLoading.init(builder: (context, child) {
         return ScrollConfiguration(behavior: MyBehavior(), child: child ?? const SizedBox());
       }),

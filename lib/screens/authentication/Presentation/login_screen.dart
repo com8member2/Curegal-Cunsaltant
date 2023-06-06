@@ -21,7 +21,7 @@ class LoginScreen extends HookConsumerWidget {
     TextEditingController phoneController = useTextEditingController();
 
     return Scaffold(
-      appBar: customAppBarH(tr(context).login, context, CustomColor.primaryPurple, Colors.white, false),
+      appBar: customAppBarH(tr(context).login, context, backgroundColor: CustomColor.primaryPurple, textColor: Colors.white,isShawBack:  false),
       body: Stack(
         children: [
           SingleChildScrollView(

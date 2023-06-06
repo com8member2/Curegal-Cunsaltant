@@ -33,7 +33,7 @@ class SendOTP extends HookConsumerWidget {
     var otpValue = useState('');
     TextEditingController otpController = TextEditingController();
     return Scaffold(
-      appBar: customAppBarH(tr(context).otp, context, CustomColor.primaryPurple, Colors.white, true),
+      appBar: customAppBarH(tr(context).otp, context, backgroundColor: CustomColor.primaryPurple, textColor: Colors.white,isShawBack:  true),
       body: Form(
         key: formKey,
         child: Stack(

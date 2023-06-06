@@ -6,7 +6,7 @@ part of 'document_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getDocumentsHash() => r'4bfa7486f3429848e7e97c50971ae9b168fd916c';
+String _$getDocumentsHash() => r'ece5a60fdf5937372a0d588e384b97e21382fbca';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -113,7 +113,7 @@ class GetDocumentsProvider
   }
 }
 
-String _$uploadDocumentHash() => r'258bcd042ead9eba892e092854e3f89bb1b2dcda';
+String _$uploadDocumentHash() => r'95f8cac2ee3f8e7c24eb5d484e9d70766ef719f1';
 typedef UploadDocumentRef = AutoDisposeFutureProviderRef<dynamic>;
 
 /// See also [uploadDocument].

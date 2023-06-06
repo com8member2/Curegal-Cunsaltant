@@ -23,7 +23,7 @@ class LanguageSelect extends HookConsumerWidget {
     var languages = ref.watch(languagesProvider);
 
     return Scaffold(
-      appBar: customAppBarH(tr(context).acct_languages, context, CustomColor.primaryPurple, CustomColor.white),
+      appBar: customAppBarH(tr(context).acct_languages, context, backgroundColor: CustomColor.primaryPurple,textColor:  CustomColor.white),
       body: Stack(
         children: [
           languages.when(
@@ -57,18 +57,12 @@ class LanguageSelect extends HookConsumerWidget {
                   padding: const EdgeInsets.only(top: 40),
                   child: CommonBottomAlignWidget(
                     setBottomWidget: CustomButton(CustomColor.white, CustomColor.primaryPurple, tr(context).continu, () async {
-                      await ref.read(accountRepositoryProvider).selectLanguages(ref, context);
+                      await ref.read(languagesProvider.notifier).selectLanguages(ref, context);
                     }, 10, 1, MediaQuery.of(context).size.width),
                   ))),
         ],
       ),
     );
-  }
-
-
-  Future<PostgrestResponse<dynamic>> getAllLaguages() async {
-    PostgrestResponse<dynamic> res = await Constants.supabaseClient.from('languages').select().execute();
-    return res;
   }
 }
 
@@ -84,7 +78,7 @@ class _ItemWidget extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var data = ref.watch(languagesProvider.select((value) => value.value?.elementAt(index)));
     var isChecked = data["isSelected"] ?? false;
-    return Card(
+    return Card(margin: EdgeInsets.symmetric(vertical: 8),elevation: 5,
       color: isChecked ? CustomColor.primaryPurple : null,
       child: ListTile(
         title: Text(

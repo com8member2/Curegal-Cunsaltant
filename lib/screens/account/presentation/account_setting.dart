@@ -19,7 +19,7 @@ class AccountSettingsScreen extends HookConsumerWidget {
         return Future.value(true);
       },
       child: Scaffold(
-        appBar: customAppBarH("Account", context, CustomColor.primaryPurple, CustomColor.white),
+        appBar: customAppBarH("Account", context, isShawBack: false),
         body: SingleChildScrollView(
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
@@ -33,53 +33,55 @@ class AccountSettingsScreen extends HookConsumerWidget {
                   customWidget: commonCardChildView(
                       context: context, image: Icons.account_circle_rounded, title: tr(context).acct_profile, description: tr(context).acct_profile_detail),
                 ),
-                Opacity(
-                  opacity: (ref.watch(userProfileProvider.select((value) => value.consultantPersonType != null))) ? 0.4 : 1,
-                  child: CardListViewDesign(
-                    edgeInsets: EdgeInsets.only(top: 14, bottom: 4),
-                    onClick: () {
-                      if (ref.read(userProfileProvider.select((value) => value.consultantPersonType == null))) {
-                        Navigator.pushNamed(context, AppRoutes.consultationTypeScreen);
-                      }
-                    },
-                    customWidget: commonCardChildView(
-                      context: context,
-                      image: Icons.category_outlined,
-                      title: tr(context).acct_consultation_type,
-                      description: tr(context).acct_consultation_detail,
-                      icon: (ref.watch(userProfileProvider.select((value) => value.consultantPersonType != null)))?null:Icons.navigate_next_outlined,
-                    ),
-                  ),
-                ),
-                Opacity(
-                  opacity: (ref.watch(userProfileProvider.select((value) => value.consultantPersonType != null))) ? 1 : 0.4,
-                  child: CardListViewDesign(
-                    edgeInsets: EdgeInsets.only(top: 14, bottom: 4),
-                    onClick: () {
-                      var id = ref.read(userProfileProvider.select((value) => value.consultantPersonType));
-                      if (id != null)
-                        Navigator.pushNamed(context, AppRoutes.documentsVerifyScreen,arguments: id);
-                    },
-                    customWidget: commonCardChildView(
-                        context: context, image: Icons.featured_play_list, title: tr(context).acct_documents, description: tr(context).acct_documents_detail,
-                        icon: (ref.watch(userProfileProvider.select((value) => value.consultantPersonType == null)))?null:Icons.navigate_next_outlined,),
-                  ),
-                ),
-                Opacity(
-                  opacity: (ref.watch(userProfileProvider.select((value) => value.consultantPersonType != null))) ? 1 : 0.4,
-                  child: CardListViewDesign(
-                    edgeInsets: EdgeInsets.only(top: 14, bottom: 4),
-                    onClick: () {
-                      if (ref.read(userProfileProvider.select((value) => value.consultantPersonType != null)))
-                        Navigator.pushNamed(context, AppRoutes.educationnExperienceScreen);
-                    },
-                    customWidget: commonCardChildView(
-                        context: context, image: Icons.history_edu_rounded, title: tr(context).acct_education, description: tr(context).acct_education_details,
-                        icon: (ref.watch(userProfileProvider.select((value) => value.consultantPersonType == null)))?null:Icons.navigate_next_outlined,),
+                CardListViewDesign(
+                  edgeInsets: EdgeInsets.only(top: 20, bottom: 4),
+                  onClick: () {
+                    if (ref.read(userProfileProvider.select((value) => value.consultantPersonType == null))) {
+                      Navigator.pushNamed(context, AppRoutes.consultationTypeScreen);
+                    }
+                  },
+                  customWidget: commonCardChildView(
+                    context: context,
+                    image: Icons.category_outlined,
+                    title: tr(context).acct_consultation_type,
+                    description: tr(context).acct_consultation_detail,
+                    icon: (ref.watch(userProfileProvider.select((value) => value.consultantPersonType != null))) ? null : Icons.navigate_next_outlined,
+                    disabled: (ref.watch(userProfileProvider.select((value) => value.consultantPersonType != null))),
                   ),
                 ),
                 CardListViewDesign(
-                  edgeInsets: EdgeInsets.only(top: 14, bottom: 4),
+                  edgeInsets: EdgeInsets.only(top: 20, bottom: 4),
+                  onClick: () {
+                    var id = ref.read(userProfileProvider.select((value) => value.consultantPersonType));
+                    if (id != null)
+                      Navigator.pushNamed(context, AppRoutes.documentsVerifyScreen, arguments: id);
+                  },
+                  customWidget: commonCardChildView(
+                    context: context,
+                    image: Icons.featured_play_list,
+                    title: tr(context).acct_documents,
+                    description: tr(context).acct_documents_detail,
+                    icon: (ref.watch(userProfileProvider.select((value) => value.consultantPersonType == null))) ? null : Icons.navigate_next_outlined,
+                    disabled
+                    :(ref.watch(userProfileProvider.select((value) => value.consultantPersonType == null))),),
+                ),
+                CardListViewDesign(
+                  edgeInsets: EdgeInsets.only(top: 20, bottom: 4),
+                  onClick: () {
+                    if (ref.read(userProfileProvider.select((value) => value.consultantPersonType != null)))
+                      Navigator.pushNamed(context, AppRoutes.educationnExperienceScreen);
+                  },
+                  customWidget: commonCardChildView(
+                    context: context,
+                    image: Icons.history_edu_rounded,
+                    title: tr(context).acct_education,
+                    description: tr(context).acct_education_details,
+                    icon: (ref.watch(userProfileProvider.select((value) => value.consultantPersonType == null))) ? null : Icons.navigate_next_outlined,
+                    disabled
+                        :(ref.watch(userProfileProvider.select((value) => value.consultantPersonType == null))),),
+                ),
+                CardListViewDesign(
+                  edgeInsets: EdgeInsets.only(top: 20, bottom: 4),
                   onClick: () {
                     Navigator.pushNamed(context, AppRoutes.languageSelectScreen);
                   },

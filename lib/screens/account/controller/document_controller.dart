@@ -70,7 +70,7 @@ Future<List<ConsultantDocumentsEntity>> getDocuments(GetDocumentsRef ref, int pe
       break;
     }
   }
-  if(documentStatus != ref.watch(userProfileProvider).documentationStatus) {
+  if (documentStatus != ref.watch(userProfileProvider).documentationStatus) {
     ref.watch(userProfileProvider.notifier).update({"documentation_status": documentStatus});
   }
 
@@ -85,14 +85,20 @@ Future uploadDocument(UploadDocumentRef ref, Map map, ConsultantDocumentsEntity 
         '${Constants.supabaseClient.auth.currentSession?.user.id}/Documents/${doc.documents?.name}.jpg', ref.read(documentControllerProvider),
         fileOptions: FileOptions(upsert: true));
     var id = (await getSharedPreference()).getString(PrefsKeys.consultantID);
+    log(doc.toString());
+    var isRejected = false;
+    if ((doc.consultantDocumentsStatus ?? []).isNotEmpty) {
+      isRejected = doc.consultantDocumentsStatus?.first.documentStatus == DocumentStatus.rejected.name;
+    }
     map.addAll({
+      if (isRejected) "id": doc.consultantDocumentsStatus!.first.id,
       "consultant_id": id,
       "consultant_documents_id": doc.id ?? 0,
       "document_id": doc.documents?.id ?? 0,
       "document_status": DocumentStatus.uploaded.name,
       "documents_file": value.toString(),
     });
-    await Constants.supabaseClient.from('consultant_documents_status').insert(map);
+    await Constants.supabaseClient.from('consultant_documents_status').upsert(map);
     Navigator.pop(context);
     ref.invalidate(getDocumentsProvider);
     EasyLoading.showSuccess("Document Uploaded Successfully");
