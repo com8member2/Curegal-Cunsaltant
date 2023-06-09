@@ -4,25 +4,27 @@ import 'package:consultation_curegal/screens/account/presentation/widgets/add_ex
 import 'package:consultation_curegal/utility/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../consatant/Constants.dart';
+import '../../../shared/controller/user_profile.dart';
 import '../../../shared/widget/shared_small_widgets.dart';
 
 
-class EducationnExperience extends HookWidget {
+class EducationnExperience extends HookConsumerWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     var schoolOrCollageName = useState("");
     var degree = useState("");
     var year = useState("");
 
     Future<List<dynamic>> education() async {
-      PostgrestResponse<dynamic> res = await getEducation();
+      PostgrestResponse<dynamic> res = await getEducation(ref);
       return res.data as List<dynamic>;
     }
 
     Future<List<dynamic>> experience() async {
-      PostgrestResponse<dynamic> res = await getExperience();
+      PostgrestResponse<dynamic> res = await getExperience(ref);
       return res.data as List<dynamic>;
     }
 
@@ -239,19 +241,19 @@ class EducationnExperience extends HookWidget {
     );
   }
 
-  Future<PostgrestResponse<dynamic>> getEducation() async {
+  Future<PostgrestResponse<dynamic>> getEducation(WidgetRef ref) async {
 
     PostgrestResponse<dynamic> res = await Constants.supabaseClient
         .from('consultant_education')
         .select()
-        .eq("cosultant_id",  Constants.supabaseClient.auth.currentSession?.user.id)
+        .eq("cosultant_id",  ref.read(userProfileProvider).id)
         .execute();
     return res;
   }
 
-  Future<PostgrestResponse<dynamic>> getExperience() async {
+  Future<PostgrestResponse<dynamic>> getExperience(WidgetRef ref) async {
     PostgrestResponse<dynamic> res = await Constants.supabaseClient.from('consultant_experience').select()
-        .eq("cosultant_id",  Constants.supabaseClient.auth.currentSession?.user.id).
+        .eq("cosultant_id",  ref.read(userProfileProvider).id).
     execute();
     return res;
   }

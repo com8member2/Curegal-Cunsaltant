@@ -1,3 +1,4 @@
+import 'package:consultation_curegal/screens/consultant_availability/presentation/consultant_availability_view.dart';
 import 'package:flutter/cupertino.dart';
 import '../screens/account/presentation/account_setting.dart';
 import '../screens/account/presentation/consultation_doctor_type_sub_screen.dart';
@@ -33,6 +34,7 @@ class AppRoutes {
   static const languageSelectScreen = "language_selection_screen";
   static const documentUploadScreen = "document_upload";
   static const doctorConsultationSubTypeScreen = "consultation_doctor_type_sub_screen";
+  static const consultantAvailability = "consultant_availability";
 
   static Map<String, Widget Function(BuildContext)> routes = {
     homeScreen: (p0) => const HomeScreen(),
@@ -47,6 +49,8 @@ class AppRoutes {
     languageSelectScreen: (p0) => LanguageSelect(),
     documentUploadScreen: (p0) => DocumentUploadScreen(),
     doctorConsultationSubTypeScreen: (p0) => DoctorConsultantSubType(),
+    consultantAvailability: (p0) => ConsultantAvailabilityView(),
 
   };
+
 }

@@ -78,3 +78,14 @@ TimeOfDay? parseTimeOfDay(String timeString) {
     return null;
   }
 }
+
+extension DateTimeExtension on DateTime {
+  String toSupaFormate() {
+    return DateFormat('yyyy-MM-dd').format(this);
+  }
+}
+extension StringExtension on String {
+  DateTime tosupaDate() {
+    return DateTime.parse(this);
+  }
+}

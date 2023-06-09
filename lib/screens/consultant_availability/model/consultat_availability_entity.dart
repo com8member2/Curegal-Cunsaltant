@@ -19,9 +19,9 @@ class ConsultantAvailabilityEntity {
 
 	ConsultantAvailabilityEntity();
 
-	factory ConsultantAvailabilityEntity.fromJson(Map<String, dynamic> json) => $ConsultatAvailabilityEntityFromJson(json);
+	factory ConsultantAvailabilityEntity.fromJson(Map<String, dynamic> json) => $ConsultantAvailabilityEntityFromJson(json);
 
-	Map<String, dynamic> toJson() => $ConsultatAvailabilityEntityToJson(this);
+	Map<String, dynamic> toJson() => $ConsultantAvailabilityEntityToJson(this);
 
 	ConsultantAvailabilityEntity copyWith({int? id, String? consultantId, String? dayOfWeekText, int? dayOfWeek, List<ConsultatAvailabilityTime>? time, double? slotTime, double? slotPrice}) {
 		return ConsultantAvailabilityEntity()

@@ -1,48 +1,48 @@
 import 'package:consultation_curegal/generated/json/base/json_convert_content.dart';
-import 'package:consultation_curegal/screens/home_screen/model/consultat_availability_entity.dart';
+import 'package:consultation_curegal/screens/consultant_availability/model/consultat_availability_entity.dart';
 
-ConsultantAvailabilityEntity $ConsultatAvailabilityEntityFromJson(Map<String, dynamic> json) {
-	final ConsultantAvailabilityEntity consultatAvailabilityEntity = ConsultantAvailabilityEntity();
+ConsultantAvailabilityEntity $ConsultantAvailabilityEntityFromJson(Map<String, dynamic> json) {
+	final ConsultantAvailabilityEntity consultantAvailabilityEntity = ConsultantAvailabilityEntity();
 	final int? id = jsonConvert.convert<int>(json['id']);
 	if (id != null) {
-		consultatAvailabilityEntity.id = id;
+		consultantAvailabilityEntity.id = id;
 	}
 	final String? consultantId = jsonConvert.convert<String>(json['consultant_id']);
 	if (consultantId != null) {
-		consultatAvailabilityEntity.consultantId = consultantId;
-	}
-	final String? dayOfWeekText = jsonConvert.convert<String>(json['day_of_week_text']);
-	if (dayOfWeekText != null) {
-		consultatAvailabilityEntity.dayOfWeekText = dayOfWeekText;
+		consultantAvailabilityEntity.consultantId = consultantId;
 	}
 	final int? dayOfWeek = jsonConvert.convert<int>(json['day_of_week']);
 	if (dayOfWeek != null) {
-		consultatAvailabilityEntity.dayOfWeek = dayOfWeek;
+		consultantAvailabilityEntity.dayOfWeek = dayOfWeek;
+	}
+	final String? dayOfWeekText = jsonConvert.convert<String>(json['day_of_week_text']);
+	if (dayOfWeekText != null) {
+		consultantAvailabilityEntity.dayOfWeekText = dayOfWeekText;
 	}
 	final List<ConsultatAvailabilityTime>? time = jsonConvert.convertListNotNull<ConsultatAvailabilityTime>(json['time']);
 	if (time != null) {
-		consultatAvailabilityEntity.time = time;
+		consultantAvailabilityEntity.time = time;
 	}
 	final double? slotTime = jsonConvert.convert<double>(json['slot_time']);
 	if (slotTime != null) {
-		consultatAvailabilityEntity.slotTime = slotTime;
+		consultantAvailabilityEntity.slotTime = slotTime;
 	}
 	final double? slotPrice = jsonConvert.convert<double>(json['slot_price']);
 	if (slotPrice != null) {
-		consultatAvailabilityEntity.slotPrice = slotPrice;
+		consultantAvailabilityEntity.slotPrice = slotPrice;
 	}
-	return consultatAvailabilityEntity;
+	return consultantAvailabilityEntity;
 }
 
-Map<String, dynamic> $ConsultatAvailabilityEntityToJson(ConsultantAvailabilityEntity entity) {
+Map<String, dynamic> $ConsultantAvailabilityEntityToJson(ConsultantAvailabilityEntity entity) {
 	final Map<String, dynamic> data = <String, dynamic>{};
 	data['id'] = entity.id;
 	data['consultant_id'] = entity.consultantId;
 	data['day_of_week'] = entity.dayOfWeek;
+	data['day_of_week_text'] = entity.dayOfWeekText;
 	data['time'] =  entity.time?.map((v) => v.toJson()).toList();
 	data['slot_time'] = entity.slotTime;
 	data['slot_price'] = entity.slotPrice;
-	data['day_of_week_text'] = entity.dayOfWeekText;
 	return data;
 }
 

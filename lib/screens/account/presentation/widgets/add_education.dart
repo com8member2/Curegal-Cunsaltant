@@ -69,7 +69,7 @@ class AddEducationDialogBox extends HookConsumerWidget {
                 ),
                 CustomButton(CustomColor.white, CustomColor.primaryPurple, tr(context).submit, () async {
                   await Constants.supabaseClient.from('consultant_education').insert({
-                    'cosultant_id' : Constants.supabaseClient.auth.currentUser?.id,
+                    'cosultant_id' : ref.read(userProfileProvider).id,
                     'education_university': schoolOrCollageController.text,
                     'education_degree' : educationDegreeValue.value,
                     'education_completed_year' : educationYearValue.value

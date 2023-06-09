@@ -7,6 +7,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
+
 void main() async {
   FlutterError.demangleStackTrace = (StackTrace stack) {
     if (stack is stack_trace.Trace) return stack.vmTrace;
@@ -17,7 +18,7 @@ void main() async {
   await Supabase.initialize(
       url: "https://vjbzoymwstifxmeywnxn.supabase.co",
       anonKey:
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZqYnpveW13c3RpZnhtZXl3bnhuIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODM5MDA4MzQsImV4cCI6MTk5OTQ3NjgzNH0.EXVLBfXdNYzRtz8JfjO9hIFnaGTqiPZ_xfSZZ6JHsSs");
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZqYnpveW13c3RpZnhtZXl3bnhuIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODM5MDA4MzQsImV4cCI6MTk5OTQ3NjgzNH0.EXVLBfXdNYzRtz8JfjO9hIFnaGTqiPZ_xfSZZ6JHsSs");
 
   runApp(ProviderScope(child: const MyApp()));
 }
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(theme: Theme.of(context).copyWith(primaryColor: CustomColor.primaryPurple),
+    return MaterialApp(
+      theme: ThemeData(fontFamily: "productsun"),
       builder: EasyLoading.init(builder: (context, child) {
         return ScrollConfiguration(behavior: MyBehavior(), child: child ?? const SizedBox());
       }),

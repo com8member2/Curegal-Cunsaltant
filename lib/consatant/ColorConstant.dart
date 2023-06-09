@@ -14,6 +14,7 @@ class CustomColor{
   static const Color mediumGreen = Color(0xff03C379);
   static const Color lightGry = Color(0x1097487E);
   static const Color primaryPurple = Color(0xff8377ec);
+  static const Color darkPurple = Color(0xff4b49a2);
   static const Color deepPurpleMsg = Color(0xfff0edfa);
   static const Color lightGray100 = Color(0xfff8f8f8);
   static const Color darkGray = Color(0xff66667b);

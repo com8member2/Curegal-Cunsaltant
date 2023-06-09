@@ -118,10 +118,7 @@ class AddExperinceDialogBox extends HookConsumerWidget {
                             await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(1900), lastDate: DateTime(2100));
 
                         if (selectedDate != null) {
-                          final DateFormat formatter = DateFormat('dd/MM/yyyy');
-                          final String formattedDate = formatter.format(selectedDate);
-
-                          fromDateController.text = formattedDate.toString();
+                          fromDateController.text = selectedDate.toSupaFormate();
                         }
                       },
                     ),
@@ -147,10 +144,7 @@ class AddExperinceDialogBox extends HookConsumerWidget {
                             await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(1900), lastDate: DateTime(2100));
 
                         if (selectedDate != null) {
-                          final DateFormat formatter = DateFormat('dd/MM/yyyy');
-                          final String formattedDate = formatter.format(selectedDate);
-
-                          toDateController.text = formattedDate.toString();
+                          toDateController.text = selectedDate.toSupaFormate();
                         }
                       },
                     ),
@@ -158,7 +152,7 @@ class AddExperinceDialogBox extends HookConsumerWidget {
                   CustomButton(CustomColor.white, CustomColor.primaryPurple, tr(context).submit, () async {
                     if (formKey.currentState!.validate()) {
                       await ref.watch(experienceRepositoryProvider).addExperience({
-                        'cosultant_id': Constants.supabaseClient.auth.currentUser?.id,
+                        'cosultant_id': ref.read(userProfileProvider).id,
                         'experience_clinic_name': clinicNameController.text,
                         'experience_location': '${cityValue.value}, ${countryValue.value}',
                         'experience_start': fromDateController.text,

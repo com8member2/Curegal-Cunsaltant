@@ -11,6 +11,8 @@
 "email_error": "Please enter valid email ID",
 "date_select_error": "Please select date",
 "login": "Login",
+"hours": "Hours",
+"hours_des": "Specify the working hours to override selected dates, or uncheck to mark as unavailable",
 "login_heading": "Let's get started",
 "mobile_hint": "Enter mobile number and login to get access more features. Will keep your information safe",
 "search": "Search",

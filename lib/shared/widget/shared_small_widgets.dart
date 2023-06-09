@@ -117,9 +117,10 @@ class TextFieldWithLable extends StatelessWidget {
             child: TextFormField(
               controller: controller,
               enabled: isEnable,
+              cursorColor: CustomColor.darkPurple,
               decoration: textFieldDecorationForProfile(textfieldHinttext, context),
               validator: validator,
-              keyboardType: keyboardType,
+              keyboardType: keyboardType,scrollPadding: EdgeInsets.only(bottom: 110),
 
             )),
       )
@@ -166,7 +167,6 @@ class TimeSelectionView extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var time = useState(initialTime??TimeOfDay.now());
     return FilledButton(
         style: ButtonStyle(
             backgroundColor: MaterialStatePropertyAll(CustomColor.mediumPurple.withOpacity(0.1)),
@@ -174,15 +174,14 @@ class TimeSelectionView extends HookConsumerWidget {
             padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 5)),
             minimumSize: const MaterialStatePropertyAll(Size(20, 34))),
         onPressed: () async {
-          var selectedTime =await  showTimePicker(context: context, initialTime: time.value);
+          var selectedTime =await  showTimePicker(context: context, initialTime: (initialTime??TimeOfDay.now()));
           if(selectedTime != null){
-            time.value = selectedTime;
             onTimeSelected(selectedTime);
           }
         },
         child: Row(
           children: [
-            Text(time.value.format(context), style: const TextStyle(color: CustomColor.black, letterSpacing: 0,fontSize: 14)),
+            Text((initialTime??TimeOfDay.now()).format(context), style: const TextStyle(color: CustomColor.black, letterSpacing: 0,fontSize: 14)),
             const SizedBox(
               width: 0,
             ),

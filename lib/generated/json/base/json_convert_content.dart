@@ -6,7 +6,8 @@
 import 'package:flutter/material.dart' show debugPrint;
 import 'package:consultation_curegal/screens/account/model/consultant_documents_entity.dart';
 import 'package:consultation_curegal/screens/account/model/consultation_category_entity.dart';
-import 'package:consultation_curegal/screens/home_screen/model/consultat_availability_entity.dart';
+import 'package:consultation_curegal/screens/consultant_availability/model/availability_override_entity.dart';
+import 'package:consultation_curegal/screens/consultant_availability/model/consultat_availability_entity.dart';
 import 'package:consultation_curegal/shared/model/user_entity.dart';
 
 JsonConvert jsonConvert = JsonConvert();
@@ -20,6 +21,8 @@ class JsonConvert {
 		(ConsultantDocumentsConsultantDocumentsStatus).toString(): ConsultantDocumentsConsultantDocumentsStatus.fromJson,
 		(ConsultationCategoryEntity).toString(): ConsultationCategoryEntity.fromJson,
 		(ConsultationCategoryConsultationSubCategories).toString(): ConsultationCategoryConsultationSubCategories.fromJson,
+		(AvailabilityOverrideEntity).toString(): AvailabilityOverrideEntity.fromJson,
+		(AvailabilityOverrideTime).toString(): AvailabilityOverrideTime.fromJson,
 		(ConsultantAvailabilityEntity).toString(): ConsultantAvailabilityEntity.fromJson,
 		(ConsultatAvailabilityTime).toString(): ConsultatAvailabilityTime.fromJson,
 		(UserEntity).toString(): UserEntity.fromJson,
@@ -115,6 +118,12 @@ List<T>? convertListNotNull<T>(dynamic value, {EnumConvertFunction? enumConvert}
 		}
 		if(<ConsultationCategoryConsultationSubCategories>[] is M){
 			return data.map<ConsultationCategoryConsultationSubCategories>((Map<String, dynamic> e) => ConsultationCategoryConsultationSubCategories.fromJson(e)).toList() as M;
+		}
+		if(<AvailabilityOverrideEntity>[] is M){
+			return data.map<AvailabilityOverrideEntity>((Map<String, dynamic> e) => AvailabilityOverrideEntity.fromJson(e)).toList() as M;
+		}
+		if(<AvailabilityOverrideTime>[] is M){
+			return data.map<AvailabilityOverrideTime>((Map<String, dynamic> e) => AvailabilityOverrideTime.fromJson(e)).toList() as M;
 		}
 		if(<ConsultantAvailabilityEntity>[] is M){
 			return data.map<ConsultantAvailabilityEntity>((Map<String, dynamic> e) => ConsultantAvailabilityEntity.fromJson(e)).toList() as M;

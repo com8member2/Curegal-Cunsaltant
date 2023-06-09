@@ -13,29 +13,31 @@ import '../shared/controller/user_profile.dart';
 import '../utility/utility.dart';
 
 class SplashScreen extends HookConsumerWidget {
+  const SplashScreen({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    useEffect(
+      () {
+        EasyLoading.instance.maskType = EasyLoadingMaskType.black;
+        EasyLoading.instance.indicatorType = EasyLoadingIndicatorType.pulse;
+        EasyLoading.instance.displayDuration = const Duration(milliseconds: 1000);
+        if (Constants.supabaseClient.auth.currentUser?.id != null) {
+          (ref.read(userProfileProvider).toString());
 
-
-    useEffect(() {
-
-      EasyLoading.instance.maskType = EasyLoadingMaskType.black;
-      EasyLoading.instance.indicatorType = EasyLoadingIndicatorType.pulse;
-      if(Constants.supabaseClient.auth.currentUser?.id != null){
-        (ref.read(userProfileProvider).toString());
-
-        Future.delayed(Duration(seconds: 2),() {
-          Navigator.pushReplacementNamed(context, AppRoutes.homeScreen);
-        },);
-      }
-      else
-        {
-          Future.delayed(Duration(seconds: 0),() {
+          Future.delayed(
+            const Duration(seconds: 2),
+            () {
+              Navigator.pushReplacementNamed(context, AppRoutes.homeScreen);
+            },
+          );
+        } else {
+          Future.delayed(const Duration(seconds: 0), () {
             Navigator.pushNamedAndRemoveUntil(context, AppRoutes.loginScreen, (route) => true);
-          },);
-
+          });
         }
-    },);
+      },[]
+    );
 
     return WillPopScope(
       onWillPop: () {
@@ -53,7 +55,7 @@ class SplashScreen extends HookConsumerWidget {
             child: Center(
               child: Text(
                 tr(context).curegal,
-                style: TextStyle(fontSize: 60, color: Colors.white, fontWeight: FontWeight.bold, fontFamily: "productsun"),
+                style: const TextStyle(fontSize: 60, color: Colors.white, fontWeight: FontWeight.bold, fontFamily: "productsun"),
               ),
             ),
           ),

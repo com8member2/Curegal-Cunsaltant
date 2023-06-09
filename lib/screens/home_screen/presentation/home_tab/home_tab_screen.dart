@@ -1,10 +1,9 @@
 import 'package:consultation_curegal/consatant/ColorConstant.dart';
-import 'package:consultation_curegal/screens/home_screen/presentation/home_tab/widget/consultant_availability_view.dart';
+import 'package:consultation_curegal/routing/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../shared/controller/user_profile.dart';
-import '../../controller/home_tab_controller.dart';
 
 class HomeTabScreen extends HookConsumerWidget {
   const HomeTabScreen({
@@ -19,18 +18,15 @@ class HomeTabScreen extends HookConsumerWidget {
         margin: EdgeInsets.only(bottom: 7),
         width: 120,
         height: 50,
-        child: FloatingActionButton(
+        child: FloatingActionButton(heroTag: "available",
             shape: StadiumBorder(),
             backgroundColor: CustomColor.white,
             onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context) => ConsultantAvailabilityView(),
-              );
+              Navigator.pushNamed(context, AppRoutes.consultantAvailability);
             },
             child: const Text(
               "Availability",
-              style: TextStyle(fontSize: 16, color: CustomColor.primaryPurple, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 16, color: CustomColor.darkPurple),
             )),
       ),
       body: Column(children: [
