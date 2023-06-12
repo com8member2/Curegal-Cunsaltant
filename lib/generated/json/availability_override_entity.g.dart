@@ -19,10 +19,6 @@ AvailabilityOverrideEntity $AvailabilityOverrideEntityFromJson(Map<String, dynam
 	if (time != null) {
 		availabilityOverrideEntity.time = time;
 	}
-	final int? slotPrice = jsonConvert.convert<int>(json['slot_price']);
-	if (slotPrice != null) {
-		availabilityOverrideEntity.slotPrice = slotPrice;
-	}
 	final bool? available = jsonConvert.convert<bool>(json['available']);
 	if (available != null) {
 		availabilityOverrideEntity.available = available;
@@ -36,7 +32,6 @@ Map<String, dynamic> $AvailabilityOverrideEntityToJson(AvailabilityOverrideEntit
 	data['consultant_id'] = entity.consultantId;
 	data['date'] =  entity.date;
 	data['time'] =  entity.time?.map((v) => v.toJson()).toList();
-	data['slot_price'] = entity.slotPrice;
 	data['available'] = entity.available;
 	return data;
 }

@@ -17,13 +17,13 @@ class PrefsKeys {
 
 class SupaTables{
   static String consultantProfile ="consultant_profile";
+  static String booking ="booking";
   static String consultationCategory = "consultation_category";
   static String consultationSubCategory = "consultation_sub_categories";
   static String userExperience = "consultant_experience";
   static String consultantAvailability = "consultant_availability";
   static String consultantAvailabilityOverride = "consultant_availability_overridden";
 }
-
 
 enum DocumentStatus {
   rejected("REJECTED"),

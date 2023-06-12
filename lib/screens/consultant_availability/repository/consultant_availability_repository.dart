@@ -29,7 +29,7 @@ class ConsultantAvailabilityRepository {
     List res = await Constants.supabaseClient
         .from(SupaTables.consultantAvailabilityOverride)
         .select()
-        .eq("consultant_id", (await getSharedPreference()).getString(PrefsKeys.consultantID));
+        .eq("consultant_id", (await getSharedPreference()).getString(PrefsKeys.consultantID)).gte("date", DateTime.now().toSupaFormate());
     return res;
   }
 

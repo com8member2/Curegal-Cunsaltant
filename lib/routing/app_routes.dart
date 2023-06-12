@@ -13,7 +13,7 @@ import '../screens/account/presentation/consultation_type.dart';
 import '../screens/account/presentation/document_upload.dart';
 import '../screens/account/presentation/document_verification.dart';
 import '../screens/home_screen/presentation/home_screen.dart';
-import '../screens/splash_screen.dart';
+import '../screens/splash/splash_screen.dart';
 
 class AppRoutes {
   static const homeScreen = "homeScreen";

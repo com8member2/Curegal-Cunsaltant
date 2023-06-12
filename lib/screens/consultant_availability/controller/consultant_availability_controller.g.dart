@@ -6,7 +6,7 @@ part of 'consultant_availability_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$slotTimeHash() => r'faa6728b2d1c8fad59c56f71a532e8e3da6cfa48';
+String _$slotTimeHash() => r'016cd6358fe4b17d2a1ecf2b3875b8b398f74af4';
 
 /// See also [slotTime].
 @ProviderFor(slotTime)
@@ -21,7 +21,7 @@ final slotTimeProvider =
 );
 
 typedef _$slotTime = AutoDisposeNotifier<String?>;
-String _$slotPriceHash() => r'd295384b5ea1cbb1e665c6d2f13a3de7bc0c1c5e';
+String _$slotPriceHash() => r'cd08a699cec2beb038e91e00be52bc8ade85e6d5';
 
 /// See also [slotPrice].
 @ProviderFor(slotPrice)
@@ -37,7 +37,7 @@ final slotPriceProvider =
 
 typedef _$slotPrice = AutoDisposeNotifier<String?>;
 String _$consultantAvailabilityHash() =>
-    r'b3e1e9df0b269c3482f4957df801597dc27fb843';
+    r'003b9192b7890a5601a42844b4075b50724fd519';
 
 /// See also [ConsultantAvailability].
 @ProviderFor(ConsultantAvailability)

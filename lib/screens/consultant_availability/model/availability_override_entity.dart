@@ -10,8 +10,6 @@ class AvailabilityOverrideEntity {
 	bool? available;
 	String? date;
 	List<AvailabilityOverrideTime>? time;
-	@JSONField(name: "slot_price")
-	int? slotPrice;
 
 	AvailabilityOverrideEntity();
 
@@ -19,13 +17,12 @@ class AvailabilityOverrideEntity {
 
 	Map<String, dynamic> toJson() => $AvailabilityOverrideEntityToJson(this);
 
-	AvailabilityOverrideEntity copyWith({int? id, String? consultantId, String? date, List<AvailabilityOverrideTime>? time, int? slotPrice,bool? available}) {
+	AvailabilityOverrideEntity copyWith({int? id, String? consultantId, String? date, List<AvailabilityOverrideTime>? time,bool? available}) {
 		return AvailabilityOverrideEntity()
 			..id= id ?? this.id
 			..consultantId= consultantId ?? this.consultantId
 			..date= date ?? this.date
 			..time= time ?? this.time
-			..slotPrice= slotPrice ?? this.slotPrice
 			..available= available ?? this.available;
 	}
 

@@ -7,7 +7,7 @@ part of 'availability_override_controller.dart';
 // **************************************************************************
 
 String _$availabilityOverrideControllerHash() =>
-    r'4fa2d57cd171fe9c0aea5ba402941807440bc9c9';
+    r'96b4832c47a4aabcd2f3c30bab7b1a98ea897474';
 
 /// See also [AvailabilityOverrideController].
 @ProviderFor(AvailabilityOverrideController)

@@ -1,8 +1,10 @@
 import 'package:consultation_curegal/consatant/ColorConstant.dart';
 import 'package:consultation_curegal/routing/app_routes.dart';
+import 'package:consultation_curegal/screens/home_screen/presentation/home_tab/widget/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
+import 'package:table_calendar/table_calendar.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import '../../../../shared/controller/user_profile.dart';
 
 class HomeTabScreen extends HookConsumerWidget {
@@ -18,7 +20,8 @@ class HomeTabScreen extends HookConsumerWidget {
         margin: EdgeInsets.only(bottom: 7),
         width: 120,
         height: 50,
-        child: FloatingActionButton(heroTag: "available",
+        child: FloatingActionButton(
+            heroTag: "available",
             shape: StadiumBorder(),
             backgroundColor: CustomColor.white,
             onPressed: () {
@@ -59,7 +62,8 @@ class HomeTabScreen extends HookConsumerWidget {
               )
             ],
           ),
-        )
+        ),
+        CalendarView()
       ]),
     );
   }

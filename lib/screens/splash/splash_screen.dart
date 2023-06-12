@@ -7,10 +7,10 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../consatant/ColorConstant.dart';
-import '../consatant/Constants.dart';
-import '../shared/controller/user_profile.dart';
-import '../utility/utility.dart';
+import '../../consatant/ColorConstant.dart';
+import '../../consatant/Constants.dart';
+import '../../shared/controller/user_profile.dart';
+import '../../utility/utility.dart';
 
 class SplashScreen extends HookConsumerWidget {
   const SplashScreen({super.key});
@@ -21,7 +21,6 @@ class SplashScreen extends HookConsumerWidget {
       () {
         EasyLoading.instance.maskType = EasyLoadingMaskType.black;
         EasyLoading.instance.indicatorType = EasyLoadingIndicatorType.pulse;
-        EasyLoading.instance.displayDuration = const Duration(milliseconds: 1000);
         if (Constants.supabaseClient.auth.currentUser?.id != null) {
           (ref.read(userProfileProvider).toString());
 
