@@ -23,7 +23,7 @@ class CustomColor{
   static const Color rxtBlue= Color(0xff4574DD);
   static const Color txtGray= Color(0xffB7B7B7);
   static const Color lightink= Color(0xfff9f4f7);
-  static Color blueGray50 = Color(0xffeff2f5);
+  static const Color blueGray50 = Color(0xffeff2f5);
   static const Color dateGray= Color(0xff8E8E8E);
   static const Color ratingRed= Color(0xffF96B69);
   static const Color borderPurple= Color(0xffe6e9f7);

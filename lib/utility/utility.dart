@@ -83,9 +83,15 @@ extension DateTimeExtension on DateTime {
   String toSupaFormate() {
     return DateFormat('yyyy-MM-dd').format(this);
   }
+  String toFormattedTime() {
+    return DateFormat.jm().format(this);
+  }
 }
 extension StringExtension on String {
   DateTime tosupaDate() {
     return DateTime.parse(this);
+  }
+  DateTime tosupaTime() {
+    return DateTime.parse("${DateTime.now().toSupaFormate()} $this");
   }
 }

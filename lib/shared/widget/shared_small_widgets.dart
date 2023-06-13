@@ -144,7 +144,7 @@ class CardListViewDesign extends StatelessWidget {
         margin: edgeInsets,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
-          side: const BorderSide(color:Colors.transparent),
+          side: BorderSide.none,
         ),
         color: CustomColor.backgroundColor,
         elevation: 10,

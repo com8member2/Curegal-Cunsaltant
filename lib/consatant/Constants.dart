@@ -35,3 +35,12 @@ enum DocumentStatus {
 
   final String value;
 }
+enum AccountStatus {
+  rejected("REJECTED"),
+  pending("PENDING"),
+  approved("APPROVED");
+
+  const AccountStatus(this.value);
+
+  final String value;
+}

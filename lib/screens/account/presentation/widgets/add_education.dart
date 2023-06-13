@@ -40,10 +40,16 @@ class AddEducationDialogBox extends HookConsumerWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(15),
-              child: Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
+              child: Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [Center(
+                  child: Padding(
+                      padding: EdgeInsets.only(bottom: 20, top: 10),
+                      child: Text(
+                        "Add Education",
+                        style: commonTextStyle(context, 16, FontWeight.bold),
+                      ))),
                 TextFormField(
                   controller: schoolOrCollageController,
-                  decoration: textFieldDecoration(tr(context).enter_school_collage_name_hint, context),
+                  decoration: textFieldDecorationForProfile(tr(context).enter_school_collage_name_hint, context),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 10.0),
@@ -66,7 +72,8 @@ class AddEducationDialogBox extends HookConsumerWidget {
                       educationYearValue.value = value;
                     },
                   ),
-                ),
+                ),                  SizedBox(height: 10,),
+
                 CustomButton(CustomColor.white, CustomColor.primaryPurple, tr(context).submit, () async {
                   await Constants.supabaseClient.from('consultant_education').insert({
                     'cosultant_id' : ref.read(userProfileProvider).id,

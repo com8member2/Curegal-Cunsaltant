@@ -1,3 +1,4 @@
+import 'package:consultation_curegal/consatant/ColorConstant.dart';
 import 'package:consultation_curegal/screens/home_screen/controller/home_tab_controller.dart';
 import 'package:consultation_curegal/utility/utility.dart';
 import 'package:flutter/cupertino.dart';
@@ -39,17 +40,44 @@ class CalendarView extends HookConsumerWidget {
               selectedDate.value = selectedDay;
             },
           ),
-          ListView.builder(shrinkWrap: true,physics: NeverScrollableScrollPhysics(),
+          ListView.builder(padding: const EdgeInsets.symmetric(horizontal: 10),
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
               var item = value.where((element) => element["date"] == selectedDate.value.toSupaFormate()).elementAt(index);
-              return CupertinoListTile(title: Text(item["user_profile"]["fullName"]),);
+              var fromTime = item["start_time"].toString().tosupaTime().toFormattedTime();
+              var endTime = item["end_time"].toString().tosupaTime().toFormattedTime();
+              return Card(
+                child: ListTile(
+                  leading: RichText(
+                    text: TextSpan(
+                      style: DefaultTextStyle.of(context).style,
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: fromTime.substring(0, fromTime.length - 3),
+                        ),
+                        TextSpan(
+                          text: "${fromTime.substring(fromTime.length - 3)}\n",
+                          style: const TextStyle(fontSize: 11), // Adjust the font size for the AM/PM text
+                        ),
+                        TextSpan(text: endTime.substring(0, endTime.length - 3), style: const TextStyle(color: CustomColor.dateGray)),
+                        TextSpan(
+                          text: endTime.substring(endTime.length - 3),
+                          style: const TextStyle(fontSize: 11, color: CustomColor.dateGray), // Adjust the font size for the AM/PM text
+                        )
+                      ],
+                    ),
+                  ),
+                  title: Text(item["user_profile"]["fullName"], style: Theme.of(context).textTheme.titleLarge),
+                ),
+              );
             },
             itemCount: value.where((element) => element["date"] == selectedDate.value.toSupaFormate()).length,
           )
         ],
       ),
-      error: (Object error, StackTrace stackTrace) => SizedBox(),
-      loading: () => CircularProgressIndicator(),
+      error: (Object error, StackTrace stackTrace) => const SizedBox(),
+      loading: () => const CircularProgressIndicator(),
     );
   }
 }

@@ -56,7 +56,7 @@ class AddExperinceDialogBox extends HookConsumerWidget {
                           ))),
                   TextFormField(
                     controller: clinicNameController,
-                    decoration: textFieldDecoration(tr(context).clinic_hint, context),
+                    decoration: textFieldDecorationForProfile(tr(context).clinic_hint, context),
                     validator: (value) {
                       if(clinicNameController.text.isEmpty){
                         return tr(context).clinic_error;
@@ -67,7 +67,7 @@ class AddExperinceDialogBox extends HookConsumerWidget {
                     padding: const EdgeInsets.only(top: 10.0),
                     child: TextFormField(
                       controller: roleController,
-                      decoration: textFieldDecoration(tr(context).user_role_hint, context),
+                      decoration: textFieldDecorationForProfile(tr(context).user_role_hint, context),
                       validator: (value) {
                         if(roleController.text.isEmpty){
                           return tr(context).role_error;
@@ -105,7 +105,7 @@ class AddExperinceDialogBox extends HookConsumerWidget {
                       controller: fromDateController,
                       showCursor: false,
                       scrollPadding: EdgeInsets.only(bottom: 130),
-                      decoration: textFieldDecoration(tr(context).from, context),
+                      decoration: textFieldDecorationForProfile(tr(context).from, context),
                       validator: (value) {
                         if (fromDateController.text.isEmpty) {
                           return tr(context).date_select_error;
@@ -131,7 +131,7 @@ class AddExperinceDialogBox extends HookConsumerWidget {
                       controller: toDateController,
                       showCursor: false,
                       scrollPadding: EdgeInsets.only(bottom: 130),
-                      decoration: textFieldDecoration(tr(context).to, context),
+                      decoration: textFieldDecorationForProfile(tr(context).to, context),
                       validator: (value) {
                         if (toDateController.text.isEmpty) {
                           return tr(context).date_select_error;
@@ -149,6 +149,7 @@ class AddExperinceDialogBox extends HookConsumerWidget {
                       },
                     ),
                   ),
+                  SizedBox(height: 10,),
                   CustomButton(CustomColor.white, CustomColor.primaryPurple, tr(context).submit, () async {
                     if (formKey.currentState!.validate()) {
                       await ref.watch(experienceRepositoryProvider).addExperience({

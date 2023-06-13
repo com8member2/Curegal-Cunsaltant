@@ -22,7 +22,7 @@ class CustomDropdown<T> extends HookWidget {
 
     return DropdownButtonFormField<T>(
       value: selectedValue.value,
-      decoration: textFieldDecoration(hint,context),
+      decoration: textFieldDecorationForProfile(hint,context),
       hint: hint != null ? Text(hint) : null,
       onChanged: (newValue) {
         selectedValue.value = newValue as T;

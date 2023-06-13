@@ -1,4 +1,5 @@
 import 'package:consultation_curegal/consatant/ColorConstant.dart';
+import 'package:consultation_curegal/consatant/Constants.dart';
 import 'package:consultation_curegal/routing/app_routes.dart';
 import 'package:consultation_curegal/screens/home_screen/presentation/home_tab/widget/calendar_view.dart';
 import 'package:flutter/material.dart';
@@ -16,54 +17,39 @@ class HomeTabScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var value = getProfileCompletionPerValue(ref);
     return Scaffold(
-      floatingActionButton: Container(
-        margin: EdgeInsets.only(bottom: 7),
-        width: 120,
-        height: 50,
-        child: FloatingActionButton(
-            heroTag: "available",
-            shape: StadiumBorder(),
-            backgroundColor: CustomColor.white,
-            onPressed: () {
-              Navigator.pushNamed(context, AppRoutes.consultantAvailability);
-            },
-            child: const Text(
-              "Availability",
-              style: TextStyle(fontSize: 16, color: CustomColor.darkPurple),
-            )),
-      ),
+      floatingActionButton: ref.watch(userProfileProvider.select((value) => value.approveStatus == AccountStatus.approved.value))
+          ? Container(
+              margin: const EdgeInsets.only(bottom: 7),
+              width: 120,
+              height: 50,
+              child: FloatingActionButton(
+                  heroTag: "available",
+                  shape: const StadiumBorder(),
+                  backgroundColor: CustomColor.white,
+                  onPressed: () => Navigator.pushNamed(context, AppRoutes.consultantAvailability),
+                  child: const Text("Availability", style: TextStyle(fontSize: 16, color: CustomColor.darkPurple))),
+            )
+          : null,
       body: Column(children: [
         Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 20,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(ref.watch(userProfileProvider).approveStatus ?? "In Review"),
-              const SizedBox(
-                width: 15,
-              ),
+              const SizedBox(width: 15),
               Stack(
                 alignment: Alignment.center,
                 children: [
-                  SizedBox(
-                      height: 50,
-                      width: 50,
-                      child: CircularProgressIndicator(
-                        value: value,
-                        color: CustomColor.primaryPurple,
-                      )),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("${(value * 100).toStringAsFixed(0)} %"),
-                  )
+                  SizedBox(height: 50, width: 50, child: CircularProgressIndicator(value: value, color: CustomColor.primaryPurple)),
+                  Padding(padding: const EdgeInsets.all(8.0), child: Text("${(value * 100).toStringAsFixed(0)} %"))
                 ],
               )
             ],
           ),
         ),
-        CalendarView()
+        const Divider(height: 20, color: CustomColor.primaryPurple),
+        const CalendarView()
       ]),
     );
   }
