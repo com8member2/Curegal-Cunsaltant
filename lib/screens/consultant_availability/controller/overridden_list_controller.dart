@@ -1,7 +1,9 @@
 import 'dart:developer';
 
 import 'package:consultation_curegal/screens/consultant_availability/model/availability_override_entity.dart';
+import 'package:consultation_curegal/utility/utility.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../repository/consultant_availability_repository.dart';
@@ -53,10 +55,15 @@ class OverriddenListController extends _$OverriddenListController {
 
   saveChanged() async {
     if(isNotChanged()) return;
+    if(state.any((e) => e.time?.any((element) => element.from.toString().tosupaTime().isAfter(element.to.toString().tosupaTime()))??false)){
+      EasyLoading.showToast("Select proper time range to override time.");
+      return;
+    }
     await ref.read(consultantAvailabilityRepositoryProvider).updateOverridden(state.map((e) {
       e.available = e.time?.isNotEmpty??false;
       return e.toJson();
     }).toList());
+    EasyLoading.showSuccess("Saved successfully.");
     _initData = state;
   }
 

@@ -4,6 +4,7 @@ import 'package:consultation_curegal/consatant/ColorConstant.dart';
 import 'package:consultation_curegal/screens/consultant_availability/controller/overridden_list_controller.dart';
 import 'package:consultation_curegal/screens/consultant_availability/presentation/widget/checkbox_item_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
@@ -110,10 +111,12 @@ class ConsultantAvailabilityView extends HookConsumerWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Date overrides", style: Theme.of(context).textTheme.titleMedium),
+                          Flexible(child: Text("Date overrides", style: Theme.of(context).textTheme.titleMedium)),
                           OutlinedButton(
                               style: OutlinedButton.styleFrom(
-                                  side: const BorderSide(color: CustomColor.darkPurple), shape: const StadiumBorder(), padding: EdgeInsets.symmetric(vertical: 12,horizontal: 20)),
+                                  side: const BorderSide(color: CustomColor.darkPurple),
+                                  shape: const StadiumBorder(),
+                                  padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20)),
                               onPressed: () {
                                 showDialog(context: context, builder: (context) => const OverrideConsumerView());
                               },
@@ -124,7 +127,7 @@ class ConsultantAvailabilityView extends HookConsumerWidget {
                         ],
                       ),
                       ListView.separated(
-                        padding: EdgeInsets.symmetric(vertical: 10),
+                          padding: EdgeInsets.symmetric(vertical: 10),
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) => CheckBoxView(
@@ -248,31 +251,42 @@ class ItemView extends HookConsumerWidget {
           child: Column(
             children: List.generate(
               itemsLength,
-              (index) => FittedBox(
-                child: Row(
-                  children: [
-                    TimeSelectionView(
-                        initialTime: parseTimeOfDay(ref.watch(consultantAvailabilityProvider
-                            .select((value) => value.firstWhere((element) => element.dayOfWeek == parentIndex).time?.elementAt(index).from ?? ""))),
-                        onTimeSelected: (time) {
-                          ref.read(consultantAvailabilityProvider.notifier).updateDateFrom(parentIndex, index, time);
-                        }),
-                    const SizedBox(width: 15),
-                    TimeSelectionView(
-                        initialTime: parseTimeOfDay(ref.watch(consultantAvailabilityProvider
-                            .select((value) => value.firstWhere((element) => element.dayOfWeek == parentIndex).time?.elementAt(index).to ?? ""))),
+              (index) {
+                var startTimeOfDay = parseTimeOfDay(ref.watch(
+                    consultantAvailabilityProvider.select((value) => value.firstWhere((element) => element.dayOfWeek == parentIndex).time?.elementAt(index).from ?? "")));
+                var endTimeOfDay = parseTimeOfDay(ref.watch(
+                    consultantAvailabilityProvider.select((value) => value.firstWhere((element) => element.dayOfWeek == parentIndex).time?.elementAt(index).to ?? "")));
+                var isSelectedTimeCorrect = startTimeOfDay?.isBefore(endTimeOfDay) ?? true;
+                if(!isSelectedTimeCorrect){
+                  EasyLoading.showToast("Selected Time is not in correct order!");
+                }
+                return FittedBox(
+                  child: Row(
+                    children: [
+                      TimeSelectionView(
+                          chipColor: isSelectedTimeCorrect ? null : CustomColor.ratingRed,
+                          initialTime: startTimeOfDay,
+                          onTimeSelected: (time) {
+                            ref.read(consultantAvailabilityProvider.notifier).updateDateFrom(parentIndex, index, time);
+                          }),
+                      const SizedBox(width: 15),
+                      TimeSelectionView(
+                        chipColor: isSelectedTimeCorrect ? null : CustomColor.ratingRed,
+                        initialTime: endTimeOfDay,
                         onTimeSelected: (time) {
                           ref.read(consultantAvailabilityProvider.notifier).updateDateTo(parentIndex, index, time);
-                        }),
-                    const SizedBox(width: 10),
-                    GestureDetector(
-                        onTap: () {
-                          ref.read(consultantAvailabilityProvider.notifier).remove(parentIndex, index);
                         },
-                        child: const Icon(Icons.close_rounded, color: CustomColor.ratingRed)),
-                  ],
-                ),
-              ),
+                      ),
+                      const SizedBox(width: 10),
+                      GestureDetector(
+                          onTap: () {
+                            ref.read(consultantAvailabilityProvider.notifier).remove(parentIndex, index);
+                          },
+                          child: const Icon(Icons.close_rounded, color: CustomColor.ratingRed)),
+                    ],
+                  ),
+                );
+              },
             ),
           ),
         ),

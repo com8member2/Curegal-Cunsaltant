@@ -37,7 +37,7 @@ final slotPriceProvider =
 
 typedef _$slotPrice = AutoDisposeNotifier<String?>;
 String _$consultantAvailabilityHash() =>
-    r'003b9192b7890a5601a42844b4075b50724fd519';
+    r'cfbe21f9872ae88e36b2ad463b01bcbe8311a8b6';
 
 /// See also [ConsultantAvailability].
 @ProviderFor(ConsultantAvailability)

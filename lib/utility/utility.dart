@@ -41,16 +41,11 @@ class MyBehavior extends ScrollBehavior {
   }
 }
 
-Future<PostgrestResponse<dynamic>> readData(String tableName,[String columnName="*"]) async {
-  PostgrestResponse<dynamic> res = await Supabase.instance.client
-      .from(tableName)
-      .select(columnName)
-      .execute();
+Future<PostgrestResponse<dynamic>> readData(String tableName, [String columnName = "*"]) async {
+  PostgrestResponse<dynamic> res = await Supabase.instance.client.from(tableName).select(columnName).execute();
   return res;
-
-
-
 }
+
 extension HexColor on Color {
   /// String is in the format "aabbcc" or "ffaabbcc" with an optional leading "#".
   static Color fromHex(String hexString) {
@@ -60,13 +55,14 @@ extension HexColor on Color {
     return Color(int.parse(buffer.toString(), radix: 16));
   }
 
-  /*/// Prefixes a hash sign if [leadingHashSign] is set to `true` (default is `true`).
+/*/// Prefixes a hash sign if [leadingHashSign] is set to `true` (default is `true`).
   String toHex({bool leadingHashSign = true}) => '${leadingHashSign ? '#' : ''}'
       '${alpha.toRadixString(16).padLeft(2, '0')}'
       '${red.toRadixString(16).padLeft(2, '0')}'
       '${green.toRadixString(16).padLeft(2, '0')}'
       '${blue.toRadixString(16).padLeft(2, '0')}';*/
 }
+
 TimeOfDay? parseTimeOfDay(String timeString) {
   List<String> parts = timeString.split(':');
   try {
@@ -83,14 +79,30 @@ extension DateTimeExtension on DateTime {
   String toSupaFormate() {
     return DateFormat('yyyy-MM-dd').format(this);
   }
+
   String toFormattedTime() {
     return DateFormat.jm().format(this);
   }
 }
+
+extension TimeOfDayExtention on TimeOfDay {
+  bool isBefore(TimeOfDay? time) {
+    return time != null ? toDouble() < time.toDouble() : true;
+  }
+  bool isAfter(TimeOfDay time) {
+    return toDouble() > time.toDouble();
+  }
+
+  double toDouble() {
+    return hour + minute / 60;
+  }
+}
+
 extension StringExtension on String {
   DateTime tosupaDate() {
     return DateTime.parse(this);
   }
+
   DateTime tosupaTime() {
     return DateTime.parse("${DateTime.now().toSupaFormate()} $this");
   }

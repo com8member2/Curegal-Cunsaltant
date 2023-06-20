@@ -7,7 +7,7 @@ part of 'overridden_list_controller.dart';
 // **************************************************************************
 
 String _$overriddenListControllerHash() =>
-    r'8ac69c0add8086dee7b5c79bb61693f2815b3b6d';
+    r'923b28e496721b2638c1d5d15eb4aa2b5a335f49';
 
 /// See also [OverriddenListController].
 @ProviderFor(OverriddenListController)

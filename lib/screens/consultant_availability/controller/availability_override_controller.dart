@@ -57,6 +57,10 @@ class AvailabilityOverrideController extends _$AvailabilityOverrideController {
     try {
       state.consultantId = ref.read(userProfileProvider).id;
       state.available = state.time?.isNotEmpty ?? false;
+      if(state.time?.any((element) => element.from.toString().tosupaTime().isAfter(element.to.toString().tosupaTime()))??false){
+        EasyLoading.showToast("Select proper time range.");
+        return;
+      }
       var list = List.generate(dateList.length, (index) {
         var map = state.toJson();
         map.remove("id");

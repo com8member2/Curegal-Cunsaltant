@@ -1,11 +1,13 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../consatant/ColorConstant.dart';
 import '../../../../shared/widget/shared_small_widgets.dart';
 import '../../../../utility/utility.dart';
+import '../../controller/consultant_availability_controller.dart';
 import '../../model/availability_override_entity.dart';
 
 class CheckBoxView extends HookConsumerWidget {
@@ -67,29 +69,39 @@ class CheckBoxView extends HookConsumerWidget {
                         child: Column(
                           children: List.generate(
                             item.time?.length ?? 0,
-                            (index) => FittedBox(
-                              child: Row(
-                                children: [
-                                  TimeSelectionView(
-                                      initialTime: parseTimeOfDay(item.time?.elementAt(index).from ?? ""),
-                                      onTimeSelected: (time) {
-                                        onFromTimeSelected(index, time);
-                                      }),
-                                  const SizedBox(width: 15),
-                                  TimeSelectionView(
-                                      initialTime: parseTimeOfDay(item.time?.elementAt(index).to ?? ""),
-                                      onTimeSelected: (time) {
-                                        onToTimeSelected(index, time);
-                                      }),
-                                  const SizedBox(width: 10),
-                                  GestureDetector(
-                                      onTap: () {
-                                        remove(index);
-                                      },
-                                      child: const Icon(Icons.close_rounded, color: CustomColor.ratingRed)),
-                                ],
-                              ),
-                            ),
+                            (index) {
+                              var startTime = parseTimeOfDay(item.time?.elementAt(index).from ?? "");
+                              var endTime = parseTimeOfDay(item.time?.elementAt(index).to ?? "");
+                              var isSelectedTimeCorrect = startTime?.isBefore(endTime) ?? true;
+                              if(!isSelectedTimeCorrect){
+                                EasyLoading.showToast("Selected Time is not in correct order!");
+                              }
+                              return FittedBox(
+                                child: Row(
+                                  children: [
+                                    TimeSelectionView(
+                                        chipColor: isSelectedTimeCorrect ? null : CustomColor.ratingRed,
+                                        initialTime: startTime,
+                                        onTimeSelected: (time) {
+                                          onFromTimeSelected(index, time);
+                                        }),
+                                    const SizedBox(width: 15),
+                                    TimeSelectionView(
+                                        chipColor: isSelectedTimeCorrect ? null : CustomColor.ratingRed,
+                                        initialTime: endTime,
+                                        onTimeSelected: (time) {
+                                          onToTimeSelected(index, time);
+                                        }),
+                                    const SizedBox(width: 10),
+                                    GestureDetector(
+                                        onTap: () {
+                                          remove(index);
+                                        },
+                                        child: const Icon(Icons.close_rounded, color: CustomColor.ratingRed)),
+                                  ],
+                                ),
+                              );
+                            },
                           ),
                         ),
                       ),

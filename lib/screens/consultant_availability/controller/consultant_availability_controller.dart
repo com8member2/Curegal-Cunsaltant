@@ -62,7 +62,6 @@ class ConsultantAvailability extends _$ConsultantAvailability {
   }
 
   Future<void> getData() async {
-    // EasyLoading.show();
     await ref.watch(consultantAvailabilityRepositoryProvider).getAvailabilityData().then((res) {
       List<ConsultantAvailabilityEntity> lists = [];
       res.forEach((key, value) {
@@ -75,14 +74,11 @@ class ConsultantAvailability extends _$ConsultantAvailability {
                 id: (res["id"]),
                 slotPrice: double.parse(res["slot_price"].toString()),
                 slotTime: double.parse(res["slot_time"].toString())));
-            // ref.watch(slotPriceProvider.notifier).state = res["slot_price"].toString();
-            // ref.watch(slotTimeProvider.notifier).state = res["slot_time"].toString();
           }
         }
       });
       state = lists;
       _initData = lists;
-      // EasyLoading.dismiss();
     }).onError((error, stackTrace) {
       EasyLoading.showError(error.toString());
       log(error.toString());
@@ -147,33 +143,38 @@ class ConsultantAvailability extends _$ConsultantAvailability {
     } else {
       await EasyLoading.show();
       try {
-        if (_initData == state) {
-          if (ref.read(overriddenListControllerProvider.notifier).isNotChanged()) {
-            if (price == ref.read(slotPriceProvider) && time == ref.read(slotTimeProvider)) {
-              EasyLoading.showInfo("No changes to be saved.");
-              return;
-            }else{
-              await updateTimeOrPrice(price,time);
-            }
-          } else {
+        if ((ref.read(overriddenListControllerProvider.notifier).isNotChanged()) &&
+            (price == ref.read(slotPriceProvider) && time == ref.read(slotTimeProvider)) &&
+            _initData == state) {
+          EasyLoading.showInfo("No changes to be saved.");
+          return;
+        } else {
+          if (!(ref.read(overriddenListControllerProvider.notifier).isNotChanged())) {
             await ref.read(overriddenListControllerProvider.notifier).saveChanged();
           }
-        } else {
-          Map map = {
-            "consultant_id": (await getSharedPreference()).getString(PrefsKeys.consultantID),
-            if (state.first.id != null) "id": state.first.id,
-            "slot_time": time,
-            "slot_price": price
-          };
-
-          for (var element in state) {
-            map.addAll({getDayOfWeek(element.dayOfWeek): element.time?.map((e) => e.toJson()).toList()});
+          if (!(price == ref.read(slotPriceProvider) && time == ref.read(slotTimeProvider))) {
+            await updateTimeOrPrice(price, time);
           }
-          await ref.read(consultantAvailabilityRepositoryProvider).setAvailableTime(map);
-          _initData = state;
-          getData();
+          if (!(_initData == state)) {
+            Map map = {
+              "consultant_id": (await getSharedPreference()).getString(PrefsKeys.consultantID),
+              if (state.first.id != null) "id": state.first.id,
+            };
+
+            for (var element in state) {
+              if(element.time?.any((element) => element.from.toString().tosupaTime().isAfter(element.to.toString().tosupaTime()))??false){
+                EasyLoading.showToast("Select proper time range for all week days to continue further.");
+                return;
+              }
+              map.addAll({getDayOfWeek(element.dayOfWeek): element.time?.map((e) => e.toJson()).toList()});
+            }
+            await ref.read(consultantAvailabilityRepositoryProvider).setAvailableTime(map);
+            _initData = state;
+            getData();
+            EasyLoading.showSuccess("Saved successfully.");
+          }
         }
-        EasyLoading.showSuccess("Saved successfully.");
+
       } on Exception catch (e) {
         log(e.toString());
         EasyLoading.showError(e.toString());
@@ -220,8 +221,11 @@ class ConsultantAvailability extends _$ConsultantAvailability {
   }
 
   updateTimeOrPrice(String price, String time) async {
-    await Constants.supabaseClient.from(SupaTables.consultantProfile).update({"consultation_price":price,"consultation_duration":time}).eq("id", ref.read(userProfileProvider).id);
+    await Constants.supabaseClient
+        .from(SupaTables.consultantProfile)
+        .update({"consultation_price": price, "consultation_duration": time}).eq("id", ref.read(userProfileProvider).id);
     ref.read(slotTimeProvider.notifier).state = time;
     ref.read(slotPriceProvider.notifier).state = price;
+    EasyLoading.showSuccess("Saved successfully.");
   }
 }

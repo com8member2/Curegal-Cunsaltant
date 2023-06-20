@@ -5,7 +5,6 @@ import 'package:consultation_curegal/shared/controller/user_profile.dart';
 import 'package:consultation_curegal/shared/widget/shared_small_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
 import '../../../shared/widget/account_setting_card_child_widget.dart';
 import '../../../utility/utility.dart';
 

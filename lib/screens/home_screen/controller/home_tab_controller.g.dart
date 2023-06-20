@@ -6,7 +6,7 @@ part of 'home_tab_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$allBookingsHash() => r'd029b5cf2dc86ca10b2349ace4c0cb0ed2b07521';
+String _$allBookingsHash() => r'30a79712bc26475b9d74a1dfce285194ffa842e4';
 
 /// See also [allBookings].
 @ProviderFor(allBookings)
